@@ -1569,13 +1569,86 @@ nav{padding:1.25rem 1.5rem;}
     }).to(window.sceneState, { cameraRotationZ: 0, cameraZ: 200, scrollSpeedMultiplier: 1.0, bloomStrength: 1.0, ease: 'power1.inOut' });
 
     // ==========================================
-    // 12. DISCRETE PARTICLE PATTERN TRIGGERS
+    // 12. SOUND DESIGN & PATTERN TRIGGERS
     // ==========================================
+    
+    // Load Audio Files
+    const sfx1 = new Audio('./alexzavesa-calm-inspiring-technology-logo-short-version-518993.mp3');
+    const sfx2 = new Audio('./soundreality-fluorescent-forest-ambient-536763.mp3');
+    const sfx3 = new Audio('./u_7hpxkdroz2-space-461600.mp3');
+    const transitionSounds = [sfx1, sfx2, sfx3];
+    transitionSounds.forEach(s => s.volume = 0.4);
+
+    let audioEnabled = false;
+
+    // Create Audio Toggle Button
+    const audioBtn = document.createElement('button');
+    audioBtn.innerHTML = 'Sound: OFF';
+    audioBtn.style.position = 'fixed';
+    audioBtn.style.bottom = '2rem';
+    audioBtn.style.right = '2rem';
+    audioBtn.style.zIndex = '9999';
+    audioBtn.style.fontFamily = "'Space Mono', monospace";
+    audioBtn.style.fontSize = '0.7rem';
+    audioBtn.style.padding = '0.6rem 1.2rem';
+    audioBtn.style.background = 'var(--ink-dim)';
+    audioBtn.style.color = 'var(--text-muted)';
+    audioBtn.style.border = '1px solid var(--border)';
+    audioBtn.style.cursor = 'pointer';
+    audioBtn.style.borderRadius = '20px';
+    audioBtn.style.backdropFilter = 'blur(10px)';
+    audioBtn.style.transition = 'color 0.3s, border-color 0.3s';
+    
+    audioBtn.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      if (audioEnabled) {
+        audioBtn.innerHTML = 'Sound: ON';
+        audioBtn.style.color = 'var(--accent)';
+        audioBtn.style.borderColor = 'var(--accent)';
+        // Play first sound faintly to unlock audio context
+        sfx1.volume = 0;
+        sfx1.play().then(() => {
+          sfx1.pause();
+          sfx1.currentTime = 0;
+          sfx1.volume = 0.4;
+        }).catch(e => console.error("Audio block:", e));
+      } else {
+        audioBtn.innerHTML = 'Sound: OFF';
+        audioBtn.style.color = 'var(--text-muted)';
+        audioBtn.style.borderColor = 'var(--border)';
+        transitionSounds.forEach(s => s.pause());
+      }
+    });
+    document.body.appendChild(audioBtn);
+
+    function triggerTransitionSound(patternIndex) {
+      if (!audioEnabled) return;
+      
+      // Stop all existing sounds
+      transitionSounds.forEach(s => {
+        s.pause();
+        s.currentTime = 0;
+      });
+      
+      // Pick sound based on pattern
+      const soundToPlay = transitionSounds[patternIndex % transitionSounds.length];
+      
+      soundToPlay.play().catch(e => {
+        console.warn("Audio autoplay prevented by browser. User must click Sound: ON first.");
+      });
+    }
+
     ScrollTrigger.create({
       trigger: '.hero',
       start: 'top center',
-      onEnter: () => window.sceneState.particlePattern = 0,
-      onEnterBack: () => window.sceneState.particlePattern = 0
+      onEnter: () => {
+        window.sceneState.particlePattern = 0;
+        triggerTransitionSound(0);
+      },
+      onEnterBack: () => {
+        window.sceneState.particlePattern = 0;
+        triggerTransitionSound(0);
+      }
     });
 
     const patternSections = [
@@ -1594,8 +1667,14 @@ nav{padding:1.25rem 1.5rem;}
         ScrollTrigger.create({
           trigger: el,
           start: 'top center',
-          onEnter: () => window.sceneState.particlePattern = sec.pattern,
-          onEnterBack: () => window.sceneState.particlePattern = sec.pattern
+          onEnter: () => {
+            window.sceneState.particlePattern = sec.pattern;
+            triggerTransitionSound(sec.pattern);
+          },
+          onEnterBack: () => {
+            window.sceneState.particlePattern = sec.pattern;
+            triggerTransitionSound(sec.pattern);
+          }
         });
       }
     });
