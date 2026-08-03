@@ -1,0 +1,5 @@
+# Front-end dependencies used by the site
+# This project is a web app, so these are typically installed with npm:
+# npm install three gsap
+three
+gsap

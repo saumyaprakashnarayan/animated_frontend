@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trayaksh.ai — High Performance Computing Australia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+:root{--ink:#0A0A0F;--ink-dim:#1A1A24;--ink-mid:#2C2C3E;--surface:#F5F4EF;--accent:#C8FF00;--text-primary:#F5F4EF;--text-muted:#8A8A9A;--text-dim:#555565;--border:rgba(245,244,239,0.1);--border-strong:rgba(245,244,239,0.2);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--text-primary);overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s;opacity:.5;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.35;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;z-index:200;}
+nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,.95) 0%,transparent 100%);pointer-events:none;}
+.logo{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;letter-spacing:-.02em;color:var(--text-primary);text-decoration:none;position:relative;z-index:1;}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:0;list-style:none;position:relative;z-index:1;}
+.nav-links li{position:relative;}
+.nav-links > li > a{font-size:.82rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;padding:.5rem 1.25rem;display:flex;align-items:center;gap:.4rem;}
+.nav-links > li > a:hover{color:var(--text-primary);}
+.nav-links > li > a .arr{font-size:.6rem;opacity:.5;transition:transform .2s;}
+.nav-links > li:hover > a .arr{transform:rotate(180deg);}
+
+/* DROPDOWN */
+.dropdown{position:absolute;top:calc(100% + .5rem);left:0;min-width:320px;background:rgba(26,26,36,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);padding:1.25rem;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .25s,transform .25s;z-index:300;}
+.nav-links > li:hover .dropdown{opacity:1;pointer-events:all;transform:translateY(0);}
+.dropdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.dropdown-item{padding:.75rem;border:1px solid transparent;transition:background .2s,border-color .2s;text-decoration:none;display:block;}
+.dropdown-item:hover{background:var(--ink-mid);border-color:var(--border);}
+.dropdown-item .d-title{font-size:.78rem;font-weight:500;color:var(--text-primary);margin-bottom:.2rem;}
+.dropdown-item .d-sub{font-size:.7rem;color:var(--text-dim);line-height:1.4;}
+.dropdown-item .d-icon{font-size:1.1rem;margin-bottom:.4rem;display:block;}
+.dropdown-wide{min-width:480px;}
+.dropdown-wide .dropdown-grid{grid-template-columns:1fr 1fr 1fr;}
+
+.nav-cta{position:relative;z-index:1;font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.05em;padding:.6rem 1.4rem;background:var(--accent);color:var(--ink);border:none;text-decoration:none;transition:background .2s,transform .1s;display:inline-block;}
+.nav-cta:hover{background:#DDFF33;transform:translateY(-1px);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(245,244,239,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,244,239,.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+.hero-orb{position:absolute;top:-20%;right:-10%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(26,26,255,.15) 0%,rgba(200,255,0,.05) 50%,transparent 70%);pointer-events:none;animation:orbFloat 8s ease-in-out infinite;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(-30px,30px) scale(1.05);}66%{transform:translate(20px,-20px) scale(.97);}}
+.hero-tag{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem;position:relative;z-index:1;display:flex;align-items:center;gap:.75rem;}
+.hero-tag::before{content:'';display:block;width:32px;height:1px;background:var(--accent);}
+.hero-headline{font-family:'Instrument Serif',serif;font-size:clamp(4rem,9vw,9.5rem);font-weight:400;line-height:.92;letter-spacing:-.03em;position:relative;z-index:1;max-width:14ch;}
+.hero-headline em{font-style:italic;color:var(--accent);}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3rem;position:relative;z-index:1;}
+.hero-sub{max-width:380px;font-size:1rem;line-height:1.7;color:var(--text-muted);font-weight:300;}
+.hero-actions{display:flex;gap:1rem;align-items:center;}
+.btn-primary{font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.06em;padding:.9rem 2rem;background:var(--accent);color:var(--ink);border:none;text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:.5rem;transition:background .2s,transform .15s;}
+.btn-primary:hover{background:#DDFF33;transform:translateY(-2px);}
+.btn-secondary{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.06em;padding:.9rem 2rem;background:transparent;color:var(--text-primary);border:1px solid var(--border-strong);text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:.5rem;transition:border-color .2s,transform .15s;}
+.btn-secondary:hover{border-color:var(--text-primary);transform:translateY(-2px);}
+
+/* TICKER */
+.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.25rem 0;overflow:hidden;background:rgba(26,26,36,0.2);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+.ticker-inner{display:flex;gap:4rem;animation:tickerScroll 30s linear infinite;white-space:nowrap;width:max-content;}
+.ticker-item{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.08em;color:var(--text-muted);}
+.ticker-item strong{color:var(--accent);font-size:.9rem;}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:var(--text-dim);}
+@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* SECTION */
+.section{padding:7rem 3rem;position:relative;}
+.section-label{font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:.75rem;}
+.section-label::after{content:'';display:block;width:24px;height:1px;background:var(--accent);}
+.section-title{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;max-width:16ch;margin-bottom:4rem;}
+.section-title em{font-style:italic;}
+
+/* TAB SYSTEM */
+.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:3rem;}
+.tab-btn{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:.85rem 1.75rem;background:transparent;color:var(--text-dim);border:none;border-bottom:2px solid transparent;cursor:none;transition:color .2s,border-color .2s;margin-bottom:-1px;}
+.tab-btn:hover{color:var(--text-muted);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-panel{display:none;animation:fadeUp .4s ease;}
+.tab-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);overflow:hidden;}
+.service-card{padding:3rem 2.5rem;background:rgba(10,10,15,0.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:none;transition:background .3s;position:relative;overflow:hidden;}
+.service-card::before{content:'';position:absolute;inset:0;background:rgba(26,26,36,0.5);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.service-card:hover::before{transform:scaleX(1);}
+.service-num{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:var(--text-dim);margin-bottom:2rem;position:relative;z-index:1;}
+.service-icon{width:52px;height:52px;margin-bottom:1.5rem;position:relative;z-index:1;}
+.service-icon svg{width:100%;height:100%;}
+.service-card h3{font-family:'Instrument Serif',serif;font-size:1.6rem;font-weight:400;line-height:1.2;margin-bottom:1rem;position:relative;z-index:1;}
+.service-card p{font-size:.875rem;line-height:1.7;color:var(--text-muted);position:relative;z-index:1;}
+.service-card .service-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;position:relative;z-index:1;}
+.tag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.25rem .6rem;border:1px solid var(--border);color:var(--text-dim);}
+
+/* SERVICE DETAIL EXPAND */
+.service-detail{display:none;position:relative;z-index:1;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.service-card:hover .service-detail{display:block;}
+.service-detail ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.service-detail ul li{font-size:.8rem;color:var(--text-muted);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5;}
+.service-detail ul li::before{content:'→';color:var(--accent);font-size:.7rem;flex-shrink:0;margin-top:.15rem;}
+
+/* PROCESS */
+.process-section{background:rgba(26,26,36,0.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.process-step{padding:3rem 2rem;border-right:1px solid var(--border);position:relative;}
+.process-step:last-child{border-right:none;}
+.process-step-num{font-family:'Instrument Serif',serif;font-size:5rem;font-weight:400;line-height:1;color:rgba(245,244,239,.06);position:absolute;top:1.5rem;right:1.5rem;}
+.process-step h4{font-family:'Instrument Serif',serif;font-size:1.4rem;font-weight:400;margin-bottom:.75rem;margin-top:2rem;}
+.process-step p{font-size:.825rem;line-height:1.65;color:var(--text-muted);}
+.process-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);}
+.process-step .step-detail{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.process-step .step-detail ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.process-step .step-detail li{font-size:.77rem;color:var(--text-dim);display:flex;gap:.5rem;align-items:flex-start;}
+.process-step .step-detail li::before{content:'·';color:var(--accent);flex-shrink:0;}
+.process-step .step-meta{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--accent);margin-top:1.25rem;padding:.3rem .7rem;border:1px solid rgba(200,255,0,.3);display:inline-block;}
+
+/* INDUSTRIES */
+.industries-list{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--border);overflow:hidden;}
+.industry-item{padding:2rem 1.5rem;border-right:1px solid var(--border);text-align:center;transition:background .3s;cursor:none;position:relative;}
+.industry-item:last-child{border-right:none;}
+.industry-item:hover{background:rgba(26,26,36,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.industry-icon{font-size:2rem;margin-bottom:.75rem;display:block;filter:grayscale(1);opacity:.6;transition:filter .3s,opacity .3s;}
+.industry-item:hover .industry-icon{filter:grayscale(0);opacity:1;}
+.industry-item span{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);display:block;}
+.industry-item:hover span{color:var(--text-muted);}
+.industry-hover-detail{position:absolute;bottom:0;left:0;right:0;background:var(--ink-mid);border-top:1px solid var(--border);padding:.75rem;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s;pointer-events:none;}
+.industry-item:hover .industry-hover-detail{opacity:1;transform:translateY(0);}
+.industry-hover-detail p{font-size:.65rem;color:var(--text-muted);line-height:1.4;text-align:left;}
+
+/* CASE STUDIES */
+.cases-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:1px;border:1px solid var(--border);overflow:hidden;}
+.case-card{padding:3rem;background:rgba(26,26,36,0.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:background .3s;}
+.case-card:hover{background:rgba(44,44,62,0.4);}
+.case-card-sm{padding:2.5rem;background:rgba(26,26,36,0.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);transition:background .3s;}
+.case-card-sm:last-child{border-bottom:none;}
+.case-card-sm:hover{background:rgba(44,44,62,0.4);}
+.case-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;}
+.case-card h3{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;line-height:1.2;margin-bottom:1rem;}
+.case-card-sm h3{font-family:'Instrument Serif',serif;font-size:1.4rem;font-weight:400;line-height:1.2;margin-bottom:.75rem;}
+.case-card p,.case-card-sm p{font-size:.85rem;line-height:1.65;color:var(--text-muted);}
+.case-metric{display:flex;gap:2.5rem;margin-top:2rem;}
+.case-metric-val{font-family:'Instrument Serif',serif;font-size:2.5rem;font-weight:400;color:var(--accent);line-height:1;}
+.case-metric-label{font-size:.72rem;color:var(--text-dim);margin-top:.2rem;letter-spacing:.04em;}
+.case-arrow{position:absolute;bottom:2.5rem;right:2.5rem;width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;}
+.case-card:hover .case-arrow{background:var(--accent);border-color:var(--accent);}
+.case-card:hover .case-arrow svg path{stroke:var(--ink);}
+.case-expand{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);}
+.case-expand h4{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.75rem;}
+.case-expand ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.case-expand li{font-size:.8rem;color:var(--text-muted);display:flex;gap:.6rem;}
+.case-expand li::before{content:'✓';color:var(--accent);flex-shrink:0;}
+
+/* TECH */
+.tech-section{background:rgba(26,26,36,0.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.tech-grid{display:flex;flex-wrap:wrap;gap:.6rem;}
+.tech-pill{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.06em;padding:.5rem 1rem;border:1px solid var(--border);color:var(--text-muted);transition:border-color .2s,color .2s,background .2s;cursor:none;}
+.tech-pill:hover{border-color:var(--accent);color:var(--accent);background:rgba(200,255,0,.05);}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);overflow:hidden;}
+.team-card{padding:2.5rem 2rem;background:rgba(10,10,15,0.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .3s;}
+.team-card:hover{background:rgba(26,26,36,0.5);}
+.team-avatar{width:64px;height:64px;border-radius:50%;background:var(--ink-mid);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:1.25rem;}
+.team-card h4{font-family:'Instrument Serif',serif;font-size:1.2rem;font-weight:400;margin-bottom:.25rem;}
+.team-card .role{font-size:.72rem;color:var(--accent);font-family:'Space Mono',monospace;letter-spacing:.06em;margin-bottom:.75rem;}
+.team-card .bio{font-size:.8rem;color:var(--text-muted);line-height:1.55;}
+.team-card .expertise{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem;}
+.team-card .expertise span{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;padding:.2rem .5rem;border:1px solid var(--border);color:var(--text-dim);}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);overflow:hidden;}
+.pricing-card{padding:3rem 2.5rem;background:rgba(10,10,15,0.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);position:relative;}
+.pricing-card.featured{background:rgba(26,26,36,0.4);}
+.pricing-badge{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .75rem;background:rgba(200,255,0,.1);color:var(--accent);border:1px solid rgba(200,255,0,.3);display:inline-block;margin-bottom:1.5rem;}
+.pricing-name{font-family:'Instrument Serif',serif;font-size:1.8rem;font-weight:400;margin-bottom:.5rem;}
+.pricing-desc{font-size:.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:2rem;}
+.pricing-price{font-family:'Space Mono',monospace;font-size:2rem;font-weight:700;color:var(--text-primary);margin-bottom:.25rem;}
+.pricing-price span{font-size:.8rem;font-weight:400;color:var(--text-dim);}
+.pricing-divider{height:1px;background:var(--border);margin:2rem 0;}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:.75rem;}
+.pricing-features li{font-size:.82rem;color:var(--text-muted);display:flex;gap:.7rem;align-items:flex-start;}
+.pricing-features li::before{content:'→';color:var(--accent);font-size:.7rem;flex-shrink:0;margin-top:.1rem;}
+.pricing-features li.muted{color:var(--text-dim);}
+.pricing-features li.muted::before{color:var(--text-dim);}
+.pricing-cta{margin-top:2.5rem;width:100%;font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:.85rem;background:transparent;color:var(--text-primary);border:1px solid var(--border-strong);cursor:none;transition:background .2s,border-color .2s;display:block;text-align:center;text-decoration:none;}
+.pricing-cta:hover{background:var(--ink-mid);border-color:var(--text-primary);}
+.pricing-card.featured .pricing-cta{background:var(--accent);color:var(--ink);border-color:var(--accent);}
+.pricing-card.featured .pricing-cta:hover{background:#DDFF33;}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);overflow:hidden;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{width:100%;background:transparent;border:none;text-align:left;padding:1.75rem 2rem;display:flex;justify-content:space-between;align-items:center;cursor:none;transition:background .2s;}
+.faq-q:hover{background:rgba(26,26,36,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.faq-q span{font-family:'Instrument Serif',serif;font-size:1.2rem;font-weight:400;color:var(--text-primary);}
+.faq-q .faq-icon{width:24px;height:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,background .2s,border-color .2s;}
+.faq-item.open .faq-q .faq-icon{transform:rotate(45deg);background:var(--accent);border-color:var(--accent);}
+.faq-item.open .faq-q .faq-icon svg path{stroke:var(--ink);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1);}
+.faq-item.open .faq-a{max-height:400px;}
+.faq-a-inner{padding:0 2rem 1.75rem;font-size:.9rem;line-height:1.75;color:var(--text-muted);}
+
+/* TESTIMONIALS */
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);overflow:hidden;}
+.testimonial-card{padding:2.5rem;background:rgba(10,10,15,0.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .3s;}
+.testimonial-card:hover{background:rgba(26,26,36,0.5);}
+.quote-mark{font-family:'Instrument Serif',serif;font-size:4rem;line-height:.8;color:var(--accent);margin-bottom:1rem;opacity:.5;}
+.testimonial-card blockquote{font-family:'Instrument Serif',serif;font-size:1.05rem;font-style:italic;line-height:1.6;color:var(--text-primary);margin-bottom:1.5rem;}
+.testimonial-author{display:flex;align-items:center;gap:.75rem;}
+.author-avatar{width:36px;height:36px;border-radius:50%;background:var(--ink-mid);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;color:var(--accent);}
+.author-name{font-size:.8rem;font-weight:500;color:var(--text-primary);}
+.author-role{font-size:.7rem;color:var(--text-dim);}
+.star-row{display:flex;gap:2px;margin-bottom:1rem;}
+.star{width:14px;height:14px;fill:var(--accent);}
+
+/* CTA */
+.cta-section{padding:8rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,255,0,.08) 0%,transparent 65%);pointer-events:none;}
+.cta-section h2{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,7rem);font-weight:400;line-height:1;letter-spacing:-.03em;margin-bottom:2rem;position:relative;z-index:1;}
+.cta-section h2 em{font-style:italic;color:var(--accent);}
+.cta-section p{font-size:1rem;color:var(--text-muted);max-width:420px;margin:0 auto 3rem;line-height:1.65;position:relative;z-index:1;}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;position:relative;z-index:1;}
+
+/* CONTACT FORM */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
+.contact-form{display:flex;flex-direction:column;gap:1.25rem;}
+.form-group{display:flex;flex-direction:column;gap:.5rem;}
+.form-group label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);}
+.form-group input,.form-group textarea,.form-group select{background:var(--ink-dim);border:1px solid var(--border);color:var(--text-primary);padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s;width:100%;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);}
+.form-group textarea{height:120px;resize:vertical;}
+.form-group select option{background:var(--ink-dim);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.contact-info{display:flex;flex-direction:column;gap:2rem;}
+.contact-info-item h4{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.5rem;}
+.contact-info-item p{font-size:.9rem;color:var(--text-muted);line-height:1.6;}
+.contact-info-item a{color:var(--accent);text-decoration:none;}
+.contact-info-item a:hover{text-decoration:underline;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:3rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:3rem;}
+.footer-brand .logo{font-size:1.1rem;display:inline-block;margin-bottom:1rem;}
+.footer-brand p{font-size:.82rem;color:var(--text-muted);line-height:1.65;max-width:260px;}
+.footer-col h5{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.footer-col ul a{font-size:.82rem;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.footer-col ul a:hover{color:var(--text-primary);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border);}
+.footer-bottom p{font-size:.72rem;color:var(--text-dim);font-family:'Space Mono',monospace;}
+.footer-socials{display:flex;gap:1.25rem;}
+.footer-socials a{font-size:.72rem;color:var(--text-dim);text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:.05em;transition:color .2s;}
+.footer-socials a:hover{color:var(--text-primary);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:1024px){
+.services-grid{grid-template-columns:repeat(2,1fr);}
+.process-grid{grid-template-columns:repeat(2,1fr);}
+.process-step:nth-child(2){border-right:none;}
+.process-step:nth-child(3),.process-step:nth-child(4){border-top:1px solid var(--border);}
+.industries-list{grid-template-columns:repeat(3,1fr);}
+.cases-grid{grid-template-columns:1fr;}
+.testimonial-grid{grid-template-columns:1fr;}
+.team-grid{grid-template-columns:repeat(2,1fr);}
+.pricing-grid{grid-template-columns:1fr;}
+.contact-grid{grid-template-columns:1fr;}
+.footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+nav{padding:1.25rem 1.5rem;}
+.nav-links{display:none;}
+.hero{padding:0 1.5rem 4rem;}
+.section{padding:5rem 1.5rem;}
+.services-grid,.team-grid{grid-template-columns:1fr;}
+.process-grid{grid-template-columns:1fr;}
+.process-step{border-right:none;border-bottom:1px solid var(--border);}
+.industries-list{grid-template-columns:repeat(2,1fr);}
+.hero-bottom{flex-direction:column;align-items:flex-start;gap:2rem;}
+.cta-buttons{flex-direction:column;align-items:center;}
+.footer-top{grid-template-columns:1fr;}
+.footer-bottom{flex-direction:column;gap:1rem;}
+}
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #main-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      transition: width 0.2s, height 0.2s;
+    }
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9998;
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    body { cursor: none; }
+
+</style>
+</head>
+
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+  <div id="main-content">
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- NAV -->
+<nav>
+  <a href="#home" class="logo">NEXUS<span>.</span>AI</a>
+  <ul class="nav-links">
+    <li>
+      <a href="#services">Services <span class="arr">▾</span></a>
+      <div class="dropdown">
+        <div class="dropdown-grid">
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">🧭</span>
+            <div class="d-title">AI Strategy</div>
+            <div class="d-sub">Roadmaps, ROI modeling & opportunity scoping</div>
+          </a>
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">🤖</span>
+            <div class="d-title">Model Development</div>
+            <div class="d-sub">Custom LLMs, vision & NLP pipelines</div>
+          </a>
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">🚀</span>
+            <div class="d-title">MLOps & Deploy</div>
+            <div class="d-sub">CI/CD, monitoring & cloud infra</div>
+          </a>
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">🛠</span>
+            <div class="d-title">AI Products</div>
+            <div class="d-sub">Copilots, agents & automation platforms</div>
+          </a>
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">📊</span>
+            <div class="d-title">Data Engineering</div>
+            <div class="d-sub">Pipelines, feature stores & warehouses</div>
+          </a>
+          <a href="#services" class="dropdown-item">
+            <span class="d-icon">🛡</span>
+            <div class="d-title">AI Governance</div>
+            <div class="d-sub">Bias auditing, compliance & explainability</div>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li>
+      <a href="#process">Process <span class="arr">▾</span></a>
+      <div class="dropdown">
+        <div class="dropdown-grid" style="grid-template-columns:1fr;">
+          <a href="#process" class="dropdown-item">
+            <div class="d-title">01 — Discovery & Scoping</div>
+            <div class="d-sub">Business deep-dive, feasibility & ROI definition</div>
+          </a>
+          <a href="#process" class="dropdown-item">
+            <div class="d-title">02 — Proof of Concept</div>
+            <div class="d-sub">2–3 week rapid prototype with real data</div>
+          </a>
+          <a href="#process" class="dropdown-item">
+            <div class="d-title">03 — Build & Iterate</div>
+            <div class="d-sub">Agile sprints with weekly demos</div>
+          </a>
+          <a href="#process" class="dropdown-item">
+            <div class="d-title">04 — Deploy & Support</div>
+            <div class="d-sub">Production rollout + ongoing optimization</div>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li>
+      <a href="#work">Work <span class="arr">▾</span></a>
+      <div class="dropdown dropdown-wide">
+        <div class="dropdown-grid">
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">🏥</span>
+            <div class="d-title">Healthcare</div>
+            <div class="d-sub">ICU readmission reduction — 34% improvement</div>
+          </a>
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">🏦</span>
+            <div class="d-title">FinTech</div>
+            <div class="d-sub">Fraud detection at 50M txns/day</div>
+          </a>
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">🛒</span>
+            <div class="d-title">Retail</div>
+            <div class="d-sub">Demand forecasting across 200K SKUs</div>
+          </a>
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">🏭</span>
+            <div class="d-title">Manufacturing</div>
+            <div class="d-sub">Predictive maintenance, zero downtime</div>
+          </a>
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">⚡</span>
+            <div class="d-title">Energy</div>
+            <div class="d-sub">Grid load forecasting & anomaly detection</div>
+          </a>
+          <a href="#work" class="dropdown-item">
+            <span class="d-icon">🚚</span>
+            <div class="d-title">Logistics</div>
+            <div class="d-sub">Route optimization & supply chain AI</div>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li>
+      <a href="#technology">Technology <span class="arr">▾</span></a>
+      <div class="dropdown">
+        <div class="dropdown-grid" style="grid-template-columns:1fr;">
+          <a href="#technology" class="dropdown-item">
+            <div class="d-title">Foundation Models</div>
+            <div class="d-sub">GPT-4o, Claude 3.5, Gemini, Llama 3, Mistral</div>
+          </a>
+          <a href="#technology" class="dropdown-item">
+            <div class="d-title">ML Frameworks</div>
+            <div class="d-sub">PyTorch, JAX, Hugging Face, LangChain</div>
+          </a>
+          <a href="#technology" class="dropdown-item">
+            <div class="d-title">Cloud Infrastructure</div>
+            <div class="d-sub">AWS, GCP, Azure · Kubernetes · Ray</div>
+          </a>
+          <a href="#technology" class="dropdown-item">
+            <div class="d-title">Data Platforms</div>
+            <div class="d-sub">Snowflake, Databricks, Pinecone, Kafka</div>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Started →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-tag">AI Consulting & Implementation</div>
+  <h1 class="hero-headline">Build AI that actually <em>works</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-sub">We partner with forward-thinking businesses to design, develop, and deploy production-ready AI systems that drive measurable impact — from first prototype to full-scale rollout.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a project →</a>
+      <a href="#work" class="btn-secondary">See our work</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><strong>150+</strong> AI models deployed <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>98%</strong> client satisfaction <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>40+</strong> enterprise clients <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>$2.4B</strong> value generated <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>72hr</strong> avg prototype delivery <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>9</strong> industry verticals <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>150+</strong> AI models deployed <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>98%</strong> client satisfaction <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>40+</strong> enterprise clients <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>$2.4B</strong> value generated <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>72hr</strong> avg prototype delivery <span class="ticker-dot"></span></div>
+    <div class="ticker-item"><strong>9</strong> industry verticals <span class="ticker-dot"></span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-label">What we do</div>
+  <h2 class="section-title">End-to-end AI<br><em>development</em></h2>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="svc-all">All Services</button>
+    <button class="tab-btn" data-tab="svc-strategy">Strategy</button>
+    <button class="tab-btn" data-tab="svc-build">Build</button>
+    <button class="tab-btn" data-tab="svc-deploy">Deploy</button>
+  </div>
+
+  <div class="tab-panel active" id="svc-all">
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="#C8FF00" stroke-width="1.5"/><circle cx="26" cy="26" r="2" fill="#C8FF00"/><line x1="26" y1="8" x2="26" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="26" y1="34" x2="26" y2="44" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="8" y1="26" x2="18" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="34" y1="26" x2="44" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/></svg>
+        </div>
+        <h3>AI Strategy &<br>Roadmapping</h3>
+        <p>We assess your current landscape, identify high-impact AI opportunities, and build a phased implementation roadmap tailored to your business goals and risk appetite.</p>
+        <div class="service-detail">
+          <ul>
+            <li>Current-state AI maturity assessment across people, process, and data</li>
+            <li>Prioritized opportunity identification using effort/impact mapping</li>
+            <li>12–18 month phased roadmap with defined milestones and KPIs</li>
+            <li>Build vs. buy vs. integrate decision frameworks</li>
+            <li>Executive alignment workshops and stakeholder briefings</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">Opportunity Analysis</span><span class="tag">ROI Modeling</span><span class="tag">Architecture Design</span><span class="tag">Maturity Assessment</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg>
+        </div>
+        <h3>Custom Model<br>Development</h3>
+        <p>From fine-tuning foundation models to training domain-specific architectures — we build AI that deeply understands your unique data, terminology, and business context.</p>
+        <div class="service-detail">
+          <ul>
+            <li>Supervised fine-tuning and RLHF on proprietary datasets</li>
+            <li>RAG (Retrieval-Augmented Generation) system design and implementation</li>
+            <li>Computer vision models: detection, segmentation, classification</li>
+            <li>Time-series forecasting and anomaly detection architectures</li>
+            <li>Model evaluation, benchmarking, and red-teaming</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">LLM Fine-tuning</span><span class="tag">Computer Vision</span><span class="tag">NLP Pipelines</span><span class="tag">RAG</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><polyline points="8,36 18,24 26,30 36,16 44,22" stroke="#C8FF00" stroke-width="1.5" fill="none"/><circle cx="8" cy="36" r="2" fill="#C8FF00"/><circle cx="18" cy="24" r="2" fill="rgba(245,244,239,.4)"/><circle cx="26" cy="30" r="2" fill="rgba(245,244,239,.4)"/><circle cx="36" cy="16" r="2" fill="rgba(245,244,239,.4)"/><circle cx="44" cy="22" r="2" fill="#C8FF00"/></svg>
+        </div>
+        <h3>MLOps &<br>Deployment</h3>
+        <p>Production-ready deployment pipelines, continuous monitoring, A/B testing infrastructure, and automated retraining that keep your models accurate and reliable at scale.</p>
+        <div class="service-detail">
+          <ul>
+            <li>End-to-end CI/CD pipelines for model training and deployment</li>
+            <li>Real-time model performance monitoring and drift detection</li>
+            <li>Automated retraining triggers based on data or performance thresholds</li>
+            <li>Multi-region, high-availability inference infrastructure</li>
+            <li>Cost optimization for LLM inference and GPU workloads</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">CI/CD for ML</span><span class="tag">Model Monitoring</span><span class="tag">Cloud Infra</span><span class="tag">Auto-Retraining</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="8" y="10" width="36" height="28" rx="2" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><rect x="14" y="16" width="10" height="10" rx="1" stroke="#C8FF00" stroke-width="1.5"/><line x1="28" y1="18" x2="38" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="28" y1="22" x2="36" y2="22" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="14" y1="30" x2="38" y2="30" stroke="rgba(245,244,239,.15)" stroke-width="1"/><line x1="14" y1="34" x2="32" y2="34" stroke="rgba(245,244,239,.1)" stroke-width="1"/></svg>
+        </div>
+        <h3>AI-Powered<br>Product Building</h3>
+        <p>Full-stack development of AI-first products — intelligent dashboards, copilot tools, automation platforms, and conversational interfaces users actually love.</p>
+        <div class="service-detail">
+          <ul>
+            <li>Conversational AI interfaces and enterprise chatbots</li>
+            <li>Autonomous agent systems with tool-use and multi-step reasoning</li>
+            <li>Document intelligence: extraction, summarization, and Q&A</li>
+            <li>AI-enhanced analytics dashboards with natural language querying</li>
+            <li>Workflow automation and process AI integration</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">RAG Systems</span><span class="tag">Agents & Copilots</span><span class="tag">API Integration</span><span class="tag">Chatbots</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="22" r="7" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><circle cx="26" cy="22" r="3" fill="#C8FF00"/><path d="M13 40 Q13 30 26 30 Q39 30 39 40" stroke="#C8FF00" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <h3>Data Engineering<br>& Analytics</h3>
+        <p>Build the data foundations AI needs — robust pipelines, warehouses, feature stores, and real-time streaming infrastructure purpose-built for ML workloads.</p>
+        <div class="service-detail">
+          <ul>
+            <li>Ingestion pipelines from 30+ source types (APIs, databases, files, streams)</li>
+            <li>Feature engineering and centralized feature store implementation</li>
+            <li>Real-time streaming with Kafka and Flink for sub-second data freshness</li>
+            <li>Data quality monitoring, lineage tracking, and governance</li>
+            <li>Semantic layer and metrics definitions for consistent reporting</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">Data Pipelines</span><span class="tag">Feature Stores</span><span class="tag">Real-time Infra</span><span class="tag">Data Quality</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><path d="M26 10 L32 16 L40 14 L38 22 L44 26 L38 30 L40 38 L32 36 L26 42 L20 36 L12 38 L14 30 L8 26 L14 22 L12 14 L20 16 Z" stroke="rgba(245,244,239,.25)" stroke-width="1.5" fill="none"/><path d="M26 18 L29 22 L34 21 L33 26 L37 29 L33 31 L34 36 L29 35 L26 39 L23 35 L18 36 L19 31 L15 29 L19 26 L18 21 L23 22 Z" fill="rgba(200,255,0,.1)" stroke="#C8FF00" stroke-width="1"/><circle cx="26" cy="26" r="3" fill="#C8FF00"/></svg>
+        </div>
+        <h3>Responsible AI<br>& Governance</h3>
+        <p>Implement AI governance frameworks, bias auditing, explainability layers, and compliance tooling to ensure your systems are safe, fair, auditable, and regulation-ready.</p>
+        <div class="service-detail">
+          <ul>
+            <li>Fairness audits across protected attributes and demographic groups</li>
+            <li>SHAP/LIME-based explainability integration for high-stakes decisions</li>
+            <li>EU AI Act, GDPR, and HIPAA compliance readiness assessments</li>
+            <li>Model cards, data sheets, and documentation standards</li>
+            <li>Internal AI governance policy design and ethics review boards</li>
+          </ul>
+        </div>
+        <div class="service-tags"><span class="tag">Bias Auditing</span><span class="tag">Explainability</span><span class="tag">EU AI Act</span><span class="tag">Compliance</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="svc-strategy">
+    <div class="services-grid reveal" style="grid-template-columns:repeat(2,1fr);">
+      <div class="service-card">
+        <div class="service-num">01</div><h3>AI Opportunity<br>Assessment</h3>
+        <p>A structured 2-week engagement to map where AI can create the highest impact in your business. We interview stakeholders, audit your data assets, and deliver a ranked opportunity matrix with estimated ROI ranges.</p>
+        <div class="service-detail"><ul><li>Stakeholder interviews across business units</li><li>Data audit: availability, quality, and readiness scoring</li><li>Opportunity scoring on value × feasibility × risk axes</li><li>3–5 prioritized recommendations with rough cost estimates</li></ul></div>
+        <div class="service-tags"><span class="tag">2-week sprint</span><span class="tag">Deliverable: Opportunity matrix</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div><h3>AI Architecture<br>Design</h3>
+        <p>Deep technical design for your AI systems before a line of code is written. We specify model choices, data flows, integration points, and infrastructure requirements to eliminate costly pivots later.</p>
+        <div class="service-detail"><ul><li>System architecture diagrams with component specifications</li><li>Model selection and make/buy/integrate recommendations</li><li>Data flow design, API contracts, and integration blueprints</li><li>Scalability and cost modeling for production workloads</li></ul></div>
+        <div class="service-tags"><span class="tag">3-week engagement</span><span class="tag">Deliverable: Architecture doc</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="svc-build">
+    <div class="services-grid reveal" style="grid-template-columns:repeat(2,1fr);">
+      <div class="service-card">
+        <div class="service-num">01</div><h3>Rapid Prototype<br>Program</h3>
+        <p>Go from idea to a working AI prototype in 3 weeks. Our structured sprint combines data exploration, model selection, and a demo-ready interface so you can test assumptions and get stakeholder buy-in fast.</p>
+        <div class="service-detail"><ul><li>Week 1: Data profiling and baseline model experiments</li><li>Week 2: Model iteration and performance benchmarking</li><li>Week 3: Integration and demo build with key metrics dashboard</li><li>Handoff documentation and next-step roadmap</li></ul></div>
+        <div class="service-tags"><span class="tag">3-week fixed scope</span><span class="tag">Fixed price</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div><h3>Full Product<br>Development</h3>
+        <p>End-to-end AI product development from requirements to launch. We embed as your dedicated AI team — handling everything from data infrastructure and model development to frontend interfaces and APIs.</p>
+        <div class="service-detail"><ul><li>Dedicated 2–6 person pod (ML engineers, data engineers, tech lead)</li><li>Weekly sprint demos and written progress reports</li><li>Continuous integration into your existing systems and workflows</li><li>Progressive handover with knowledge transfer to your team</li></ul></div>
+        <div class="service-tags"><span class="tag">12–36 week engagement</span><span class="tag">Time & materials</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="svc-deploy">
+    <div class="services-grid reveal" style="grid-template-columns:repeat(2,1fr);">
+      <div class="service-card">
+        <div class="service-num">01</div><h3>Production<br>Launch Package</h3>
+        <p>We take your trained models and get them safely, efficiently running in production. Includes infrastructure setup, monitoring instrumentation, runbooks, and a 30-day hypercare period post-launch.</p>
+        <div class="service-detail"><ul><li>Containerized deployment on your cloud provider of choice</li><li>Auto-scaling configuration and load testing</li><li>Monitoring dashboards with latency, accuracy, and drift metrics</li><li>30-day incident response and hypercare SLA</li></ul></div>
+        <div class="service-tags"><span class="tag">4–8 week scope</span><span class="tag">Includes hypercare</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div><h3>Managed AI<br>Operations</h3>
+        <p>Ongoing support for your AI systems in production. We proactively monitor for degradation, manage retraining cycles, and continuously improve model performance as your data evolves.</p>
+        <div class="service-detail"><ul><li>24/7 model health monitoring with PagerDuty integration</li><li>Monthly performance reviews and improvement reports</li><li>Quarterly retraining cycles with A/B testing</li><li>On-call ML engineering support for critical incidents</li></ul></div>
+        <div class="service-tags"><span class="tag">Monthly retainer</span><span class="tag">SLA-backed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process-section" id="process">
+  <div class="section-label">How we work</div>
+  <h2 class="section-title">From <em>idea</em><br>to production</h2>
+
+  <div class="process-grid reveal">
+    <div class="process-step">
+      <div class="process-step-num">1</div>
+      <div class="process-dot"></div>
+      <h4>Discovery &<br>Scoping</h4>
+      <p>Deep-dive sessions to understand your business, data landscape, and success criteria. We define scope, feasibility, and expected ROI before a single line of code is written.</p>
+      <div class="step-detail">
+        <ul>
+          <li>Stakeholder interviews (business, data, engineering)</li>
+          <li>Data audit: quality, volume, labeling readiness</li>
+          <li>Define success metrics and acceptance criteria</li>
+          <li>Technical feasibility and risk assessment</li>
+          <li>Scope, timeline, and budget agreement</li>
+        </ul>
+      </div>
+      <span class="step-meta">Week 1–2</span>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">2</div>
+      <div class="process-dot"></div>
+      <h4>Proof of<br>Concept</h4>
+      <p>Rapid prototyping to validate technical assumptions and demonstrate value. Typical delivery in 2–3 weeks with real data and measurable baseline metrics you can present to leadership.</p>
+      <div class="step-detail">
+        <ul>
+          <li>Data preprocessing and exploratory analysis</li>
+          <li>Baseline model training and benchmarking</li>
+          <li>POC demo with initial performance metrics</li>
+          <li>Gap analysis vs. production requirements</li>
+          <li>Go/no-go recommendation with clear rationale</li>
+        </ul>
+      </div>
+      <span class="step-meta">Week 3–5</span>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">3</div>
+      <div class="process-dot"></div>
+      <h4>Build &<br>Iterate</h4>
+      <p>Agile development with weekly demos and feedback loops. We engineer for performance, reliability, and scalability from day one — not as an afterthought when problems arise.</p>
+      <div class="step-detail">
+        <ul>
+          <li>2-week sprints with defined deliverables</li>
+          <li>Weekly written progress reports + demos</li>
+          <li>Continuous integration and automated testing</li>
+          <li>Ongoing model improvement and feature additions</li>
+          <li>Regular stakeholder reviews and course corrections</li>
+        </ul>
+      </div>
+      <span class="step-meta">Week 6–18+</span>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">4</div>
+      <div class="process-dot"></div>
+      <h4>Deploy &<br>Support</h4>
+      <p>Production deployment with full monitoring, documentation, and team enablement. Optional ongoing support packages ensure your AI systems keep improving after launch.</p>
+      <div class="step-detail">
+        <ul>
+          <li>Staged rollout with canary deployment and rollback plan</li>
+          <li>Monitoring dashboards: performance, drift, and cost</li>
+          <li>Runbooks, architecture docs, and API documentation</li>
+          <li>Team training and knowledge transfer sessions</li>
+          <li>Optional managed operations retainer post-launch</li>
+        </ul>
+      </div>
+      <span class="step-meta">Ongoing</span>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="section" id="industries" style="border-top:1px solid var(--border);">
+  <div class="section-label">Industries</div>
+  <h2 class="section-title reveal">Expertise across<br><em>every vertical</em></h2>
+  <div class="industries-list reveal">
+    <div class="industry-item">
+      <span class="industry-icon">🏦</span><span>Finance</span>
+      <div class="industry-hover-detail"><p>Fraud detection, credit scoring, algorithmic trading, regulatory reporting automation, and wealth management personalization.</p></div>
+    </div>
+    <div class="industry-item">
+      <span class="industry-icon">🏥</span><span>Healthcare</span>
+      <div class="industry-hover-detail"><p>Clinical decision support, patient risk stratification, radiology AI, drug discovery, and revenue cycle optimization.</p></div>
+    </div>
+    <div class="industry-item">
+      <span class="industry-icon">🛒</span><span>Retail</span>
+      <div class="industry-hover-detail"><p>Demand forecasting, dynamic pricing, recommendation engines, inventory optimization, and customer lifetime value modeling.</p></div>
+    </div>
+    <div class="industry-item">
+      <span class="industry-icon">🏭</span><span>Manufacturing</span>
+      <div class="industry-hover-detail"><p>Predictive maintenance, quality inspection vision AI, supply chain optimization, and production scheduling.</p></div>
+    </div>
+    <div class="industry-item">
+      <span class="industry-icon">⚡</span><span>Energy</span>
+      <div class="industry-hover-detail"><p>Grid load forecasting, renewable energy optimization, equipment failure prediction, and carbon emission monitoring.</p></div>
+    </div>
+    <div class="industry-item">
+      <span class="industry-icon">🚚</span><span>Logistics</span>
+      <div class="industry-hover-detail"><p>Route optimization, demand sensing, warehouse automation, last-mile delivery prediction, and carrier rate forecasting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="section" id="work" style="border-top:1px solid var(--border);">
+  <div class="section-label">Selected work</div>
+  <h2 class="section-title">Outcomes that<br><em>speak</em></h2>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="case-all">All Cases</button>
+    <button class="tab-btn" data-tab="case-health">Healthcare</button>
+    <button class="tab-btn" data-tab="case-fin">FinTech</button>
+    <button class="tab-btn" data-tab="case-retail">Retail</button>
+  </div>
+
+  <div class="tab-panel active" id="case-all">
+    <div class="cases-grid reveal">
+      <div class="case-card">
+        <div class="case-label">Healthcare — Predictive Analytics</div>
+        <h3>Reducing ICU readmissions for a top-5 hospital network</h3>
+        <p>Built a real-time patient risk scoring engine trained on structured EHR data and unstructured nursing notes. Deployed across 12 hospital sites, it surfaces high-risk patients 48 hours before critical deterioration.</p>
+        <div class="case-expand">
+          <h4>What we built</h4>
+          <ul>
+            <li>Transformer-based model ingesting vitals, lab results, and free-text nursing notes</li>
+            <li>SHAP-powered explainability layer showing clinicians why a patient was flagged</li>
+            <li>Real-time inference pipeline processing 4,000 patient records per minute</li>
+            <li>Epic EHR integration with one-click alert workflow for nursing staff</li>
+          </ul>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-item"><div class="case-metric-val">34%</div><div class="case-metric-label">Reduction in readmissions</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">$18M</div><div class="case-metric-label">Annual cost savings</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">14wk</div><div class="case-metric-label">Time to production</div></div>
+        </div>
+        <div class="case-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="rgba(245,244,239,.6)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      </div>
+      <div style="display:flex;flex-direction:column;">
+        <div class="case-card-sm">
+          <div class="case-label">FinTech — Fraud Detection</div>
+          <h3>Real-time fraud detection at 50M txns/day</h3>
+          <p>Graph neural network detecting novel fraud patterns across transaction networks with sub-200ms latency. Reduced false positives by 60% vs. the previous rule-based system, saving $4.2M in operational costs annually.</p>
+          <div class="case-expand">
+            <h4>Key components</h4>
+            <ul>
+              <li>GNN modelling relationships between accounts, devices, and merchants</li>
+              <li>Online learning pipeline updating model weights every 6 hours</li>
+              <li>Kafka-based event stream for real-time feature computation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="case-card-sm">
+          <div class="case-label">Retail — Demand Forecasting</div>
+          <h3>Dynamic inventory optimization across 200K SKUs</h3>
+          <p>Multi-horizon demand forecasting deployed across 14 markets and 6 distribution centers. Incorporates weather, promotions, and macroeconomic signals. Cut stockouts by 41% and reduced excess inventory carrying costs.</p>
+          <div class="case-expand">
+            <h4>Key components</h4>
+            <ul>
+              <li>Temporal Fusion Transformer with 120+ external feature signals</li>
+              <li>Automated replenishment recommendations integrated with SAP</li>
+              <li>Uncertainty quantification for safety stock calculations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="case-health">
+    <div class="cases-grid reveal" style="grid-template-columns:1fr;">
+      <div class="case-card">
+        <div class="case-label">Healthcare — Predictive Analytics</div>
+        <h3>Reducing ICU readmissions for a top-5 hospital network</h3>
+        <p>Built a real-time patient risk scoring engine trained on structured EHR data and unstructured nursing notes, deployed across 12 hospital sites. The system surfaces high-risk patients 48 hours before critical deterioration, enabling proactive clinical intervention.</p>
+        <div class="case-expand">
+          <h4>Full solution breakdown</h4>
+          <ul>
+            <li>Transformer model processing vitals, labs, medications, and free-text nursing notes simultaneously</li>
+            <li>SHAP explainability layer providing top-5 contributing risk factors per alert</li>
+            <li>Real-time inference serving 4,000 patient records per minute with 99.97% uptime</li>
+            <li>Bi-directional Epic EHR integration with one-click acknowledge workflow</li>
+            <li>Monthly model retraining on new patient cohorts with performance drift monitoring</li>
+          </ul>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-item"><div class="case-metric-val">34%</div><div class="case-metric-label">Reduction in readmissions</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">$18M</div><div class="case-metric-label">Annual cost savings</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">0.89</div><div class="case-metric-label">AUROC score</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">14wk</div><div class="case-metric-label">Time to production</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="case-fin">
+    <div class="cases-grid reveal" style="grid-template-columns:1fr;">
+      <div class="case-card">
+        <div class="case-label">FinTech — Fraud Detection</div>
+        <h3>Real-time transaction fraud detection at 50M transactions/day</h3>
+        <p>A leading payments processor needed to replace a brittle rule-based fraud system generating too many false positives and missing novel fraud patterns. We built a graph neural network that models relationships between accounts, devices, merchants, and IP addresses in real time.</p>
+        <div class="case-expand">
+          <h4>Full solution breakdown</h4>
+          <ul>
+            <li>Heterogeneous GNN modelling 7 entity types and 12 relationship types across transaction graphs</li>
+            <li>Kafka event stream computing 85 real-time features per transaction in under 50ms</li>
+            <li>Online learning pipeline updating model embeddings every 6 hours on new fraud signals</li>
+            <li>Explainability API providing rule-like rationale for compliance and dispute resolution</li>
+            <li>Shadow deployment with 8-week A/B test before full production cutover</li>
+          </ul>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-item"><div class="case-metric-val">60%</div><div class="case-metric-label">Fewer false positives</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">$4.2M</div><div class="case-metric-label">Annual ops savings</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">&lt;200ms</div><div class="case-metric-label">P99 inference latency</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="case-retail">
+    <div class="cases-grid reveal" style="grid-template-columns:1fr;">
+      <div class="case-card">
+        <div class="case-label">Retail — Demand Forecasting & Inventory</div>
+        <h3>Dynamic inventory optimization across 200K SKUs in 14 markets</h3>
+        <p>A global fashion retailer was carrying $47M in excess inventory while still experiencing frequent stockouts of top-selling items. We built a probabilistic demand forecasting system incorporating 120+ signals including weather, social trends, promotions, and macroeconomic indicators.</p>
+        <div class="case-expand">
+          <h4>Full solution breakdown</h4>
+          <ul>
+            <li>Temporal Fusion Transformer architecture with hierarchical reconciliation across SKU, category, and region levels</li>
+            <li>External signal integration: weather APIs, Google Trends, competitor pricing, social sentiment</li>
+            <li>Uncertainty quantification providing confidence intervals for safety stock optimization</li>
+            <li>Automated replenishment recommendations via SAP integration, reviewed and approved by buyers</li>
+            <li>Markdown optimization module reducing end-of-season clearance losses by 28%</li>
+          </ul>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-item"><div class="case-metric-val">41%</div><div class="case-metric-label">Reduction in stockouts</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">$9.3M</div><div class="case-metric-label">Inventory cost reduction</div></div>
+          <div class="case-metric-item"><div class="case-metric-val">28%</div><div class="case-metric-label">Less clearance markdown</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section class="section tech-section" id="technology">
+  <div class="section-label">Technology</div>
+  <div style="display:flex;gap:6rem;align-items:flex-start;">
+    <div style="flex:0 0 320px;">
+      <h2 class="section-title" style="margin-bottom:1rem;">The full<br><em>stack</em></h2>
+      <p style="font-size:.875rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.5rem;">Framework-agnostic and tool-agnostic. We select technology based on what's right for your problem — not what's fashionable.</p>
+      <p style="font-size:.8rem;color:var(--text-dim);line-height:1.6;">Our engineers hold certifications across AWS, GCP, and Azure, and are active contributors to several open-source ML projects.</p>
+    </div>
+    <div style="flex:1;">
+      <div class="tab-bar" style="margin-bottom:2rem;">
+        <button class="tab-btn active" data-tab="tech-all">All</button>
+        <button class="tab-btn" data-tab="tech-models">Models</button>
+        <button class="tab-btn" data-tab="tech-infra">Infra</button>
+        <button class="tab-btn" data-tab="tech-data">Data</button>
+      </div>
+      <div class="tab-panel active" id="tech-all">
+        <div style="display:flex;flex-direction:column;gap:1.75rem;">
+          <div><p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.75rem;">Foundation Models & LLMs</p>
+          <div class="tech-grid"><span class="tech-pill">GPT-4o</span><span class="tech-pill">Claude 3.5 Sonnet</span><span class="tech-pill">Gemini 1.5 Pro</span><span class="tech-pill">Llama 3.1</span><span class="tech-pill">Mistral Large</span><span class="tech-pill">Flux</span><span class="tech-pill">Stable Diffusion</span><span class="tech-pill">Whisper</span></div></div>
+          <div><p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.75rem;">ML Frameworks</p>
+          <div class="tech-grid"><span class="tech-pill">PyTorch</span><span class="tech-pill">TensorFlow</span><span class="tech-pill">JAX / Flax</span><span class="tech-pill">Hugging Face Transformers</span><span class="tech-pill">LangChain</span><span class="tech-pill">LlamaIndex</span><span class="tech-pill">scikit-learn</span><span class="tech-pill">XGBoost</span></div></div>
+          <div><p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.75rem;">Cloud & Infrastructure</p>
+          <div class="tech-grid"><span class="tech-pill">AWS SageMaker</span><span class="tech-pill">GCP Vertex AI</span><span class="tech-pill">Azure ML</span><span class="tech-pill">Kubernetes</span><span class="tech-pill">Ray</span><span class="tech-pill">MLflow</span><span class="tech-pill">Weights & Biases</span><span class="tech-pill">BentoML</span><span class="tech-pill">vLLM</span></div></div>
+          <div><p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.75rem;">Data & Vector Stores</p>
+          <div class="tech-grid"><span class="tech-pill">Snowflake</span><span class="tech-pill">Databricks</span><span class="tech-pill">Pinecone</span><span class="tech-pill">Weaviate</span><span class="tech-pill">Qdrant</span><span class="tech-pill">Kafka</span><span class="tech-pill">dbt</span><span class="tech-pill">Airflow</span><span class="tech-pill">Spark</span></div></div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tech-models">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid var(--border);">
+          <div style="padding:1.5rem;background:var(--ink);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Language Models</p>
+            <div class="tech-grid"><span class="tech-pill">GPT-4o</span><span class="tech-pill">Claude 3.5</span><span class="tech-pill">Gemini 1.5</span><span class="tech-pill">Llama 3.1</span><span class="tech-pill">Mistral</span><span class="tech-pill">Command R+</span></div>
+          </div>
+          <div style="padding:1.5rem;background:var(--ink);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Vision Models</p>
+            <div class="tech-grid"><span class="tech-pill">GPT-4V</span><span class="tech-pill">Gemini Vision</span><span class="tech-pill">YOLO v9</span><span class="tech-pill">SAM 2</span><span class="tech-pill">Florence-2</span></div>
+          </div>
+          <div style="padding:1.5rem;background:var(--ink);border-top:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Embedding Models</p>
+            <div class="tech-grid"><span class="tech-pill">text-embedding-3</span><span class="tech-pill">E5-large</span><span class="tech-pill">BGE-M3</span><span class="tech-pill">Cohere Embed</span></div>
+          </div>
+          <div style="padding:1.5rem;background:var(--ink);border-top:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Generative Media</p>
+            <div class="tech-grid"><span class="tech-pill">Stable Diffusion</span><span class="tech-pill">Flux</span><span class="tech-pill">Whisper</span><span class="tech-pill">Suno API</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tech-infra">
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Model Serving & Optimization</p>
+            <div class="tech-grid"><span class="tech-pill">vLLM</span><span class="tech-pill">TGI</span><span class="tech-pill">BentoML</span><span class="tech-pill">Triton Inference</span><span class="tech-pill">TensorRT</span><span class="tech-pill">ONNX Runtime</span></div>
+            <p style="font-size:.78rem;color:var(--text-dim);margin-top:1rem;line-height:1.6;">We specialize in LLM inference optimization — quantization, batching strategies, and caching — to reduce serving costs by 40–70% vs. naive deployments.</p>
+          </div>
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Experiment Tracking & MLOps</p>
+            <div class="tech-grid"><span class="tech-pill">MLflow</span><span class="tech-pill">Weights & Biases</span><span class="tech-pill">DVC</span><span class="tech-pill">Metaflow</span><span class="tech-pill">Kubeflow</span><span class="tech-pill">Prefect</span></div>
+          </div>
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Cloud Platforms</p>
+            <div class="tech-grid"><span class="tech-pill">AWS SageMaker</span><span class="tech-pill">GCP Vertex AI</span><span class="tech-pill">Azure ML</span><span class="tech-pill">Lambda Labs</span><span class="tech-pill">RunPod</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tech-data">
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Warehouses & Lakehouses</p>
+            <div class="tech-grid"><span class="tech-pill">Snowflake</span><span class="tech-pill">Databricks</span><span class="tech-pill">BigQuery</span><span class="tech-pill">Redshift</span><span class="tech-pill">Delta Lake</span><span class="tech-pill">Apache Iceberg</span></div>
+          </div>
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Vector Databases</p>
+            <div class="tech-grid"><span class="tech-pill">Pinecone</span><span class="tech-pill">Weaviate</span><span class="tech-pill">Qdrant</span><span class="tech-pill">pgvector</span><span class="tech-pill">Chroma</span><span class="tech-pill">Milvus</span></div>
+          </div>
+          <div style="padding:1.75rem;background:var(--ink);border:1px solid var(--border);">
+            <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;">Orchestration & Streaming</p>
+            <div class="tech-grid"><span class="tech-pill">Apache Kafka</span><span class="tech-pill">Airflow</span><span class="tech-pill">dbt</span><span class="tech-pill">Spark</span><span class="tech-pill">Flink</span><span class="tech-pill">Fivetran</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team" style="border-top:1px solid var(--border);">
+  <div class="section-label">The team</div>
+  <h2 class="section-title reveal">People who've<br><em>done it before</em></h2>
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-avatar">AP</div>
+      <h4>Arjun Patel</h4>
+      <div class="role">Founder & CEO</div>
+      <p class="bio">Former ML Research Lead at DeepMind and Principal Engineer at Stripe. Led AI initiatives across payments fraud, risk modeling, and NLP. PhD in Machine Learning from Cambridge.</p>
+      <div class="expertise"><span>LLMs</span><span>Fraud ML</span><span>Research</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">SK</div>
+      <h4>Sofia Kim</h4>
+      <div class="role">CTO & Co-Founder</div>
+      <p class="bio">Previously Staff Engineer at Uber ML Platform and Google Brain. Architect of production ML systems serving billions of predictions daily. Expert in MLOps and distributed training at scale.</p>
+      <div class="expertise"><span>MLOps</span><span>Infra</span><span>Scaling</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">MO</div>
+      <h4>Marcus Osei</h4>
+      <div class="role">Head of AI Engineering</div>
+      <p class="bio">Ex-Meta AI and Palantir. Specialized in multimodal AI, computer vision, and real-time inference systems. Built CV systems for autonomous robotics and medical imaging applications.</p>
+      <div class="expertise"><span>Vision AI</span><span>Multimodal</span><span>Edge ML</span></div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">LV</div>
+      <h4>Léa Voss</h4>
+      <div class="role">Head of Data Science</div>
+      <p class="bio">Former Head of DS at Zalando and Senior Scientist at Amazon Forecasting. Specialist in time-series, demand forecasting, and causal inference for business decision-making.</p>
+      <div class="expertise"><span>Forecasting</span><span>Causal ML</span><span>Analytics</span></div>
+    </div>
+  </div>
+  <div style="margin-top:3rem;padding:2.5rem;background:var(--ink-dim);border:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;" class="reveal">
+    <div><div style="font-family:'Instrument Serif',serif;font-size:2.5rem;color:var(--accent);">28</div><div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Engineers & scientists on staff</div></div>
+    <div><div style="font-family:'Instrument Serif',serif;font-size:2.5rem;color:var(--accent);">9</div><div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">PhDs across ML, stats, and CS</div></div>
+    <div><div style="font-family:'Instrument Serif',serif;font-size:2.5rem;color:var(--accent);">14</div><div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Avg years industry experience</div></div>
+    <div><div style="font-family:'Instrument Serif',serif;font-size:2.5rem;color:var(--accent);">6</div><div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem;">Countries our team works from</div></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="border-top:1px solid var(--border);">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title reveal">Transparent<br><em>engagement models</em></h2>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-name">Starter</div>
+      <p class="pricing-desc">Best for teams wanting to explore and validate an AI idea before committing to a full build. Fixed scope, fixed price, fast delivery.</p>
+      <div class="pricing-price">$25K <span>/ engagement</span></div>
+      <p style="font-size:.75rem;color:var(--text-dim);">3-week POC sprint</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>AI opportunity assessment & scoping</li>
+        <li>Data readiness audit</li>
+        <li>Working prototype on your real data</li>
+        <li>Performance benchmarks & metrics report</li>
+        <li>Go/no-go recommendation with rationale</li>
+        <li>1 dedicated ML engineer + tech lead</li>
+        <li class="muted">Full production build</li>
+        <li class="muted">Ongoing model monitoring</li>
+      </ul>
+      <a href="#contact" class="pricing-cta">Get started →</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-name">Growth</div>
+      <p class="pricing-desc">For businesses ready to build and ship a production AI system. A dedicated pod that works like an extension of your engineering team.</p>
+      <div class="pricing-price">$45K <span>/ month</span></div>
+      <p style="font-size:.75rem;color:var(--text-dim);">Minimum 3-month engagement</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Everything in Starter, plus:</li>
+        <li>Dedicated 3-person pod (ML eng × 2 + data eng)</li>
+        <li>Full production build with CI/CD pipelines</li>
+        <li>Model monitoring & performance dashboards</li>
+        <li>Weekly sprint demos & written reports</li>
+        <li>Architecture design & documentation</li>
+        <li>Team knowledge transfer sessions</li>
+        <li class="muted">24/7 managed operations</li>
+      </ul>
+      <a href="#contact" class="pricing-cta">Start a project →</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Enterprise</div>
+      <p class="pricing-desc">For large-scale AI transformations, multi-system deployments, and organizations needing embedded AI leadership and dedicated support teams.</p>
+      <div class="pricing-price">Custom</div>
+      <p style="font-size:.75rem;color:var(--text-dim);">Tailored to your scope</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Everything in Growth, plus:</li>
+        <li>Dedicated team of 5–12 engineers</li>
+        <li>Fractional Chief AI Officer access</li>
+        <li>Multi-system, multi-team AI deployments</li>
+        <li>24/7 managed operations with SLA</li>
+        <li>Quarterly business reviews</li>
+        <li>Executive AI education workshops</li>
+        <li>Priority access to new research & capabilities</li>
+      </ul>
+      <a href="#contact" class="pricing-cta">Contact us →</a>
+    </div>
+  </div>
+  <p style="font-size:.78rem;color:var(--text-dim);margin-top:1.5rem;text-align:center;">All engagements include a 1-week no-cost discovery call. Prices above are starting figures; final scope and pricing confirmed after discovery.</p>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="border-top:1px solid var(--border);">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title reveal">Common<br><em>questions</em></h2>
+  <div class="faq-list reveal">
+    <div class="faq-item">
+      <button class="faq-q"><span>How long does a typical AI project take?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">It depends heavily on scope, but here are our typical ranges. A Proof of Concept sprint runs 3 weeks. A full MVP — model development, integration, and initial deployment — typically takes 10–16 weeks. Enterprise-scale multi-system projects run 6–18 months. We give a firm timeline estimate with confidence intervals after our discovery process, and we publish a project calendar before work begins.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Do we need our own data to work with you?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">Not necessarily, but it helps. Many of the most powerful AI systems are built on proprietary data that gives you a lasting competitive moat. That said, we've delivered excellent results using publicly available datasets, synthetic data generation, and foundation models fine-tuned on small proprietary datasets. During our data audit in the discovery phase, we'll give you an honest assessment of your data's current readiness and what it would take to get it model-ready.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>What happens after the project ends?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">We plan for handover from day one, not week 12. Every engagement includes comprehensive documentation, architecture decision records, and structured knowledge transfer sessions. If you want us to stay on, we offer a Managed Operations retainer for ongoing monitoring, retraining, and continuous improvement. About 60% of our project clients continue with a retainer post-launch.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>How do you handle data privacy and security?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">We treat client data with the utmost care. All client data is processed under a signed DPA (Data Processing Agreement) and NDA. We can work within your existing cloud environment so data never leaves your perimeter. For regulated industries (healthcare, finance), we have HIPAA-ready and SOC 2-compliant workflows. We never use client data to train models for other clients or for our own research.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Can you work with our existing engineering team?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">Absolutely — this is our preferred model. We embed as a specialized AI pod alongside your existing team, working in your codebase, attending your standups, and respecting your engineering culture. We use your tools (GitHub, Jira, Slack), follow your code review processes, and ensure a smooth handover. Many clients bring us in specifically to upskill their existing engineering team in AI best practices.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>What makes Nexus AI different from other AI consultancies?</span><div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></button>
+      <div class="faq-a"><div class="faq-a-inner">Three things. First, our team comes from production AI roles at Tier-1 tech companies (DeepMind, Google Brain, Meta AI, Uber ML) — not from academia or advisory. We've shipped models that serve millions of users. Second, we're outcome-obsessed: our engagements include defined success metrics agreed upfront, and we don't call a project done until those metrics are hit. Third, we're genuinely framework-agnostic — we'll tell you when off-the-shelf tools are good enough rather than over-engineering a custom solution.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials" style="border-top:1px solid var(--border);">
+  <div class="section-label">Client words</div>
+  <h2 class="section-title reveal">What clients<br><em>say</em></h2>
+  <div class="testimonial-grid reveal">
+    <div class="testimonial-card">
+      <div class="star-row"><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="quote-mark">"</div>
+      <blockquote>Nexus AI didn't just build models — they understood our business deeply enough to identify opportunities we hadn't even considered. The ROI was visible within 8 weeks of launch.</blockquote>
+      <div class="testimonial-author"><div class="author-avatar">SK</div><div><div class="author-name">Samantha Kirke</div><div class="author-role">CTO, Meridian Financial</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="star-row"><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="quote-mark">"</div>
+      <blockquote>Their MLOps expertise alone saved us 6 months. We'd been trying to get our models to production for a year. Nexus had us live in 6 weeks, with monitoring dashboards our team actually uses.</blockquote>
+      <div class="testimonial-author"><div class="author-avatar">RO</div><div><div class="author-name">Rafael Okonkwo</div><div class="author-role">VP Engineering, Luma Health</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="star-row"><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="quote-mark">"</div>
+      <blockquote>We hired them for 12 weeks and ended up extending for 18 months. They think like product engineers, not researchers — they care about whether AI actually helps users, not just benchmark scores.</blockquote>
+      <div class="testimonial-author"><div class="author-avatar">JL</div><div><div class="author-name">Jess Lim</div><div class="author-role">CEO, Stackwise Commerce</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact" style="border-top:1px solid var(--border);">
+  <div class="section-label">Get in touch</div>
+  <h2 class="section-title reveal">Start a<br><em>conversation</em></h2>
+  <div class="contact-grid reveal">
+    <div>
+      <p style="font-size:.95rem;color:var(--text-muted);line-height:1.7;margin-bottom:2.5rem;">Tell us about your project. We'll get back to you within 24 hours with an honest assessment of whether we're the right fit — and if not, we'll point you in the right direction.</p>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>First name</label><input type="text" placeholder="Aryan"></div>
+          <div class="form-group"><label>Last name</label><input type="text" placeholder="Sharma"></div>
+        </div>
+        <div class="form-group"><label>Work email</label><input type="email" placeholder="aryan@company.com"></div>
+        <div class="form-group"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+        <div class="form-group"><label>What are you looking to build?</label>
+          <select>
+            <option value="" disabled selected>Select a service area</option>
+            <option>AI Strategy & Roadmapping</option>
+            <option>Custom Model Development</option>
+            <option>MLOps & Deployment</option>
+            <option>AI-Powered Product</option>
+            <option>Data Engineering</option>
+            <option>AI Governance</option>
+            <option>Not sure yet — let's talk</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Tell us more</label><textarea placeholder="Briefly describe your project, current data situation, and timeline if you have one..."></textarea></div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:.8rem;">Send message →</button>
+      </form>
+    </div>
+    <div class="contact-info">
+      <div class="contact-info-item"><h4>Email</h4><p><a href="mailto:hello@nexus.ai">hello@nexus.ai</a></p></div>
+      <div class="contact-info-item"><h4>Book a call</h4><p>Schedule a 30-minute discovery call directly: <a href="#">calendly.com/nexus-ai</a></p></div>
+      <div class="contact-info-item"><h4>Office</h4><p>Nexus AI Consulting<br>100 Shoreditch High Street<br>London, E1 6JQ<br>United Kingdom</p></div>
+      <div class="contact-info-item"><h4>Response time</h4><p>We respond to all inquiries within 24 hours on business days. For urgent requests, email with URGENT in the subject line.</p></div>
+      <div style="padding:1.75rem;background:var(--ink-dim);border:1px solid var(--border);margin-top:1rem;">
+        <p style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">Currently available</p>
+        <p style="font-size:.82rem;color:var(--text-muted);line-height:1.6;">We have capacity for 2 new project engagements starting in Q3 2026. Enquire now to reserve your spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to build<br><em>something</em> real?</h2>
+  <p>Book a 30-minute discovery call. No sales pitch — just an honest conversation about whether we're the right fit for your problem.</p>
+  <div class="cta-buttons">
+    <a href="#contact" class="btn-primary">Book a discovery call →</a>
+    <a href="mailto:hello@nexus.ai" class="btn-secondary">hello@nexus.ai</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="logo">NEXUS<span style="color:var(--accent)">.</span>AI</a>
+      <p>We help businesses design, build, and deploy AI systems that create lasting competitive advantage. Production-grade AI, not PowerPoint AI.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">AI Strategy</a></li>
+        <li><a href="#services">Model Development</a></li>
+        <li><a href="#services">MLOps & Deploy</a></li>
+        <li><a href="#services">AI Products</a></li>
+        <li><a href="#services">Data Engineering</a></li>
+        <li><a href="#services">AI Governance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#work">Case Studies</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:hello@nexus.ai">hello@nexus.ai</a></li>
+        <li><a href="#">Book a call</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Twitter / X</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 NEXUS AI CONSULTING LTD — ALL RIGHTS RESERVED</p>
+    <div class="footer-socials">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Settings</a>
+    </div>
+  </div>
+</footer>
+  </div> <!-- End main-content -->
+
+  <!-- Import Maps for Three.js and GSAP -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+      "gsap": "https://esm.sh/gsap@3.12.5",
+      "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger"
+    }
+  }
+</script>
+  <script type="module">
+    import './src/main.js';
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ==========================================
+    // 1. DOM INTERACTIONS (Tabs, FAQ, Form)
+    // ==========================================
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.tab;
+        const parent = btn.closest('section') || btn.closest('.section') || btn.parentElement.parentElement;
+        parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById(id);
+        if (panel) {
+          panel.classList.add('active');
+          // GSAP reveal for tabs instead of CSS
+          gsap.fromTo(panel.querySelectorAll('.reveal'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' });
+        }
+      });
+    });
+
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type=submit]');
+        btn.textContent = 'Message sent ✓';
+        btn.style.background = 'rgba(200,255,0,.15)';
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        setTimeout(() => {
+          btn.textContent = 'Send message →';
+          btn.style.background = 'var(--accent)';
+          btn.style.borderColor = 'var(--accent)';
+          btn.style.color = 'var(--ink)';
+        }, 3000);
+      });
+    }
+
+    // ==========================================
+    // 2. CUSTOM GSAP CURSOR
+    // ==========================================
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+
+      // Fast cursor follows exactly
+      gsap.to(cursor, { x: mouse.x, y: mouse.y, duration: 0.1, ease: 'power2.out' });
+      // Ring trails behind
+      gsap.to(ring, { x: mouse.x, y: mouse.y, duration: 0.5, ease: 'power2.out' });
+    });
+
+    // Magnetic & Hover effects on Interactive Elements
+    document.querySelectorAll('a, button, .service-card, .case-card, .tech-pill').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(cursor, { scale: 0.5, duration: 0.2 });
+        gsap.to(ring, { scale: 1.5, opacity: 0.8, duration: 0.2, borderColor: 'rgba(200,255,0,0.8)' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(cursor, { scale: 1, duration: 0.2 });
+        gsap.to(ring, { scale: 1, opacity: 0.5, duration: 0.2, borderColor: 'var(--accent)' });
+        // Reset magnetic transform
+        gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+      });
+
+      // Magnetic effect for tech pills and smaller buttons
+      if (el.classList.contains('tech-pill') || el.classList.contains('nav-cta') || el.classList.contains('btn-primary')) {
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: 'power2.out' });
+        });
+      }
+    });
+
+
+
+    // ==========================================
+    // 6. GSAP SCROLL ANIMATIONS (HTML DOM)
+    // ==========================================
+    // Reveal elements using GSAP ScrollTrigger
+    document.querySelectorAll('.services-grid, .process-grid, .industries-list, .cases-grid, .team-grid, .pricing-grid, .faq-list, .testimonial-grid, .contact-grid').forEach(grid => {
+      grid.classList.remove('reveal'); // Prevent wrapper from hiding children
+      grid.style.opacity = 1;
+
+      const children = Array.from(grid.children);
+      gsap.fromTo(children,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: grid,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+
+    // Standalone reveals
+    document.querySelectorAll('.section-title, .hero-headline, .hero-sub').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 90%'
+          }
+        }
+      );
+    });
+
+
+
+    // ==========================================
+    // 8. 3D CARD TILT EFFECT (Vanilla Math)
+    // ==========================================
+    document.querySelectorAll('.service-card, .case-card, .pricing-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; // x position within the element.
+        const y = e.clientY - rect.top;  // y position within the element.
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg rotation
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        gsap.to(card, {
+          rotateX: rotateX,
+          rotateY: rotateY,
+          transformPerspective: 1000,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+
+    // ==========================================
+    // 9. AI TEXT DECODING EFFECT
+    // ==========================================
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>-_\\/[]{}—=+*^?#_';
+    function decodeNode(node) {
+      if (node.nodeType === 3) {
+        const original = node.nodeValue;
+        if (!original.trim()) return;
+        let iter = 0;
+        if (!node.originalText) node.originalText = original;
+        const target = node.originalText;
+
+        const interval = setInterval(() => {
+          node.nodeValue = target.split('').map((char, index) => {
+            if (char === ' ' || char === '\n') return char;
+            if (index < iter) return target[index];
+            return chars[Math.floor(Math.random() * chars.length)];
+          }).join('');
+
+          if (iter >= target.length) {
+            node.nodeValue = target;
+            clearInterval(interval);
+          }
+          iter += 1 / 2; // speed
+        }, 30);
+      } else if (node.nodeType === 1) {
+        Array.from(node.childNodes).forEach(decodeNode);
+      }
+    }
+
+    // Hook decoding into the existing ScrollTrigger
+    document.querySelectorAll('.section-title, .hero-headline').forEach(el => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 90%',
+        onEnter: () => decodeNode(el)
+      });
+    });
+
+    // ==========================================
+    // 10. NEURAL DATA FLOW (Process Section)
+    // ==========================================
+    document.querySelectorAll('.process-grid').forEach(grid => {
+      grid.style.position = 'relative';
+
+      // Create line background
+      const lineBg = document.createElement('div');
+      lineBg.style.position = 'absolute';
+      lineBg.style.top = 'calc(3rem + 5px)'; // 3rem padding + 5px half dot
+      lineBg.style.left = '2rem';
+      lineBg.style.right = '2rem';
+      lineBg.style.height = '1px';
+      lineBg.style.background = 'rgba(255,255,255,0.1)';
+      lineBg.style.zIndex = '0';
+
+      // Create data pulse
+      const pulse = document.createElement('div');
+      pulse.style.position = 'absolute';
+      pulse.style.top = '-1px';
+      pulse.style.left = '0';
+      pulse.style.width = '100px';
+      pulse.style.height = '3px';
+      pulse.style.background = 'var(--accent)';
+      pulse.style.boxShadow = '0 0 15px 3px var(--accent)';
+      pulse.style.borderRadius = '2px';
+
+      lineBg.appendChild(pulse);
+      grid.appendChild(lineBg);
+
+      // Animate pulse
+      gsap.to(pulse, {
+        left: 'calc(100% - 100px)',
+        duration: 3,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+    });
+
+    // ==========================================
+    // 11. THREE.JS SCROLL TRANSITIONS
+    // ==========================================
+    
+    // Services
+    gsap.timeline({
+      scrollTrigger: { trigger: '#services', start: 'top bottom', end: 'bottom top', scrub: 1 }
+    }).to(window.sceneState, { cameraZ: 120, scrollSpeedMultiplier: 4.0, ease: 'power1.inOut' });
+
+    // Process
+    gsap.timeline({
+      scrollTrigger: { trigger: '#process', start: 'top bottom', end: 'bottom top', scrub: 1 }
+    }).to(window.sceneState, { cameraRotationZ: 0.35, bloomStrength: 1.8, ease: 'power1.inOut' });
+
+    // Industries
+    gsap.timeline({
+      scrollTrigger: { trigger: '#industries', start: 'top bottom', end: 'bottom top', scrub: 1 }
+    }).to(window.sceneState, { cameraRotationZ: -0.15, cameraZ: 350, scrollSpeedMultiplier: -1.0, bloomStrength: 2.2, ease: 'power1.inOut' });
+
+    // Work
+    gsap.timeline({
+      scrollTrigger: { trigger: '#work', start: 'top bottom', end: 'bottom top', scrub: 1 }
+    }).to(window.sceneState, { cameraRotationZ: 0, cameraZ: 200, scrollSpeedMultiplier: 1.0, bloomStrength: 1.0, ease: 'power1.inOut' });
+
+    // ==========================================
+    // 12. DISCRETE PARTICLE PATTERN TRIGGERS
+    // ==========================================
+    ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top center',
+      onEnter: () => window.sceneState.particlePattern = 0,
+      onEnterBack: () => window.sceneState.particlePattern = 0
+    });
+
+    const patternSections = [
+      { id: '#services', pattern: 1 },
+      { id: '#process', pattern: 2 },
+      { id: '#industries', pattern: 3 },
+      { id: '#work', pattern: 4 }, // Wave
+      { id: '#team', pattern: 5 }, // Cylinder
+      { id: '#pricing', pattern: 1 }, // Back to Grid
+      { id: '#contact', pattern: 0 }  // Back to Random
+    ];
+
+    patternSections.forEach(sec => {
+      const el = document.querySelector(sec.id);
+      if (el) {
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top center',
+          onEnter: () => window.sceneState.particlePattern = sec.pattern,
+          onEnterBack: () => window.sceneState.particlePattern = sec.pattern
+        });
+      }
+    });
+
+  </script>
+</body>
+
+</html>
