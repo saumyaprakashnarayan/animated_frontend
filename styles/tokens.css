@@ -1,0 +1,83 @@
+/* ============================================
+   DESIGN TOKENS & GLOBAL RESET
+   ============================================ */
+
+:root {
+  /* Color Palette */
+  --ink: #030712;
+  --ink-dim: #0F172A;
+  --ink-mid: #1E293B;
+  --surface: #F5F4EF;
+
+  /* Accent */
+  --accent: #38BDF8;
+  --accent-secondary: #2563EB;
+  --accent-highlight: #7DD3FC;
+
+  /* Typography */
+  --text-primary: #FFFFFF;
+  --text-subheading: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+  --text-caption: #475569;
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
+
+  /* Cards & Sections */
+  --card-bg: transparent;
+  --section-bg: transparent;
+}
+
+/* ---- RESET ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ink);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  cursor: none;
+  /* Floating text: dark halo renders each glyph crisp against ANY background */
+  text-shadow: 0 0 18px rgba(0,0,0,0.98), 0 0 8px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* ---- NOISE GRAIN OVERLAY ---- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: .5;
+}
+
+/* ---- CANVAS & MAIN CONTENT LAYERS ---- */
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+#main-content { position: relative; z-index: 1; }
+
+/* ---- CUSTOM CURSOR ---- */
+.cursor {
+  position: fixed; top: 0; left: 0;
+  width: 10px; height: 10px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, background .2s;
+}
+.cursor.hovering { background: var(--accent); box-shadow: 0 0 15px rgba(56,189,248,0.8); }
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width .25s, height .25s, opacity .25s, border-color .2s;
+  opacity: .5;
+}
+.cursor-ring.clicking { border-color: var(--accent-secondary); width: 24px; height: 24px; opacity: 1; }
