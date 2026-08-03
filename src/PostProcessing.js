@@ -24,9 +24,9 @@ export class PostProcessing {
     // Vector2(resX, resY), strength, radius, threshold
     this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      1.5,
-      0.8,
-      0.15
+      0.5,  // Subdued strength for elegance
+      0.4,  // Tighter radius
+      0.35  // Higher threshold to only bloom the brightest areas
     );
     this.composer.addPass(this.bloomPass);
   }

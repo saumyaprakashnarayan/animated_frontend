@@ -21,7 +21,7 @@ export class MaterialFactory {
 
     // 3. Energy Torus Knot
     const m3_energy = new THREE.MeshStandardMaterial({
-      color: 0xC8FF00,
+      color: 0x38BDF8,
       emissive: 0x9d00ff,
       emissiveIntensity: 0.8,
       roughness: 0.2,
@@ -76,7 +76,7 @@ export class MaterialFactory {
     // 8. Energy Capsule
     const m8_capsule = new THREE.MeshStandardMaterial({
       color: 0x000000,
-      emissive: 0xC8FF00,
+      emissive: 0x38BDF8,
       emissiveIntensity: 0.5,
       roughness: 0.6,
       transparent: true,

@@ -17,26 +17,26 @@ export class Lighting {
     this.keyLight.position.set(50, 100, 50);
     this.scene.add(this.keyLight);
 
-    // Rim Light 1 (Cyan/Blue tint)
-    this.rimLight1 = new THREE.DirectionalLight(0x00d2ff, 2.0);
+    // Rim Light 1 (Blue)
+    this.rimLight1 = new THREE.DirectionalLight(0x38BDF8, 2.0);
     this.rimLight1.position.set(-100, -50, -100);
     this.scene.add(this.rimLight1);
 
-    // Rim Light 2 (Purple/Pink tint)
-    this.rimLight2 = new THREE.DirectionalLight(0x9d00ff, 1.5);
+    // Rim Light 2 (Purple)
+    this.rimLight2 = new THREE.DirectionalLight(0x2563EB, 1.5);
     this.rimLight2.position.set(100, -50, -50);
     this.scene.add(this.rimLight2);
     
     // Point Light (at center for internal glow effect on transparent objects)
-    this.centerLight = new THREE.PointLight(0xC8FF00, 2.0, 300);
+    this.centerLight = new THREE.PointLight(0x38BDF8, 2.0, 300);
     this.centerLight.position.set(0, 0, 0);
     this.scene.add(this.centerLight);
 
-    // Color palettes to transition through
+    // Color palettes to transition through (Blue -> Purple -> White variations)
     this.palettes = [
-      { rim1: 0x00d2ff, rim2: 0x9d00ff, center: 0xC8FF00 }, // Blue/Purple/Green
-      { rim1: 0xff0055, rim2: 0x0044ff, center: 0xffffff }, // Pink/Blue/White
-      { rim1: 0xC8FF00, rim2: 0x00d2ff, center: 0x9d00ff }, // Green/Cyan/Purple
+      { rim1: 0x38BDF8, rim2: 0x2563EB, center: 0x38BDF8 }, // Standard Enterprise
+      { rim1: 0x2563EB, rim2: 0x6EB8FF, center: 0xffffff }, // Purple/Cyan/White
+      { rim1: 0x38BDF8, rim2: 0x38BDF8, center: 0x2563EB }, // Deep Blue
     ];
     
     this.currentPalette = 0;
