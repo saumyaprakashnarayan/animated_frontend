@@ -1,6 +1,6 @@
-# Trayaksh.ai — High Performance Computing
+# Nexus AI — AI Consulting & Implementation
 
-An Awwwards-level interactive web experience featuring a highly optimized, procedural 3D AI entity built with Three.js and GSAP. 
+A professional, interactive web experience showcasing AI consulting and implementation services. The landing page features a highly optimized, procedural 3D background built with Three.js and GSAP. 
 
 ## Features
 - **Modular ES6 Architecture:** The Three.js engine is cleanly separated into reusable modules (`src/`).

@@ -1,5 +1,8 @@
-# Front-end dependencies used by the site
-# This project is a web app, so these are typically installed with npm:
-# npm install three gsap
-three
-gsap
+# No Python backend dependencies are required for this static frontend project.
+# 
+# The project uses ES6 module imports from CDNs directly in the HTML/JS:
+# - Three.js
+# - GSAP
+# 
+# To run the project locally, you can use the built-in python http.server:
+# python3 -m http.server 8000
