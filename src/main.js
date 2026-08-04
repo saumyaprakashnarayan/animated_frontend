@@ -1,8 +1,10 @@
+import * as THREE from 'three';
 import { App } from './App.js';
 import { Lighting } from './Lighting.js';
 import { PostProcessing } from './PostProcessing.js';
 import { BackgroundParticles } from './BackgroundParticles.js';
 import { RobotFace } from './RobotFace.js';
+import { AbstractShape } from './AbstractShape.js';
 
 const canvas = document.getElementById('bg-canvas');
 const app = new App(canvas);
@@ -10,12 +12,14 @@ const lighting = new Lighting(app.scene);
 const postProcessing = new PostProcessing(app.renderer, app.scene, app.camera);
 const particles = new BackgroundParticles(app.scene);
 const robotFace = new RobotFace(app.scene);
+const abstractShape = new AbstractShape(app.scene);
 
 // Move the patterns and models a little to the right of the screen
 particles.points.position.x = 100;
 particles.innerPoints.position.x = 100;
 particles.gridLines.position.x = 100;
 robotFace.group.position.x = 100;
+abstractShape.group.position.x = 100;
 
 // Expose sceneState globally so GSAP ScrollTriggers in index.html can modify it
 window.sceneState = {
@@ -25,7 +29,10 @@ window.sceneState = {
   scrollSpeedMultiplier: 1.0,
   mouseParallaxX: 0,
   mouseParallaxY: 0,
-  particlePattern: 0
+  particlePattern: 0,
+  robotScale: 1.0,
+  shapeScale: 0.0,
+  shapeIndex: 0
 };
 
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -53,6 +60,10 @@ function tick() {
   lighting.update(time);
   particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern);
   robotFace.update(time, window.sceneState.scrollSpeedMultiplier);
+  abstractShape.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.shapeScale, window.sceneState.shapeIndex);
+
+  // Apply scales
+  robotFace.group.scale.lerp(new THREE.Vector3(window.sceneState.robotScale, window.sceneState.robotScale, window.sceneState.robotScale), 0.1);
 
   // Apply state from GSAP/DOM interactions
   const scrollOffset = window.scrollY * 0.1;

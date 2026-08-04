@@ -47,19 +47,37 @@ export function initScrollTriggers(triggerTransitionSound) {
   ScrollTrigger.create({
     trigger: '.hero',
     start: 'top center',
-    onEnter:     () => { window.sceneState.particlePattern = 0; triggerTransitionSound(0); },
-    onEnterBack: () => { window.sceneState.particlePattern = 0; triggerTransitionSound(0); }
+    onEnter:     () => { 
+      window.sceneState.particlePattern = 0; 
+      triggerTransitionSound(0); 
+      gsap.to(window.sceneState, { robotScale: 1.0, shapeScale: 0.0, duration: 1, ease: 'power2.out' });
+    },
+    onEnterBack: () => { 
+      window.sceneState.particlePattern = 0; 
+      triggerTransitionSound(0); 
+      gsap.to(window.sceneState, { robotScale: 1.0, shapeScale: 0.0, duration: 1, ease: 'power2.out' });
+    }
   });
 
   // Section pattern triggers
-  SECTION_PATTERNS.forEach(({ id, pattern }) => {
+  SECTION_PATTERNS.forEach(({ id, pattern }, index) => {
     const el = document.querySelector(id);
     if (!el) return;
     ScrollTrigger.create({
       trigger: el,
       start: 'top center',
-      onEnter:     () => { window.sceneState.particlePattern = pattern; triggerTransitionSound(pattern); },
-      onEnterBack: () => { window.sceneState.particlePattern = pattern; triggerTransitionSound(pattern); }
+      onEnter:     () => { 
+        window.sceneState.particlePattern = pattern; 
+        window.sceneState.shapeIndex = index;
+        triggerTransitionSound(pattern); 
+        gsap.to(window.sceneState, { robotScale: 0.0, shapeScale: 1.0, duration: 1, ease: 'power2.out' });
+      },
+      onEnterBack: () => { 
+        window.sceneState.particlePattern = pattern; 
+        window.sceneState.shapeIndex = index;
+        triggerTransitionSound(pattern); 
+        gsap.to(window.sceneState, { robotScale: 0.0, shapeScale: 1.0, duration: 1, ease: 'power2.out' });
+      }
     });
   });
 }
