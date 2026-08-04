@@ -2,14 +2,20 @@ import { App } from './App.js';
 import { Lighting } from './Lighting.js';
 import { PostProcessing } from './PostProcessing.js';
 import { BackgroundParticles } from './BackgroundParticles.js';
-import { AIEntity } from './AIEntity.js';
+import { RobotFace } from './RobotFace.js';
 
 const canvas = document.getElementById('bg-canvas');
 const app = new App(canvas);
 const lighting = new Lighting(app.scene);
 const postProcessing = new PostProcessing(app.renderer, app.scene, app.camera);
 const particles = new BackgroundParticles(app.scene);
-const aiEntity = new AIEntity(app.scene);
+const robotFace = new RobotFace(app.scene);
+
+// Move the patterns and models a little to the right of the screen
+particles.points.position.x = 100;
+particles.innerPoints.position.x = 100;
+particles.gridLines.position.x = 100;
+robotFace.group.position.x = 100;
 
 // Expose sceneState globally so GSAP ScrollTriggers in index.html can modify it
 window.sceneState = {
@@ -46,7 +52,7 @@ function tick() {
   // Update modules
   lighting.update(time);
   particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern);
-  aiEntity.update(time, window.sceneState.scrollSpeedMultiplier);
+  robotFace.update(time, window.sceneState.scrollSpeedMultiplier);
 
   // Apply state from GSAP/DOM interactions
   const scrollOffset = window.scrollY * 0.1;
