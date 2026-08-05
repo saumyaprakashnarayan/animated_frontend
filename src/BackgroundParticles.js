@@ -218,8 +218,8 @@ export class BackgroundParticles {
         // Adaptive speed: faster when far away, almost stops when close (ease-out)
         // t is normalized distance (0=close, 1=far)
         const t = Math.min(absDiff / 300, 1.0);
-        // Ease-out cubic: speed ramps from ~0.4% to ~4% of distance
-        const eased = 0.004 + t * t * t * 0.04;
+        // Ease-out cubic: speed ramps from ~5% to ~20% of distance for a quicker, smooth transition
+        const eased = 0.05 + t * t * t * 0.15;
         positions[i] += diff * eased;
         needsUpdate = true;
       }

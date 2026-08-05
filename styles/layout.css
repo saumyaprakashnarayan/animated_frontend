@@ -42,7 +42,7 @@ nav::before { content: ''; position: absolute; inset: 0; background: linear-grad
 .hero-actions { display: flex; gap: 1rem; align-items: center; }
 
 /* ---- BUTTONS ---- */
-.btn-primary { font-family: 'Space Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .06em; padding: .9rem 2rem; background: linear-gradient(to bottom, var(--accent), var(--accent-highlight)); color: #fff; border: none; text-decoration: none; cursor: none; display: inline-flex; align-items: center; gap: .5rem; transition: all .3s; }
+.btn-primary { font-family: 'Space Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .06em; padding: .9rem 2rem; background: linear-gradient(to bottom, var(--accent), var(--accent-highlight)); color: var(--ink); border: none; text-decoration: none; cursor: none; display: inline-flex; align-items: center; gap: .5rem; transition: all .3s; }
 .btn-primary:hover { background: linear-gradient(to bottom, var(--accent), var(--accent-secondary)); box-shadow: 0 0 35px rgba(56,189,248,.35); transform: translateY(-2px); }
 .btn-secondary { font-family: 'Space Mono', monospace; font-size: .75rem; letter-spacing: .06em; padding: .9rem 2rem; background: transparent; color: var(--text-primary); border: 1px solid rgba(255,255,255,.15); text-decoration: none; cursor: none; display: inline-flex; align-items: center; gap: .5rem; transition: all .3s; }
 .btn-secondary:hover { background: rgba(56,189,248,.08); border-color: var(--accent); transform: translateY(-2px); }
