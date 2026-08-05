@@ -3,31 +3,31 @@
    ============================================ */
 
 :root {
-  /* Color Palette */
-  --ink: #030712;
-  --ink-dim: #0F172A;
-  --ink-mid: #1E293B;
+  /* Color Palette - matching reference.html exactly */
+  --ink: #0A0A0F;
+  --ink-dim: #1A1A24;
+  --ink-mid: #2C2C3E;
   --surface: #F5F4EF;
 
   /* Accent */
-  --accent: #38BDF8;
-  --accent-secondary: #2563EB;
-  --accent-highlight: #7DD3FC;
+  --accent: #C8FF00;
+  --accent-secondary: #A0CC00;
+  --accent-highlight: #E4FF66;
 
   /* Typography */
-  --text-primary: #FFFFFF;
+  --text-primary: #F5F4EF;
   --text-subheading: #E2E8F0;
-  --text-muted: #94A3B8;
-  --text-dim: #64748B;
+  --text-muted: #8A8A9A;
+  --text-dim: #555565;
   --text-caption: #475569;
 
   /* Borders */
-  --border: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.22);
+  --border: rgba(245, 244, 239, 0.1);
+  --border-strong: rgba(245, 244, 239, 0.2);
 
   /* Cards & Sections */
-  --card-bg: rgba(15, 23, 42, 0.65);
-  --section-bg: rgba(3, 7, 18, 0.4);
+  --card-bg: var(--ink);
+  --section-bg: var(--ink-dim);
 }
 
 /* ---- RESET ---- */
@@ -40,8 +40,6 @@ body {
   color: var(--text-primary);
   overflow-x: hidden;
   cursor: none;
-  /* Floating text: dark halo renders each glyph crisp against ANY background */
-  text-shadow: 0 0 18px rgba(0,0,0,0.98), 0 0 8px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.9);
 }
 
 /* ---- NOISE GRAIN OVERLAY ---- */
