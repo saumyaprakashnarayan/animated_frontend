@@ -22,8 +22,8 @@ export class Lighting {
     this.rimLight1.position.set(-100, -50, -100);
     this.scene.add(this.rimLight1);
 
-    // Rim Light 2 (Purple)
-    this.rimLight2 = new THREE.DirectionalLight(0x2563EB, 1.5);
+    // Rim Light 2 (Green)
+    this.rimLight2 = new THREE.DirectionalLight(0xC8FF00, 1.5);
     this.rimLight2.position.set(100, -50, -50);
     this.scene.add(this.rimLight2);
     
@@ -32,11 +32,11 @@ export class Lighting {
     this.centerLight.position.set(0, 0, 0);
     this.scene.add(this.centerLight);
 
-    // Color palettes to transition through (Blue -> Purple -> White variations)
+    // Color palettes to transition through (Blue -> Green -> White variations)
     this.palettes = [
-      { rim1: 0x38BDF8, rim2: 0x2563EB, center: 0x38BDF8 }, // Standard Enterprise
-      { rim1: 0x2563EB, rim2: 0x6EB8FF, center: 0xffffff }, // Purple/Cyan/White
-      { rim1: 0x38BDF8, rim2: 0x38BDF8, center: 0x2563EB }, // Deep Blue
+      { rim1: 0x38BDF8, rim2: 0xC8FF00, center: 0x38BDF8 }, // Enterprise + Green
+      { rim1: 0xC8FF00, rim2: 0x6EB8FF, center: 0xffffff }, // Green/Cyan/White
+      { rim1: 0x38BDF8, rim2: 0x38BDF8, center: 0xC8FF00 }, // Deep Blue + Green Center
     ];
     
     this.currentPalette = 0;

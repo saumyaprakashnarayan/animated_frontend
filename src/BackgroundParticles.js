@@ -11,11 +11,11 @@ export class BackgroundParticles {
     this.patterns = [];
     this.range = 1200;
 
-    // Generate colors (70% White, 20% Blue, 10% Purple)
+    // Generate colors (70% White, 20% Blue, 10% Green)
     const colors = new Float32Array(this.particleCount * 3);
     const colorWhite = new THREE.Color(0xffffff);
     const colorBlue = new THREE.Color(0x38BDF8);
-    const colorPurple = new THREE.Color(0x2563EB);
+    const colorGreen = new THREE.Color(0xC8FF00);
 
     for (let i = 0; i < this.particleCount; i++) {
       const rand = Math.random();
@@ -25,7 +25,7 @@ export class BackgroundParticles {
       } else if (rand < 0.9) {
         targetColor = colorBlue;
       } else {
-        targetColor = colorPurple;
+        targetColor = colorGreen;
       }
       colors[i * 3] = targetColor.r;
       colors[i * 3 + 1] = targetColor.g;
@@ -164,6 +164,7 @@ export class BackgroundParticles {
     const numStreaks = 2500;
     this.gridStep = 2000; // The seamless wrap distance
     const cBlue = new THREE.Color(0x38BDF8);
+    const cGreen = new THREE.Color(0xC8FF00);
     const cWhite = new THREE.Color(0xffffff);
 
     for (let i = 0; i < numStreaks; i++) {
@@ -172,7 +173,11 @@ export class BackgroundParticles {
       const z = Math.random() * -this.gridStep; // 0 down to -2000
       const length = 40 + Math.random() * 150; // Random streak length
 
-      const col = Math.random() > 0.8 ? cWhite : cBlue;
+      let col;
+      const randColor = Math.random();
+      if (randColor > 0.8) col = cWhite;
+      else if (randColor > 0.4) col = cBlue;
+      else col = cGreen;
 
       // 1. Original chunk
       gridPositions.push(x, y, z);

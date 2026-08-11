@@ -9,8 +9,8 @@ export class AbstractShape {
     // Main material
     const material = new THREE.MeshStandardMaterial({ 
       color: 0x0f172a, // dark slate
-      emissive: 0x38bdf8,
-      emissiveIntensity: 0.5,
+      emissive: 0xC8FF00,
+      emissiveIntensity: 0.15,
       wireframe: true,
       transparent: true,
       opacity: 0.8
@@ -18,10 +18,10 @@ export class AbstractShape {
     
     // Inner glowing core material
     const coreMaterial = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+      color: 0xC8FF00,
       wireframe: true,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.1,
       blending: THREE.AdditiveBlending
     });
 

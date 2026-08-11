@@ -30,9 +30,9 @@ export class RobotFace {
             if (child.material) {
               child.material.envMapIntensity = 1.5;
               // Add a slight emissive glow and color tint
-              child.material.emissiveIntensity = 0.6;
-              child.material.color = new THREE.Color(0x38bdf8); // Light blue tint
-              child.material.emissive = new THREE.Color(0x0369a1); // Deep blue emissive
+              child.material.emissiveIntensity = 0.2;
+              child.material.color = new THREE.Color(0xC8FF00); // Accent green tint
+              child.material.emissive = new THREE.Color(0x2d4a00); // Deep green emissive
               child.material.needsUpdate = true;
             }
           }
