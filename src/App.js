@@ -7,6 +7,7 @@ export class App {
     
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
     this.camera.position.z = 250;
+    this.scene.add(this.camera);
     
     this.renderer = new THREE.WebGLRenderer({ 
       canvas: this.canvas, 

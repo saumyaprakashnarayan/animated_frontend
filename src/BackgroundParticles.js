@@ -126,7 +126,8 @@ export class BackgroundParticles {
       transparent: true,
       opacity: 0.35,
       blending: THREE.AdditiveBlending,
-      depthWrite: false
+      depthWrite: false,
+      sizeAttenuation: false
     });
 
     this.points = new THREE.Points(this.geometry, this.material);
@@ -150,7 +151,8 @@ export class BackgroundParticles {
       transparent: true,
       opacity: 0.35,
       blending: THREE.AdditiveBlending,
-      depthWrite: false
+      depthWrite: false,
+      sizeAttenuation: false
     });
     this.innerPoints = new THREE.Points(this.innerGeom, this.innerMat);
     this.scene.add(this.innerPoints);
