@@ -49,10 +49,10 @@
 .industry-item { padding: 2rem 1.5rem; border-right: 1px solid var(--border); text-align: center; transition: background .3s; cursor: none; position: relative; }
 .industry-item:last-child { border-right: none; }
 .industry-item:hover { background: rgba(26,26,36,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.industry-icon { font-size: 2rem; margin-bottom: .75rem; display: block; filter: grayscale(1); opacity: .6; transition: filter .3s, opacity .3s; }
+.industry-icon { font-size: 2rem; margin-bottom: .75rem; display: block; filter: grayscale(1); opacity: .85; transition: filter .3s, opacity .3s; }
 .industry-item:hover .industry-icon { filter: grayscale(0); opacity: 1; }
-.industry-item span { font-size: .7rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); display: block; }
-.industry-item:hover span { color: var(--text-muted); }
+.industry-item span { font-size: .7rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); display: block; transition: color .3s; }
+.industry-item:hover span { color: var(--text-primary); }
 .industry-hover-detail { position: absolute; bottom: 0; left: 0; right: 0; background: var(--ink-mid); border-top: 1px solid var(--border); padding: .75rem; opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s; pointer-events: none; }
 .industry-item:hover .industry-hover-detail { opacity: 1; transform: translateY(0); }
 .industry-hover-detail p { font-size: .65rem; color: var(--text-muted); line-height: 1.4; text-align: left; }
