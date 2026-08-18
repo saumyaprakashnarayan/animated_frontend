@@ -79,7 +79,7 @@ export function initCursor() {
   });
 
   // Hover + magnetic effects
-  document.querySelectorAll('a, button, .service-card, .case-card, .tech-pill').forEach(el => {
+  document.querySelectorAll('a, button, .case-card, .tech-pill').forEach(el => {
     el.addEventListener('mouseenter', () => {
       gsap.to(cursor, { scale: 0.5, duration: 0.2 });
       gsap.to(ring, { scale: 1.5, opacity: 0.8, duration: 0.2, borderColor: 'rgba(56,189,248,0.8)' });
@@ -103,7 +103,7 @@ export function initCursor() {
 
 // ---- 3D CARD TILT ----
 export function initCardTilt() {
-  document.querySelectorAll('.service-card, .case-card, .pricing-card').forEach(card => {
+  document.querySelectorAll('.case-card, .pricing-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -10;
@@ -170,6 +170,77 @@ export function initNeuralPulse() {
   });
 }
 
+// ---- SERVICES CSS 3D CYLINDER ----
+export function initServicesCylinder() {
+  const container = document.querySelector('.services-scroll-container');
+  const grid = document.querySelector('.services-grid');
+  if (!container || !grid) return;
+
+  const cards = grid.querySelectorAll('.service-card');
+  const numCards = cards.length;
+  if (numCards === 0) return;
+
+  const angleStep = 360 / numCards;
+  const radius = Math.max(340, (340 * numCards) / (2 * Math.PI)); // rough calculation for radius
+
+  // Position cards in a circle
+  cards.forEach((card, i) => {
+    const angle = i * angleStep;
+    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+  });
+
+  let currentAngle = 0;
+  let targetAngle = 0;
+
+  // Handle Wheel
+  container.addEventListener('wheel', (e) => {
+    // If the user is scrolling mostly up/down, let the browser scroll the page normally
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      return; 
+    }
+    // If they are scrolling mostly left/right, rotate the cylinder
+    e.preventDefault();
+    targetAngle -= e.deltaX * 0.1; // adjust sensitivity
+  }, { passive: false });
+
+  // Handle Drag
+  let isDragging = false;
+  let startX = 0;
+  let startAngle = 0;
+
+  const onPointerDown = (e) => {
+    isDragging = true;
+    startX = e.clientX || (e.touches && e.touches[0].clientX);
+    startAngle = targetAngle;
+    container.style.cursor = 'grabbing';
+  };
+
+  const onPointerMove = (e) => {
+    if (!isDragging) return;
+    const x = e.clientX || (e.touches && e.touches[0].clientX);
+    const dx = x - startX;
+    targetAngle = startAngle + (dx * 0.25); // adjust sensitivity
+  };
+
+  const onPointerUp = () => {
+    isDragging = false;
+    container.style.cursor = 'grab';
+  };
+
+  container.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerUp);
+
+  // Animation loop for smooth rotation
+  function update() {
+    currentAngle += (targetAngle - currentAngle) * 0.05; // easing
+    grid.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+    requestAnimationFrame(update);
+  }
+  update();
+}
+
 // ---- INIT ALL ----
 export function initInteractions() {
   initTabs();
@@ -179,4 +250,5 @@ export function initInteractions() {
   initCardTilt();
   initTextDecode();
   initNeuralPulse();
+  initServicesCylinder();
 }
