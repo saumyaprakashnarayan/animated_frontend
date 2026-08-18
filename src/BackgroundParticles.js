@@ -209,7 +209,14 @@ export class BackgroundParticles {
     this.scene.add(this.gridLines);
   }
 
-  update(time, scrollSpeedMultiplier, activePatternIndex) {
+  update(time, scrollSpeedMultiplier, activePatternIndex, seasonIndex = 0, seasonColor = null) {
+    // Apply seasonal color tint
+    if (seasonColor) {
+      this.material.color.copy(seasonColor);
+      this.innerMat.color.copy(seasonColor);
+      this.gridMat.color.copy(seasonColor);
+    }
+
     // Determine the target pattern (round it since GSAP might tween it as a float)
     const index = Math.round(activePatternIndex || 0);
     const targetPattern = this.patterns[index] || this.patterns[0];
@@ -258,13 +265,37 @@ export class BackgroundParticles {
       this.gridMat.opacity = THREE.MathUtils.lerp(this.gridMat.opacity, 0, 0.025);
     }
 
-    // Barely-there drift — very calm, premium feel
-    this.points.rotation.y = time * 0.004;
-    this.points.rotation.x = time * 0.001;
+    // Seasonal ambient physics
+    let driftY = time * 0.004;
+    let driftX = time * 0.001;
+    let auraY = time * 0.03;
+    let auraZ = Math.sin(time * 0.08) * 0.05;
 
-    // Gentle inner aura orbit
-    this.innerPoints.rotation.y = time * 0.03;
-    this.innerPoints.rotation.z = Math.sin(time * 0.08) * 0.05;
+    if (seasonIndex === 0) {
+      // Spring: Upward diagonal drift (pollen/blossoms)
+      driftY = time * 0.02;
+      driftX = time * 0.01;
+    } else if (seasonIndex === 1) {
+      // Summer: Shimmering heat
+      driftY = time * 0.05;
+      driftX = Math.sin(time * 0.5) * 0.02;
+    } else if (seasonIndex === 2) {
+      // Autumn: Swirling horizontal wind
+      driftY = time * 0.08;
+      driftX = time * 0.03;
+      auraZ = Math.cos(time * 0.2) * 0.1;
+    } else if (seasonIndex === 3) {
+      // Winter: Downward drift (snow)
+      driftY = -time * 0.015;
+      driftX = Math.sin(time * 0.1) * 0.005;
+    }
+
+    this.points.rotation.y = driftY;
+    this.points.rotation.x = driftX;
+
+    this.innerPoints.rotation.y = auraY;
+    this.innerPoints.rotation.z = auraZ;
+
     // Only update inner aura opacity when not in grid mode
     if (index !== 6) {
       this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, 0.15 + Math.sin(time * 0.8) * 0.05, 0.02);

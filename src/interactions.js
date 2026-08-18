@@ -237,6 +237,14 @@ export function initServicesCylinder() {
   function update() {
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
     grid.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+    
+    if (window.sceneState) {
+      let normalizedAngle = (-currentAngle % 360);
+      if (normalizedAngle < 0) normalizedAngle += 360;
+      const activeCardIndex = Math.round(normalizedAngle / angleStep) % numCards;
+      window.sceneState.seasonIndex = Math.floor(activeCardIndex / 3);
+    }
+
     requestAnimationFrame(update);
   }
   update();

@@ -21,6 +21,13 @@ particles.gridLines.position.x = 100;
 robotFace.group.position.x = 100;
 abstractShape.group.position.x = 100;
 
+const SEASONS = [
+  new THREE.Color(0xa8ff78), // Spring Green
+  new THREE.Color(0xffd194), // Summer Yellow/Orange
+  new THREE.Color(0xff7b00), // Autumn Orange/Red
+  new THREE.Color(0x38BDF8)  // Winter Blue
+];
+
 // Expose sceneState globally so GSAP ScrollTriggers in index.html can modify it
 window.sceneState = {
   cameraZ: 250,
@@ -32,7 +39,9 @@ window.sceneState = {
   particlePattern: 0,
   robotScale: 1.0,
   shapeScale: 0.0,
-  shapeIndex: 0
+  shapeIndex: 0,
+  seasonIndex: 0,
+  seasonColor: SEASONS[0].clone()
 };
 
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -58,7 +67,37 @@ function tick() {
 
   // Update modules
   lighting.update(time);
-  particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern);
+
+  // Update seasonal color
+  const defaultAccent = new THREE.Color(0xC8FF00); // Original neon green for DOM
+  const defaultParticleTint = new THREE.Color(0xffffff); // Original white tint for particles
+  let targetDomColor, targetParticleTint;
+  let applySeasonalPhysics = false;
+
+  if (window.sceneState.activeSection === '#services') {
+    targetDomColor = SEASONS[window.sceneState.seasonIndex || 0];
+    targetParticleTint = targetDomColor;
+    applySeasonalPhysics = true;
+  } else {
+    targetDomColor = defaultAccent;
+    targetParticleTint = defaultParticleTint;
+  }
+
+  if (!window.sceneState.particleTintColor) {
+    window.sceneState.particleTintColor = new THREE.Color(0xffffff);
+  }
+
+  window.sceneState.seasonColor.lerp(targetDomColor, 0.05);
+  window.sceneState.particleTintColor.lerp(targetParticleTint, 0.05);
+
+  // Apply to DOM CSS variable
+  const r = Math.round(window.sceneState.seasonColor.r * 255);
+  const g = Math.round(window.sceneState.seasonColor.g * 255);
+  const b = Math.round(window.sceneState.seasonColor.b * 255);
+  document.documentElement.style.setProperty('--accent', `rgb(${r}, ${g}, ${b})`);
+
+  const activeSeasonIndex = applySeasonalPhysics ? window.sceneState.seasonIndex : null;
+  particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern, activeSeasonIndex, window.sceneState.particleTintColor);
   robotFace.update(time, window.sceneState.scrollSpeedMultiplier);
   abstractShape.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.shapeScale, window.sceneState.shapeIndex);
 

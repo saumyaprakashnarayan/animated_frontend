@@ -49,11 +49,13 @@ export function initScrollTriggers(triggerTransitionSound) {
     start: 'top center',
     onEnter:     () => { 
       window.sceneState.particlePattern = 0; 
+      window.sceneState.activeSection = '.hero';
       triggerTransitionSound(0); 
       gsap.to(window.sceneState, { robotScale: 1.0, shapeScale: 0.0, duration: 1, ease: 'power2.out' });
     },
     onEnterBack: () => { 
       window.sceneState.particlePattern = 0; 
+      window.sceneState.activeSection = '.hero';
       triggerTransitionSound(0); 
       gsap.to(window.sceneState, { robotScale: 1.0, shapeScale: 0.0, duration: 1, ease: 'power2.out' });
     }
@@ -69,12 +71,14 @@ export function initScrollTriggers(triggerTransitionSound) {
       onEnter:     () => { 
         window.sceneState.particlePattern = pattern; 
         window.sceneState.shapeIndex = index;
+        window.sceneState.activeSection = id;
         triggerTransitionSound(pattern); 
         gsap.to(window.sceneState, { robotScale: 0.0, shapeScale: 1.0, duration: 1, ease: 'power2.out' });
       },
       onEnterBack: () => { 
         window.sceneState.particlePattern = pattern; 
         window.sceneState.shapeIndex = index;
+        window.sceneState.activeSection = id;
         triggerTransitionSound(pattern); 
         gsap.to(window.sceneState, { robotScale: 0.0, shapeScale: 1.0, duration: 1, ease: 'power2.out' });
       }
