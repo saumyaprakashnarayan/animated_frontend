@@ -181,7 +181,8 @@ export function initServicesCylinder() {
   if (numCards === 0) return;
 
   const angleStep = 360 / numCards;
-  const radius = Math.max(340, (340 * numCards) / (2 * Math.PI)); // rough calculation for radius
+  const cardWidth = 700; // Match new CSS width for screen-fitting radius
+  const radius = (cardWidth / 2) / Math.tan(Math.PI / numCards) - 2; // Increase radius mathematically and subtract 2px to ensure overlap and cover spaces
 
   // Position cards in a circle
   cards.forEach((card, i) => {
