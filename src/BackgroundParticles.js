@@ -298,7 +298,20 @@ export class BackgroundParticles {
 
     // Only update inner aura opacity when not in grid mode
     if (index !== 6) {
-      this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, 0.15 + Math.sin(time * 0.8) * 0.05, 0.02);
+      // Sync the pulse with the robot face (3s rise, 2s fall) to reduce eye strain
+      const cycleDuration = 5.0;
+      const cycleTime = time % cycleDuration;
+      let pulseProgress = 0;
+      if (cycleTime < 3.0) {
+        const p = cycleTime / 3.0;
+        pulseProgress = p * p * (3 - 2 * p); // smoothstep ease up
+      } else {
+        const p = (cycleTime - 3.0) / 2.0;
+        pulseProgress = 1.0 - (p * p * (3 - 2 * p)); // smoothstep ease down
+      }
+      
+      const targetOpacity = 0.02 + pulseProgress * 0.18; // Pulses up to 0.20
+      this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, targetOpacity, 0.1);
     }
   }
 }

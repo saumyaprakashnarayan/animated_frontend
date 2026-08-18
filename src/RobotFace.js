@@ -28,7 +28,11 @@ export class RobotFace {
           if (child.isMesh) {
             // Ensure proper material handling
             if (child.material) {
-              child.material.envMapIntensity = 1.5;
+              // Reduce harsh specular reflections that cause blinding white squares
+              child.material.envMapIntensity = 0.5;
+              child.material.roughness = 0.7;
+              child.material.metalness = 0.3;
+              
               // Add a slight emissive glow and color tint
               child.material.emissiveIntensity = 0.2;
               child.material.color = new THREE.Color(0xC8FF00); // Accent green tint
@@ -58,7 +62,6 @@ export class RobotFace {
     const scrollY = window.scrollY || 0;
     
     // Start facing left (-Math.PI/3) and turn right as user scrolls down
-    // Reduced speed by 1/10th as requested
     const scrollRotation = scrollY * 0.00015;
     
     // Base rotation facing left + scroll rotation + subtle time-based horizontal wobble
@@ -69,5 +72,25 @@ export class RobotFace {
     
     // Subtle vertical float animation (position, not rotation)
     this.group.position.y = Math.sin(time * 1.5) * 3;
+    
+    // Make the robot glow pulse from dim to bright to dim (3s rise, 2s fall)
+    const cycleDuration = 5.0;
+    const cycleTime = time % cycleDuration;
+    let pulseProgress = 0;
+    if (cycleTime < 3.0) {
+      const p = cycleTime / 3.0;
+      pulseProgress = p * p * (3 - 2 * p); // smoothstep ease up
+    } else {
+      const p = (cycleTime - 3.0) / 2.0;
+      pulseProgress = 1.0 - (p * p * (3 - 2 * p)); // smoothstep ease down
+    }
+    
+    // Ranges from 0.01 (very dim) to 0.25 (noticeably bright)
+    const pulse = 0.01 + pulseProgress * 0.24;
+    this.model.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material.emissiveIntensity = pulse;
+      }
+    });
   }
 }
