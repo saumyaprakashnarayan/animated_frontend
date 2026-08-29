@@ -3,7 +3,7 @@ import { App } from './App.js';
 import { Lighting } from './Lighting.js';
 import { PostProcessing } from './PostProcessing.js';
 import { BackgroundParticles } from './BackgroundParticles.js';
-import { RobotFace } from './RobotFace.js';
+import { FluidBackground } from './FluidBackground.js';
 import { JetPlane } from './JetPlane.js';
 import { GPUModel } from './GPUModel.js';
 import { RoboticEye } from './RoboticEye.js';
@@ -16,7 +16,8 @@ const app = new App(canvas);
 const lighting = new Lighting(app.scene);
 const postProcessing = new PostProcessing(app.renderer, app.scene, app.camera);
 const particles = new BackgroundParticles(app.scene);
-const robotFace = new RobotFace(app.scene);
+const fluidBackground = new FluidBackground(app.scene);
+
 const jetPlane = new JetPlane(app.scene);
 const gpuModel = new GPUModel(app.scene);
 const roboticEye = new RoboticEye(app.scene);
@@ -28,7 +29,7 @@ const computerModel = new SuperComputerModel(app.scene);
 particles.points.position.x = 100;
 particles.innerPoints.position.x = 100;
 particles.gridLines.position.x = 100;
-robotFace.group.position.x = 100;
+
 jetPlane.group.position.x = 0; // At center — camera zooms to Z=120 in Services so must be centered
 gpuModel.group.position.x = 100; // Typical right-side placement
 roboticEye.group.position.x = 100;
@@ -114,10 +115,11 @@ function tick() {
   const g = Math.round(window.sceneState.seasonColor.g * 255);
   const b = Math.round(window.sceneState.seasonColor.b * 255);
   document.documentElement.style.setProperty('--accent', `rgb(${r}, ${g}, ${b})`);
+  fluidBackground.update(time);
 
   const activeSeasonIndex = applySeasonalPhysics ? window.sceneState.seasonIndex : null;
   particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern, activeSeasonIndex, window.sceneState.particleTintColor);
-  robotFace.update(time, window.sceneState.scrollSpeedMultiplier);
+
   jetPlane.update(time, window.sceneState.scrollSpeedMultiplier);
   gpuModel.update(time, window.sceneState.scrollSpeedMultiplier);
   roboticEye.update(time, window.sceneState.scrollSpeedMultiplier);
@@ -126,7 +128,7 @@ function tick() {
   computerModel.update(time, window.sceneState.scrollSpeedMultiplier);
 
   // Apply scales
-  robotFace.group.scale.lerp(new THREE.Vector3(window.sceneState.robotScale, window.sceneState.robotScale, window.sceneState.robotScale), 0.1);
+
   jetPlane.group.scale.lerp(new THREE.Vector3(window.sceneState.jetScale, window.sceneState.jetScale, window.sceneState.jetScale), 0.1);
   gpuModel.group.scale.lerp(new THREE.Vector3(window.sceneState.gpuScale, window.sceneState.gpuScale, window.sceneState.gpuScale), 0.1);
   roboticEye.group.scale.lerp(new THREE.Vector3(window.sceneState.eyeScale, window.sceneState.eyeScale, window.sceneState.eyeScale), 0.1);

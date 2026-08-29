@@ -278,7 +278,7 @@ if __name__ == '__main__':
     
     init_db()
     
-    PORT = 8000
+    PORT = int(os.environ.get("PORT", 8000))
     socketserver.TCPServer.allow_reuse_address = True
     
     with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
