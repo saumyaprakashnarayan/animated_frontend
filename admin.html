@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trayaksh.ai — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/tokens.css">
+  
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-panel: #0a0a0c;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      cursor: none;
+    }
+    
+    a, button, select, input, textarea {
+      cursor: none;
+    }
+    
+    .cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+    }
+    
+    .cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s, height 0.25s, opacity 0.25s;
+      opacity: 0.5;
+    }
+    
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+    
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 3rem;
+      margin: 0;
+      color: var(--accent);
+    }
+    
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      border-radius: 4px;
+    }
+    
+    .stat-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-family: 'Instrument Serif', serif;
+      color: var(--accent);
+    }
+    
+    .table-container {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    
+    th, td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.85rem;
+    }
+    
+    th {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.02);
+      white-space: nowrap;
+    }
+    
+    td {
+      color: var(--text-dim);
+      vertical-align: top;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background: rgba(200, 255, 0, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(200, 255, 0, 0.3);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+    
+    .msg-cell {
+      max-width: 300px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    
+    .refresh-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .refresh-btn:hover {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+    
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: var(--bg-panel);
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .modal-content input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.8rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      border-radius: 4px;
+      outline: none;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <div class="admin-container">
+    <div class="header">
+      <h1>Admin Dashboard</h1>
+      <div style="display: flex; gap: 1rem;">
+        <button class="refresh-btn" onclick="fetchContacts()">Refresh Data</button>
+        <button class="refresh-btn" onclick="document.getElementById('pwdModal').style.display='flex'">Change Password</button>
+        <button class="refresh-btn" onclick="handleLogout()" style="border-color: #ff5555; color: #ff5555;">Logout</button>
+      </div>
+    </div>
+    
+    <div class="stat-cards">
+      <div class="stat-card">
+        <h3>Total Leads</h3>
+        <div class="value" id="totalLeads">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>New This Week</h3>
+        <div class="value" id="newLeads">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>System Status</h3>
+        <div class="value" style="font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+          <div style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent);"></div>
+          Online
+        </div>
+      </div>
+    </div>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date / Time</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Company</th>
+            <th>Service Area</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <td colspan="6" class="empty-state">Loading submissions...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="pwdModal">
+    <div class="modal-content">
+      <h3 style="font-family: 'Instrument Serif', serif; font-size: 2rem; margin: 0 0 1rem 0; color: var(--accent);">Change Password</h3>
+      <div id="pwdError" style="color: #ff5555; font-size: 0.85rem; margin-bottom: 1rem; display: none;"></div>
+      <div id="pwdSuccess" style="color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; display: none;">Password changed!</div>
+      <input type="password" id="oldPwd" placeholder="Old Password">
+      <input type="password" id="newPwd" placeholder="New Password">
+      <div style="display: flex; gap: 1rem;">
+        <button class="refresh-btn" onclick="handleChangePassword()" style="background: var(--accent); color: var(--bg-dark);">Save</button>
+        <button class="refresh-btn" onclick="document.getElementById('pwdModal').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function handleLogout() {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/login.html';
+    }
+    
+    async function handleChangePassword() {
+      const err = document.getElementById('pwdError');
+      const succ = document.getElementById('pwdSuccess');
+      err.style.display = 'none'; succ.style.display = 'none';
+      
+      const oldPwd = document.getElementById('oldPwd').value;
+      const newPwd = document.getElementById('newPwd').value;
+      
+      if(!oldPwd || !newPwd) return;
+      
+      const res = await fetch('/api/change_password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldPassword: oldPwd, newPassword: newPwd })
+      });
+      
+      if(res.ok) {
+        succ.style.display = 'block';
+        document.getElementById('oldPwd').value = '';
+        document.getElementById('newPwd').value = '';
+        setTimeout(() => { document.getElementById('pwdModal').style.display = 'none'; succ.style.display = 'none'; }, 2000);
+      } else {
+        const data = await res.json();
+        err.innerText = data.message || 'Error changing password.';
+        err.style.display = 'block';
+      }
+    }
+
+    async function fetchContacts() {
+      const tbody = document.getElementById('tableBody');
+      const totalEl = document.getElementById('totalLeads');
+      const newEl = document.getElementById('newLeads');
+      
+      try {
+        const response = await fetch('/api/contacts');
+        if (response.status === 401) {
+          window.location.href = '/login.html';
+          return;
+        }
+        const data = await response.json();
+        
+        totalEl.innerText = data.length;
+        
+        // Count last 7 days
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        const newCount = data.filter(d => new Date(d.submittedAt) > oneWeekAgo).length;
+        newEl.innerText = newCount;
+        
+        if (data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No submissions yet.</td></tr>';
+          return;
+        }
+        
+        tbody.innerHTML = '';
+        data.forEach(contact => {
+          const date = new Date(contact.submittedAt);
+          const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + '<br><span style="color: var(--text-muted); font-size: 0.7rem;">' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + '</span>';
+          
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${formattedDate}</td>
+            <td><strong style="color: var(--text-main);">${contact.firstName} ${contact.lastName}</strong></td>
+            <td><a href="mailto:${contact.email}" style="color: var(--accent); text-decoration: none;">${contact.email}</a></td>
+            <td>${contact.company || '-'}</td>
+            <td><span class="badge">${contact.service || '-'}</span></td>
+            <td class="msg-cell">${contact.message || '-'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        
+        // Attach cursor hover states to newly created rows
+        attachCursorEvents();
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="color: #ff5555;">Error connecting to database. Make sure the Python server is running.</td></tr>';
+      }
+    }
+    
+    // Initial fetch
+    fetchContacts();
+
+    // Cursor Logic
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+    
+    function renderRing() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+    
+    function attachCursorEvents() {
+      const interactables = document.querySelectorAll('button, a, tr');
+      interactables.forEach(el => {
+        // Prevent multiple bindings
+        if(el.dataset.cursorBound) return;
+        el.dataset.cursorBound = "true";
+        
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width = '6px';
+          cursor.style.height = '6px';
+          ring.style.width = '56px';
+          ring.style.height = '56px';
+          ring.style.opacity = '0.8';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width = '10px';
+          cursor.style.height = '10px';
+          ring.style.width = '36px';
+          ring.style.height = '36px';
+          ring.style.opacity = '0.5';
+        });
+      });
+    }
+    // Attach immediately for static elements
+    attachCursorEvents();
+  </script>
+</body>
+</html>

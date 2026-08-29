@@ -232,8 +232,8 @@ export class BackgroundParticles {
         // Adaptive speed: faster when far away, almost stops when close (ease-out)
         // t is normalized distance (0=close, 1=far)
         const t = Math.min(absDiff / 300, 1.0);
-        // Ease-out cubic: speed ramps from ~5% to ~20% of distance for a quicker, smooth transition
-        const eased = 0.05 + t * t * t * 0.15;
+        // Ease-out cubic: slowed down per user request for a more graceful float
+        const eased = 0.015 + t * t * t * 0.06;
         positions[i] += diff * eased;
         needsUpdate = true;
       }
@@ -245,10 +245,9 @@ export class BackgroundParticles {
 
     // Handle Pattern 6: Crossfade and animate the Grid Lines
     if (index === 6) {
-      // Fade out dots (both background and inner aura)
-      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0, 0.05);
-      this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, 0, 0.05);
-
+      // Fade in dots — slow, graceful return (dots should always be visible)
+      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0.35, 0.02);
+      
       // Fade in lines — slower crossfade for premium feel
       this.gridMat.opacity = THREE.MathUtils.lerp(this.gridMat.opacity, 1.0, 0.025);
 
@@ -296,22 +295,20 @@ export class BackgroundParticles {
     this.innerPoints.rotation.y = auraY;
     this.innerPoints.rotation.z = auraZ;
 
-    // Only update inner aura opacity when not in grid mode
-    if (index !== 6) {
-      // Sync the pulse with the robot face (3s rise, 2s fall) to reduce eye strain
-      const cycleDuration = 5.0;
-      const cycleTime = time % cycleDuration;
-      let pulseProgress = 0;
-      if (cycleTime < 3.0) {
-        const p = cycleTime / 3.0;
-        pulseProgress = p * p * (3 - 2 * p); // smoothstep ease up
-      } else {
-        const p = (cycleTime - 3.0) / 2.0;
-        pulseProgress = 1.0 - (p * p * (3 - 2 * p)); // smoothstep ease down
-      }
-      
-      const targetOpacity = 0.02 + pulseProgress * 0.18; // Pulses up to 0.20
-      this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, targetOpacity, 0.1);
+    // Only update inner aura opacity when not in grid mode (pattern 6 previously hid this)
+    // Now we keep it pulsing in all modes to ensure particles are always fully supported
+    const cycleDuration = 5.0;
+    const cycleTime = time % cycleDuration;
+    let pulseProgress = 0;
+    if (cycleTime < 3.0) {
+      const p = cycleTime / 3.0;
+      pulseProgress = p * p * (3 - 2 * p); // smoothstep ease up
+    } else {
+      const p = (cycleTime - 3.0) / 2.0;
+      pulseProgress = 1.0 - (p * p * (3 - 2 * p)); // smoothstep ease down
     }
+    
+    const targetOpacity = 0.02 + pulseProgress * 0.18; // Pulses up to 0.20
+    this.innerMat.opacity = THREE.MathUtils.lerp(this.innerMat.opacity, targetOpacity, 0.1);
   }
 }

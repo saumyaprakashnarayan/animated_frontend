@@ -1,8 +1,11 @@
-# No Python backend dependencies are required for this static frontend project.
-# 
-# The project uses ES6 module imports from CDNs directly in the HTML/JS:
-# - Three.js
-# - GSAP
-# 
-# To run the project locally, you can use the built-in python http.server:
-# python3 -m http.server 8000
+# This project uses a custom Python backend (server.py) to handle API requests and serve static files.
+# The backend relies exclusively on Python standard libraries:
+# - http.server
+# - sqlite3
+# - json
+# - urllib
+#
+# No external pip dependencies are required. 
+#
+# To run the project locally, execute:
+# python3 server.py

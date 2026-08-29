@@ -25,20 +25,43 @@ export class RobotFace {
         this.model.position.sub(center); // Move model so its center is at group origin
         
         this.model.traverse((child) => {
-          if (child.isMesh) {
-            // Ensure proper material handling
-            if (child.material) {
-              // Reduce harsh specular reflections that cause blinding white squares
-              child.material.envMapIntensity = 0.5;
-              child.material.roughness = 0.7;
-              child.material.metalness = 0.3;
-              
-              // Add a slight emissive glow and color tint
-              child.material.emissiveIntensity = 0.2;
-              child.material.color = new THREE.Color(0xC8FF00); // Accent green tint
-              child.material.emissive = new THREE.Color(0x2d4a00); // Deep green emissive
-              child.material.needsUpdate = true;
+          if (child.isMesh && child.material) {
+            const matName = child.material.name || '';
+            const origMat = child.material;
+            
+            let newMat = new THREE.MeshPhysicalMaterial({
+              map: origMat.map,
+              normalMap: origMat.normalMap,
+              roughnessMap: origMat.roughnessMap,
+              metalnessMap: origMat.metalnessMap,
+              emissiveMap: origMat.emissiveMap,
+              color: origMat.color || new THREE.Color(0x333333)
+            });
+
+            if (matName.includes('EyeRefractive') && !matName.includes('IRIS')) {
+              // Glass eye cover
+              newMat.transparent = true;
+              newMat.transmission = 0.95;
+              newMat.opacity = 1.0;
+              newMat.ior = 1.5;
+              newMat.roughness = 0.05;
+              newMat.metalness = 0.1;
+              newMat.clearcoat = 1.0;
+            } else if (matName.includes('IRIS') || matName.includes('cutter') || origMat.emissive?.r > 0 || matName === 'material_0') {
+              // Glowing elements
+              newMat.color = new THREE.Color(0x111111);
+              newMat.emissive = new THREE.Color(0xC8FF00); // Base green
+              newMat.emissiveIntensity = 2.0;
+              child.userData.isLight = true; // Tag for pulsing
+            } else {
+              // Dark metallic plating for everything else
+              newMat.color = new THREE.Color(0x666666); // Lighter base so directional lights hit it
+              newMat.metalness = 0.5; // Lower metalness so it reflects diffuse light (key lights) better
+              newMat.roughness = 0.3; // Shiny enough to look like tech
+              newMat.clearcoat = 0.5;
             }
+            
+            child.material = newMat;
           }
         });
 
@@ -85,10 +108,14 @@ export class RobotFace {
       pulseProgress = 1.0 - (p * p * (3 - 2 * p)); // smoothstep ease down
     }
     
-    // Ranges from 0.01 (very dim) to 0.25 (noticeably bright)
-    const pulse = 0.01 + pulseProgress * 0.24;
+    // Use the brand accent color for a subtle breathing effect
+    const accentColor = window.sceneState.seasonColor || new THREE.Color(0xC8FF00);
+    
+    // Ranges from 1.0 to 5.0 for a strong neon glow
+    const pulse = 1.0 + pulseProgress * 4.0;
     this.model.traverse((child) => {
-      if (child.isMesh && child.material) {
+      if (child.isMesh && child.material && child.userData.isLight) {
+        child.material.emissive = accentColor;
         child.material.emissiveIntensity = pulse;
       }
     });

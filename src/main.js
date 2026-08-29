@@ -4,7 +4,12 @@ import { Lighting } from './Lighting.js';
 import { PostProcessing } from './PostProcessing.js';
 import { BackgroundParticles } from './BackgroundParticles.js';
 import { RobotFace } from './RobotFace.js';
-import { AbstractShape } from './AbstractShape.js';
+import { JetPlane } from './JetPlane.js';
+import { GPUModel } from './GPUModel.js';
+import { RoboticEye } from './RoboticEye.js';
+import { ANNModel } from './ANNModel.js';
+import { SpacetimeModel } from './SpacetimeModel.js';
+import { SuperComputerModel } from './SuperComputerModel.js';
 
 const canvas = document.getElementById('bg-canvas');
 const app = new App(canvas);
@@ -12,14 +17,24 @@ const lighting = new Lighting(app.scene);
 const postProcessing = new PostProcessing(app.renderer, app.scene, app.camera);
 const particles = new BackgroundParticles(app.scene);
 const robotFace = new RobotFace(app.scene);
-const abstractShape = new AbstractShape(app.scene);
+const jetPlane = new JetPlane(app.scene);
+const gpuModel = new GPUModel(app.scene);
+const roboticEye = new RoboticEye(app.scene);
+const annModel = new ANNModel(app.scene);
+const spacetimeModel = new SpacetimeModel(app.scene);
+const computerModel = new SuperComputerModel(app.scene);
 
 // Move the patterns and models a little to the right of the screen
 particles.points.position.x = 100;
 particles.innerPoints.position.x = 100;
 particles.gridLines.position.x = 100;
 robotFace.group.position.x = 100;
-abstractShape.group.position.x = 100;
+jetPlane.group.position.x = 0; // At center — camera zooms to Z=120 in Services so must be centered
+gpuModel.group.position.x = 100; // Typical right-side placement
+roboticEye.group.position.x = 100;
+annModel.group.position.x = 100;
+spacetimeModel.group.position.x = 100;
+computerModel.group.position.x = 100;
 
 const SEASONS = [
   new THREE.Color(0xa8ff78), // Spring Green
@@ -38,8 +53,12 @@ window.sceneState = {
   mouseParallaxY: 0,
   particlePattern: 0,
   robotScale: 1.0,
-  shapeScale: 0.0,
-  shapeIndex: 0,
+  jetScale: 0.0,
+  gpuScale: 0.0,
+  eyeScale: 0.0,
+  annScale: 0.0,
+  spacetimeScale: 0.0,
+  computerScale: 0.0,
   seasonIndex: 0,
   seasonColor: SEASONS[0].clone()
 };
@@ -99,10 +118,21 @@ function tick() {
   const activeSeasonIndex = applySeasonalPhysics ? window.sceneState.seasonIndex : null;
   particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern, activeSeasonIndex, window.sceneState.particleTintColor);
   robotFace.update(time, window.sceneState.scrollSpeedMultiplier);
-  abstractShape.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.shapeScale, window.sceneState.shapeIndex);
+  jetPlane.update(time, window.sceneState.scrollSpeedMultiplier);
+  gpuModel.update(time, window.sceneState.scrollSpeedMultiplier);
+  roboticEye.update(time, window.sceneState.scrollSpeedMultiplier);
+  annModel.update(time, window.sceneState.scrollSpeedMultiplier);
+  spacetimeModel.update(time, window.sceneState.scrollSpeedMultiplier);
+  computerModel.update(time, window.sceneState.scrollSpeedMultiplier);
 
   // Apply scales
   robotFace.group.scale.lerp(new THREE.Vector3(window.sceneState.robotScale, window.sceneState.robotScale, window.sceneState.robotScale), 0.1);
+  jetPlane.group.scale.lerp(new THREE.Vector3(window.sceneState.jetScale, window.sceneState.jetScale, window.sceneState.jetScale), 0.1);
+  gpuModel.group.scale.lerp(new THREE.Vector3(window.sceneState.gpuScale, window.sceneState.gpuScale, window.sceneState.gpuScale), 0.1);
+  roboticEye.group.scale.lerp(new THREE.Vector3(window.sceneState.eyeScale, window.sceneState.eyeScale, window.sceneState.eyeScale), 0.1);
+  annModel.group.scale.lerp(new THREE.Vector3(window.sceneState.annScale, window.sceneState.annScale, window.sceneState.annScale), 0.1);
+  spacetimeModel.group.scale.lerp(new THREE.Vector3(window.sceneState.spacetimeScale, window.sceneState.spacetimeScale, window.sceneState.spacetimeScale), 0.1);
+  computerModel.group.scale.lerp(new THREE.Vector3(window.sceneState.computerScale, window.sceneState.computerScale, window.sceneState.computerScale), 0.1);
 
   // Apply state from GSAP/DOM interactions
   const scrollOffset = window.scrollY * 0.1;

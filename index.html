@@ -195,7 +195,10 @@
     <li><a href="#team">Team</a></li>
     <li><a href="#pricing">Pricing</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Get Started →</a>
+  <div style="display: flex; gap: 1rem; align-items: center;">
+    <a href="/admin.html" class="nav-cta" style="background: transparent; border: 1px solid var(--accent); color: var(--accent);">Admin</a>
+    <a href="#contact" class="nav-cta">Get Started →</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -233,7 +236,7 @@
 
 
 <!-- SERVICES -->
-<section class="section" id="services">
+<section class="section section-slice" id="services">
   <div class="section-label">What we do</div>
   <h2 class="section-title">AI infrastructure &<br><em>HPC Nvidia Enterprise Stack</em></h2>
 
@@ -355,7 +358,7 @@
 </section>
 
 <!-- PROCESS -->
-<section class="section process-section" id="process">
+<section class="section process-section section-slice" id="process">
   <div class="section-label">How we work</div>
   <h2 class="section-title">From <em>idea</em><br>to production</h2>
 
@@ -428,7 +431,7 @@
 </section>
 
 <!-- INDUSTRIES -->
-<section class="section" id="industries" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="industries" style="border-top:1px solid var(--border);">
   <div class="section-label">Industries</div>
   <h2 class="section-title reveal">Expertise across<br><em>every vertical</em></h2>
   <div class="industries-list reveal">
@@ -460,7 +463,7 @@
 </section>
 
 <!-- CASE STUDIES -->
-<section class="section" id="work" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="work" style="border-top:1px solid var(--border);">
   <div class="section-label">Selected work</div>
   <h2 class="section-title">Outcomes that<br><em>speak</em></h2>
 
@@ -602,7 +605,7 @@
 </section>
 
 <!-- TECHNOLOGY -->
-<section class="section tech-section" id="technology">
+<section class="section tech-section section-slice" id="technology">
   <div class="section-label">Technology</div>
   <div style="display:flex;gap:6rem;align-items:flex-start;">
     <div style="flex:0 0 320px;">
@@ -687,7 +690,7 @@
 </section>
 
 <!-- TEAM -->
-<section class="section" id="team" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="team" style="border-top:1px solid var(--border);">
   <div class="section-label">The team</div>
   <h2 class="section-title reveal">People who've<br><em>done it before</em></h2>
   <div class="team-grid reveal">
@@ -729,7 +732,7 @@
 </section>
 
 <!-- PRICING -->
-<section class="section" id="pricing" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="pricing" style="border-top:1px solid var(--border);">
   <div class="section-label">Pricing</div>
   <h2 class="section-title reveal">Transparent<br><em>engagement models</em></h2>
   <div class="pricing-grid reveal">
@@ -793,7 +796,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="section" id="faq" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="faq" style="border-top:1px solid var(--border);">
   <div class="section-label">FAQ</div>
   <h2 class="section-title reveal">Common<br><em>questions</em></h2>
   <div class="faq-list reveal">
@@ -825,7 +828,7 @@
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="section" id="testimonials" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="testimonials" style="border-top:1px solid var(--border);">
   <div class="section-label">Client words</div>
   <h2 class="section-title reveal">What clients<br><em>say</em></h2>
   <div class="testimonial-grid reveal">
@@ -851,21 +854,21 @@
 </section>
 
 <!-- CONTACT -->
-<section class="section" id="contact" style="border-top:1px solid var(--border);">
+<section class="section section-slice" id="contact" style="border-top:1px solid var(--border);">
   <div class="section-label">Get in touch</div>
   <h2 class="section-title reveal">Start a<br><em>conversation</em></h2>
   <div class="contact-grid reveal">
     <div>
       <p style="font-size:.95rem;color:var(--text-muted);line-height:1.7;margin-bottom:2.5rem;">Tell us about your project. We'll get back to you within 24 hours with an honest assessment of whether we're the right fit — and if not, we'll point you in the right direction.</p>
-      <form class="contact-form" onsubmit="handleSubmit(event)">
+      <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
         <div class="form-row">
-          <div class="form-group"><label>First name</label><input type="text" placeholder="Aryan"></div>
-          <div class="form-group"><label>Last name</label><input type="text" placeholder="Sharma"></div>
+          <div class="form-group"><label>First name</label><input type="text" id="contactFirstName" placeholder="Aryan" required></div>
+          <div class="form-group"><label>Last name</label><input type="text" id="contactLastName" placeholder="Sharma" required></div>
         </div>
-        <div class="form-group"><label>Work email</label><input type="email" placeholder="aryan@company.com"></div>
-        <div class="form-group"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+        <div class="form-group"><label>Work email</label><input type="email" id="contactEmail" placeholder="aryan@company.com" required></div>
+        <div class="form-group"><label>Company</label><input type="text" id="contactCompany" placeholder="Acme Corp" required></div>
         <div class="form-group"><label>What are you looking to build?</label>
-          <select>
+          <select id="contactService" required>
             <option value="" disabled selected>Select a service area</option>
             <option>AI Strategy & Roadmapping</option>
             <option>Custom Model Development</option>
@@ -876,9 +879,57 @@
             <option>Not sure yet — let's talk</option>
           </select>
         </div>
-        <div class="form-group"><label>Tell us more</label><textarea placeholder="Briefly describe your project, current data situation, and timeline if you have one..."></textarea></div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:.8rem;">Send message →</button>
+        <div class="form-group"><label>Tell us more</label><textarea id="contactMessage" placeholder="Briefly describe your project, current data situation, and timeline if you have one..." required></textarea></div>
+        
+        <div id="formSuccessMessage" style="display: none; padding: 1rem; background: rgba(200, 255, 0, 0.1); border: 1px solid var(--accent); color: var(--accent); margin-bottom: 1rem; border-radius: 4px; font-size: 0.85rem;">
+          Message sent successfully! We will get back to you within 24 hours.
+        </div>
+        
+        <button type="submit" id="submitBtn" class="btn-primary" style="width:100%;justify-content:center;font-size:.8rem;">Send message →</button>
       </form>
+      
+      <script>
+        async function handleSubmit(event) {
+          event.preventDefault();
+          const btn = document.getElementById('submitBtn');
+          const originalText = btn.innerHTML;
+          btn.innerHTML = 'Sending...';
+          btn.disabled = true;
+
+          const data = {
+            firstName: document.getElementById('contactFirstName').value,
+            lastName: document.getElementById('contactLastName').value,
+            email: document.getElementById('contactEmail').value,
+            company: document.getElementById('contactCompany').value,
+            service: document.getElementById('contactService').value,
+            message: document.getElementById('contactMessage').value
+          };
+
+          try {
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+              document.getElementById('contactForm').reset();
+              document.getElementById('formSuccessMessage').style.display = 'block';
+              setTimeout(() => {
+                document.getElementById('formSuccessMessage').style.display = 'none';
+              }, 5000);
+            } else {
+              alert('Something went wrong. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Could not connect to server.');
+          } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          }
+        }
+      </script>
     </div>
     <div class="contact-info">
       <div class="contact-info-item"><h4>Email</h4><p><a href="mailto:hello@trayaksh.ai">hello@trayaksh.ai</a></p></div>
@@ -896,7 +947,7 @@
 <!-- PARTNERS -->
 <div class="partners-section" style="border-top: 1px solid var(--border); padding: 4rem 0; background: var(--section-bg); overflow: hidden; position: relative;">
   <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(200,255,0,.03) 0%, transparent 70%); pointer-events: none;"></div>
-  <div class="section-label" style="justify-content: center; margin-bottom: 3rem;">Our Partners</div>
+  <div class="section-label" style="justify-content: center; margin-bottom: 3rem;">Going to be official partners with</div>
   <div class="ticker" style="border: none; background: transparent; padding: 0;">
     <div class="ticker-inner" style="animation-duration: 35s; gap: 7rem;">
       <div class="partner-logo">Nvidia</div>
@@ -922,7 +973,7 @@
 </div>
 
 <!-- CTA -->
-<section class="cta-section">
+<section class="cta-section section-slice">
   <h2>Ready to build<br><em>something</em> real?</h2>
   <p>Book a 30-minute discovery call. No sales pitch — just an honest conversation about whether we're the right fit for your problem.</p>
   <div class="cta-buttons">

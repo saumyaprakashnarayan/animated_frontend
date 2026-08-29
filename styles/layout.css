@@ -70,18 +70,24 @@ nav::before { content: ''; position: absolute; inset: 0; background: linear-grad
 .cta-buttons { display: flex; gap: 1rem; justify-content: center; position: relative; z-index: 1; }
 
 /* ---- FOOTER ---- */
-footer { border-top: 1px solid var(--border); padding: 3rem; }
+footer { 
+  border-top: 1px solid var(--border); 
+  padding: 3rem; 
+  background: rgba(10, 10, 15, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
 .footer-brand .logo { font-size: 1.1rem; display: inline-block; margin-bottom: 1rem; }
-.footer-brand p { font-size: .82rem; color: var(--text-muted); line-height: 1.65; max-width: 260px; }
-.footer-col h5 { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem; }
+.footer-brand p { font-size: .82rem; color: var(--text-subheading); line-height: 1.65; max-width: 260px; }
+.footer-col h5 { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
-.footer-col ul a { font-size: .82rem; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+.footer-col ul a { font-size: .82rem; color: var(--text-subheading); text-decoration: none; transition: color .2s; }
 .footer-col ul a:hover { color: var(--text-primary); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid var(--border); }
-.footer-bottom p { font-size: .72rem; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+.footer-bottom p { font-size: .72rem; color: var(--text-muted); font-family: 'Space Mono', monospace; }
 .footer-socials { display: flex; gap: 1.25rem; }
-.footer-socials a { font-size: .72rem; color: var(--text-dim); text-decoration: none; font-family: 'Space Mono', monospace; letter-spacing: .05em; transition: color .2s; }
+.footer-socials a { font-size: .72rem; color: var(--text-muted); text-decoration: none; font-family: 'Space Mono', monospace; letter-spacing: .05em; transition: color .2s; }
 .footer-socials a:hover { color: var(--text-primary); }
 
 /* ---- RESPONSIVE ---- */

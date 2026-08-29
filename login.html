@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trayaksh.ai — Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/tokens.css">
+  
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-panel: #0a0a0c;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: none;
+    }
+    
+    a, button, select, input, textarea {
+      cursor: none;
+    }
+    
+    .cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+    }
+    
+    .cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s, height 0.25s, opacity 0.25s;
+      opacity: 0.5;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 2.5rem;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 2.5rem;
+      margin: 0 0 1.5rem 0;
+      color: var(--accent);
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+    
+    input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.8rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+    }
+    
+    input:focus {
+      border-color: var(--accent);
+    }
+    
+    .btn {
+      width: 100%;
+      background: var(--accent);
+      color: var(--bg-dark);
+      border: none;
+      padding: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 40px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    .btn:hover {
+      background: white;
+    }
+    
+    .link-text {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    
+    .link-text:hover {
+      color: var(--accent);
+    }
+    
+    .error-msg, .success-msg {
+      display: none;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .error-msg {
+      background: rgba(255, 85, 85, 0.1);
+      border: 1px solid #ff5555;
+      color: #ff5555;
+    }
+    
+    .success-msg {
+      background: rgba(200, 255, 0, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    
+    #forgotView {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <div class="login-container">
+    <div id="loginView">
+      <h1>Admin Panel</h1>
+      <div id="loginError" class="error-msg">Invalid credentials.</div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn" id="loginBtn">Login →</button>
+      </form>
+      <div class="link-text" onclick="toggleView('forgotView')">Forgot password?</div>
+    </div>
+    
+    <div id="forgotView">
+      <h1>Reset Password</h1>
+      <div id="forgotSuccess" class="success-msg">Reset instructions sent.</div>
+      <div id="forgotError" class="error-msg">Something went wrong.</div>
+      <p style="font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-bottom: 1.5rem;">Enter your username. If it exists, a reset link will be generated in the server console.</p>
+      <form id="forgotForm" onsubmit="handleForgot(event)">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="forgotUsername" required>
+        </div>
+        <button type="submit" class="btn" id="forgotBtn">Send Reset Link →</button>
+      </form>
+      <div class="link-text" onclick="toggleView('loginView')">← Back to login</div>
+    </div>
+  </div>
+
+  <script>
+    function toggleView(viewId) {
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('forgotView').style.display = 'none';
+      document.getElementById(viewId).style.display = 'block';
+      
+      // Clear messages
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('forgotSuccess').style.display = 'none';
+      document.getElementById('forgotError').style.display = 'none';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const err = document.getElementById('loginError');
+      err.style.display = 'none';
+      
+      btn.innerText = 'Logging in...';
+      btn.disabled = true;
+      
+      const payload = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+      };
+      
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+          window.location.href = '/admin.html';
+        } else {
+          err.innerText = data.message || 'Invalid credentials.';
+          err.style.display = 'block';
+        }
+      } catch (error) {
+        err.innerText = 'Connection error.';
+        err.style.display = 'block';
+      } finally {
+        btn.innerText = 'Login →';
+        btn.disabled = false;
+      }
+    }
+    
+    async function handleForgot(e) {
+      e.preventDefault();
+      const btn = document.getElementById('forgotBtn');
+      const succ = document.getElementById('forgotSuccess');
+      const err = document.getElementById('forgotError');
+      
+      succ.style.display = 'none';
+      err.style.display = 'none';
+      
+      btn.innerText = 'Sending...';
+      btn.disabled = true;
+      
+      const payload = {
+        username: document.getElementById('forgotUsername').value
+      };
+      
+      try {
+        const res = await fetch('/api/forgot_password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+          succ.innerText = data.message;
+          succ.style.display = 'block';
+        } else {
+          err.innerText = data.message || 'An error occurred.';
+          err.style.display = 'block';
+        }
+      } catch (error) {
+        err.innerText = 'Connection error.';
+        err.style.display = 'block';
+      } finally {
+        btn.innerText = 'Send Reset Link →';
+        btn.disabled = false;
+      }
+    }
+
+    // Cursor Logic
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+    
+    function renderRing() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+    
+    function attachCursorEvents() {
+      const interactables = document.querySelectorAll('button, a, .link-text, input');
+      interactables.forEach(el => {
+        if(el.dataset.cursorBound) return;
+        el.dataset.cursorBound = "true";
+        
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width = '6px';
+          cursor.style.height = '6px';
+          ring.style.width = '56px';
+          ring.style.height = '56px';
+          ring.style.opacity = '0.8';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width = '10px';
+          cursor.style.height = '10px';
+          ring.style.width = '36px';
+          ring.style.height = '36px';
+          ring.style.opacity = '0.5';
+        });
+      });
+    }
+    
+    // Attach and re-attach when views change
+    attachCursorEvents();
+    const observer = new MutationObserver(attachCursorEvents);
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>
