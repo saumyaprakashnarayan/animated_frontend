@@ -80,9 +80,7 @@ footer {
 
 /* ---- RESPONSIVE ---- */
 @media (max-width: 1024px) {
-  .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-step:nth-child(2) { border-right: none; }
-  .process-step:nth-child(3), .process-step:nth-child(4) { border-top: 1px solid var(--border); }
+
   .industries-list { grid-template-columns: repeat(3, 1fr); }
   .cases-grid { grid-template-columns: 1fr; }
   .testimonial-grid { grid-template-columns: 1fr; }
@@ -97,8 +95,7 @@ footer {
   .hero { padding: 0 1.5rem 4rem; }
   .section { padding: 5rem 1.5rem; }
   .team-grid { grid-template-columns: 1fr; }
-  .process-grid { grid-template-columns: 1fr; }
-  .process-step { border-right: none; border-bottom: 1px solid var(--border); }
+
   .industries-list { grid-template-columns: repeat(2, 1fr); }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
   .cta-buttons { flex-direction: column; align-items: center; }

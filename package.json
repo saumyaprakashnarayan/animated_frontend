@@ -4,7 +4,9 @@
   "description": "A professional, interactive web experience showcasing AI consulting and implementation services. The landing page features a highly optimized, procedural 3D background built with Three.js and GSAP.",
   "main": "screenshot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -13,12 +15,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/saumyaprakashnarayan/animated_frontend/issues"
   },
   "homepage": "https://github.com/saumyaprakashnarayan/animated_frontend#readme",
   "dependencies": {
-    "puppeteer": "^25.4.0"
+    "gsap": "^3.12.5",
+    "puppeteer": "^25.4.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
   }
 }

@@ -192,9 +192,19 @@ export function initProcessCylinder() {
   const numCards = cards.length;
 
   const angleStep = 360 / numCards;
-  const cardWidth = 450;
   const gap = 100;
-  const radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards);
+  let radius = 0;
+
+  function updateLayout() {
+    const cardWidth = cards[0].offsetWidth || 450;
+    radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards);
+    cards.forEach((card, i) => {
+      const angle = i * angleStep;
+      card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+    });
+  }
+  updateLayout();
+  window.addEventListener('resize', updateLayout);
 
   // Initialise pulse for all dots (including clones)
   cards.forEach(card => {
@@ -210,12 +220,6 @@ export function initProcessCylinder() {
         repeat: -1 
       });
     }
-  });
-
-  // Position cards in a circle
-  cards.forEach((card, i) => {
-    const angle = i * angleStep;
-    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
   });
 
   let currentAngle = 0;
@@ -277,15 +281,19 @@ export function initServicesCylinder() {
   if (numCards === 0) return;
 
   const angleStep = 360 / numCards;
-  const cardWidth = 450; // Visual width of card
   const gap = 100; // Gap between cards
-  const radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards); // Radius with gaps
+  let radius = 0;
 
-  // Position cards in a circle
-  cards.forEach((card, i) => {
-    const angle = i * angleStep;
-    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
-  });
+  function updateLayout() {
+    const cardWidth = cards[0].offsetWidth || 450;
+    radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards);
+    cards.forEach((card, i) => {
+      const angle = i * angleStep;
+      card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+    });
+  }
+  updateLayout();
+  window.addEventListener('resize', updateLayout);
 
   let currentAngle = 0;
   let targetAngle = 0;

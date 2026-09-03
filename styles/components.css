@@ -271,3 +271,39 @@
   opacity: 1;
   text-shadow: 0 0 25px rgba(200,255,0,0.3);
 }
+
+/* ---- 3D CAROUSEL MOBILE SIZING ---- */
+@media (max-width: 768px) {
+  .services-scroll-container,
+  .process-scroll-container {
+    height: 550px;
+  }
+  .services-grid,
+  .process-grid {
+    width: 320px;
+    height: 450px;
+  }
+  .service-card,
+  .process-step {
+    width: 320px;
+    height: 450px;
+    padding: 2rem 1.5rem;
+  }
+  .service-card h3,
+  .process-step h4 {
+    font-size: 1.8rem;
+  }
+  .service-card p,
+  .process-step p {
+    font-size: 0.9rem;
+  }
+  .service-detail,
+  .step-detail {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .service-detail ul li,
+  .step-detail li {
+    font-size: 0.85rem;
+  }
+}

@@ -74,7 +74,8 @@ export class ANNModel {
     }
     
     const accentColor = window.sceneState.seasonColor || new THREE.Color(0xC8FF00);
-    const pulse = 0.2 + pulseProgress * 0.8;
+    // Reduced glow intensity
+    const pulse = 0.05 + pulseProgress * 0.3;
 
     this.model.traverse((child) => {
       if (child.isMesh && child.material && child.userData.isEmissive) {
