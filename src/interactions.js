@@ -152,22 +152,118 @@ export function initTextDecode() {
 
 // ---- NEURAL DATA FLOW (Process pulse) ----
 export function initNeuralPulse() {
-  document.querySelectorAll('.process-grid').forEach(grid => {
-    grid.style.position = 'relative';
-    const lineBg = document.createElement('div');
-    Object.assign(lineBg.style, {
-      position: 'absolute', top: 'calc(3rem + 5px)', left: '2rem', right: '2rem',
-      height: '1px', background: 'rgba(255,255,255,0.1)', zIndex: '0'
+  document.querySelectorAll('.process-dot').forEach(dot => {
+    gsap.to(dot, { 
+      boxShadow: '0 0 15px 3px var(--accent)', 
+      scale: 1.2,
+      duration: 1.5, 
+      ease: 'power1.inOut', 
+      yoyo: true, 
+      repeat: -1 
     });
-    const pulse = document.createElement('div');
-    Object.assign(pulse.style, {
-      position: 'absolute', top: '-1px', left: '0', width: '100px', height: '3px',
-      background: 'var(--accent)', boxShadow: '0 0 15px 3px var(--accent)', borderRadius: '2px'
-    });
-    lineBg.appendChild(pulse);
-    grid.appendChild(lineBg);
-    gsap.to(pulse, { left: 'calc(100% - 100px)', duration: 3, ease: 'power1.inOut', yoyo: true, repeat: -1 });
   });
+}
+
+// ---- PROCESS CSS 3D CYLINDER ----
+export function initProcessCylinder() {
+  const container = document.querySelector('.process-scroll-container');
+  const grid = document.querySelector('.process-grid');
+  if (!container || !grid) return;
+
+  const originalCards = Array.from(grid.querySelectorAll('.process-step'));
+  const numOriginal = originalCards.length;
+  if (numOriginal === 0) return;
+
+  // Duplicate cards until we have at least 12 to form a smooth large cylinder
+  const targetCards = 12;
+  const copiesNeeded = Math.ceil(targetCards / numOriginal);
+  
+  if (copiesNeeded > 1) {
+    for (let i = 1; i < copiesNeeded; i++) {
+      originalCards.forEach(card => {
+        const clone = card.cloneNode(true);
+        grid.appendChild(clone);
+      });
+    }
+  }
+
+  // Re-select all cards including clones
+  const cards = grid.querySelectorAll('.process-step');
+  const numCards = cards.length;
+
+  const angleStep = 360 / numCards;
+  const cardWidth = 450;
+  const gap = 100;
+  const radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards);
+
+  // Initialise pulse for all dots (including clones)
+  cards.forEach(card => {
+    const dot = card.querySelector('.process-dot');
+    if (dot) {
+      gsap.killTweensOf(dot); // prevent duplicate tweens
+      gsap.to(dot, { 
+        boxShadow: '0 0 15px 3px var(--accent)', 
+        scale: 1.2,
+        duration: 1.5, 
+        ease: 'power1.inOut', 
+        yoyo: true, 
+        repeat: -1 
+      });
+    }
+  });
+
+  // Position cards in a circle
+  cards.forEach((card, i) => {
+    const angle = i * angleStep;
+    card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+  });
+
+  let currentAngle = 0;
+  let targetAngle = 0;
+
+  // Handle Wheel
+  container.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
+    e.preventDefault();
+    targetAngle -= e.deltaX * 0.1;
+  }, { passive: false });
+
+  // Handle Drag
+  let isDragging = false;
+  let startX = 0;
+  let startAngle = 0;
+
+  const onPointerDown = (e) => {
+    isDragging = true;
+    startX = e.clientX || (e.touches && e.touches[0].clientX);
+    startAngle = targetAngle;
+    container.style.cursor = 'grabbing';
+  };
+
+  const onPointerMove = (e) => {
+    if (!isDragging) return;
+    const x = e.clientX || (e.touches && e.touches[0].clientX);
+    const dx = x - startX;
+    targetAngle = startAngle + (dx * 0.25);
+  };
+
+  const onPointerUp = () => {
+    isDragging = false;
+    container.style.cursor = 'grab';
+  };
+
+  container.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerUp);
+
+  function update() {
+    if (!isDragging) targetAngle -= 0.3;
+    currentAngle += (targetAngle - currentAngle) * 0.05;
+    grid.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+    requestAnimationFrame(update);
+  }
+  update();
 }
 
 // ---- SERVICES CSS 3D CYLINDER ----
@@ -181,8 +277,9 @@ export function initServicesCylinder() {
   if (numCards === 0) return;
 
   const angleStep = 360 / numCards;
-  const cardWidth = 700; // Match new CSS width for screen-fitting radius
-  const radius = (cardWidth / 2) / Math.tan(Math.PI / numCards) - 2; // Increase radius mathematically and subtract 2px to ensure overlap and cover spaces
+  const cardWidth = 450; // Visual width of card
+  const gap = 100; // Gap between cards
+  const radius = ((cardWidth + gap) / 2) / Math.tan(Math.PI / numCards); // Radius with gaps
 
   // Position cards in a circle
   cards.forEach((card, i) => {
@@ -235,6 +332,10 @@ export function initServicesCylinder() {
 
   // Animation loop for smooth rotation
   function update() {
+    if (!isDragging) {
+      targetAngle -= 0.3; // Increased continuous auto-scroll speed (right-to-left)
+    }
+    
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
     grid.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
     
@@ -260,4 +361,5 @@ export function initInteractions() {
   initTextDecode();
   initNeuralPulse();
   initServicesCylinder();
+  initProcessCylinder();
 }

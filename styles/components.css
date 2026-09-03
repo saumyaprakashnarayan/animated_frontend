@@ -28,16 +28,16 @@
 }
 .services-grid {
   position: relative;
-  width: 700px;
-  height: 600px;
+  width: 450px;
+  height: 550px;
   transform-style: preserve-3d;
 }
 .services-grid::-webkit-scrollbar {
   display: none;
 }
 .service-card {
-  width: 700px;
-  height: 600px;
+  width: 450px;
+  height: 550px;
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0; margin: auto;
   padding: 2.5rem 2rem;
@@ -45,6 +45,7 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
+  border-radius: 24px;
   overflow: hidden;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -63,9 +64,43 @@
 .service-detail ul li::before { content: '→'; color: var(--accent); font-size: 1rem; flex-shrink: 0; margin-top: .15rem; }
 
 /* ---- PROCESS ---- */
-.process-section { background: var(--section-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-.process-step { padding: 3rem 2rem; border-right: 1px solid var(--border); position: relative; }
+.process-section { background: transparent; position: relative; z-index: 10; }
+.process-scroll-container {
+  width: 100%;
+  height: 700px;
+  margin-top: 2rem;
+  position: relative;
+  perspective: 2000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: grab;
+}
+.process-scroll-container:active {
+  cursor: grabbing;
+}
+.process-grid {
+  position: relative;
+  width: 450px;
+  height: 550px;
+  transform-style: preserve-3d;
+}
+.process-step {
+  width: 450px;
+  height: 550px;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0; margin: auto;
+  padding: 3rem 2rem;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
 .process-step:last-child { border-right: none; }
 .process-step-num { font-family: 'Instrument Serif', serif; font-size: 5rem; font-weight: 400; line-height: 1; color: rgba(245,244,239,.06); position: absolute; top: 1.5rem; right: 1.5rem; }
 .process-step h4 { font-family: 'Instrument Serif', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: .75rem; margin-top: 2rem; }
@@ -75,7 +110,7 @@
 .process-step .step-detail ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
 .process-step .step-detail li { font-size: .77rem; color: var(--text-dim); display: flex; gap: .5rem; align-items: flex-start; }
 .process-step .step-detail li::before { content: '·'; color: var(--accent); flex-shrink: 0; }
-.process-step .step-meta { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .08em; color: var(--accent); margin-top: 1.25rem; padding: .3rem .7rem; border: 1px solid rgba(56,189,248,.3); display: inline-block; }
+.process-step .step-meta { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .08em; color: var(--accent); margin-top: 1.25rem; padding: .3rem .7rem; border: 1px solid rgba(200,255,0,.3); display: inline-block; }
 
 /* ---- INDUSTRIES ---- */
 .industries-list { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); overflow: hidden; }
@@ -93,10 +128,10 @@
 /* ---- CASE STUDIES ---- */
 .cases-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1px; border: 1px solid var(--border); overflow: hidden; }
 .case-card { padding: 3rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); position: relative; overflow: hidden; transition: all .3s; }
-.case-card:hover { border-color: rgba(56,189,248,.25); }
+.case-card:hover { border-color: rgba(200,255,0,.25); }
 .case-card-sm { padding: 2.5rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); border-right: 1px solid transparent; transition: all .3s; }
 .case-card-sm:last-child { border-bottom: none; }
-.case-card-sm:hover { border-color: rgba(56,189,248,.25); z-index: 2; }
+.case-card-sm:hover { border-color: rgba(200,255,0,.25); z-index: 2; }
 .case-label { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }
 .case-card h3 { font-family: 'Instrument Serif', serif; font-size: 2rem; font-weight: 400; line-height: 1.2; margin-bottom: 1rem; }
 .case-card-sm h3 { font-family: 'Instrument Serif', serif; font-size: 1.4rem; font-weight: 400; line-height: 1.2; margin-bottom: .75rem; }
@@ -122,7 +157,7 @@
 /* ---- TEAM ---- */
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
 .team-card { padding: 2.5rem 2rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); transition: all .3s; }
-.team-card:hover { border-color: rgba(56,189,248,.2); z-index: 2; position: relative; }
+.team-card:hover { border-color: rgba(200,255,0,.2); z-index: 2; position: relative; }
 .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--ink-mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: .85rem; font-weight: 700; color: var(--accent); margin-bottom: 1.25rem; }
 .team-card h4 { font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: .25rem; }
 .team-card .role { font-size: .72rem; color: var(--accent); font-family: 'Space Mono', monospace; letter-spacing: .06em; margin-bottom: .75rem; }
@@ -133,9 +168,9 @@
 /* ---- PRICING ---- */
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
 .pricing-card { padding: 3rem 2.5rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); transition: all .3s; position: relative; }
-.pricing-card:hover { border-color: rgba(56,189,248,.25); z-index: 2; }
-.pricing-card.featured { background: rgba(56,189,248,0.04); border-color: rgba(56,189,248,.3); }
-.pricing-badge { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .75rem; background: rgba(56,189,248,.1); color: var(--accent); border: 1px solid rgba(56,189,248,.3); display: inline-block; margin-bottom: 1.5rem; }
+.pricing-card:hover { border-color: rgba(200,255,0,.25); z-index: 2; }
+.pricing-card.featured { background: var(--ink-mid); border-color: rgba(200,255,0,.3); box-shadow: 0 0 30px rgba(200,255,0,0.05); }
+.pricing-badge { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .25rem .75rem; background: rgba(200,255,0,.1); color: var(--accent); border: 1px solid rgba(200,255,0,.3); display: inline-block; margin-bottom: 1.5rem; }
 .pricing-name { font-family: 'Instrument Serif', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: .5rem; }
 .pricing-desc { font-size: .82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; }
 .pricing-price { font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: .25rem; }
@@ -168,7 +203,7 @@
 /* ---- TESTIMONIALS ---- */
 .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
 .testimonial-card { padding: 2.5rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); transition: all .3s; }
-.testimonial-card:hover { border-color: rgba(56,189,248,.2); z-index: 2; position: relative; }
+.testimonial-card:hover { border-color: rgba(200,255,0,.2); z-index: 2; position: relative; }
 .quote-mark { font-family: 'Instrument Serif', serif; font-size: 4rem; line-height: .8; color: var(--accent); margin-bottom: 1rem; opacity: .5; }
 .testimonial-card blockquote { font-family: 'Instrument Serif', serif; font-size: 1.05rem; font-style: italic; line-height: 1.6; color: var(--text-primary); margin-bottom: 1.5rem; }
 .testimonial-author { display: flex; align-items: center; gap: .75rem; }

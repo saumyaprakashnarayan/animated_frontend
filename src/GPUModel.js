@@ -121,12 +121,29 @@ export class GPUModel {
     const cx = 512;
     const cy = 512;
   
+    // Intense Central Glow (Radial Gradient)
+    const glowGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 300);
+    glowGradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); 
+    glowGradient.addColorStop(0.3, 'rgba(0, 240, 255, 0.8)'); 
+    glowGradient.addColorStop(1, 'rgba(0, 240, 255, 0)');
+    
+    ctx.fillStyle = glowGradient;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 300, 0, Math.PI * 2);
+    ctx.fill();
+
     // Central Chip
-    ctx.fillStyle = '#00aaff';
+    ctx.fillStyle = '#ffffff'; // White for maximum emissive brightness
+    ctx.shadowColor = '#ffffff';
+    ctx.shadowBlur = 40;
     ctx.beginPath();
     ctx.roundRect(cx - 140, cy - 140, 280, 280, 20);
     ctx.fill();
     ctx.stroke();
+    
+    // Reset shadow for the rest of the traces
+    ctx.shadowColor = '#00f0ff';
+    ctx.shadowBlur = 15;
   
     // Corner brackets
     ctx.lineWidth = 8;
@@ -220,21 +237,20 @@ export class GPUModel {
     }
     
     // Modulate edge and circuit brightness
-    const pulse = 1.0 + pulseProgress * 1.5;
+    const pulse = 1.0 + pulseProgress * 2.0; // Stronger pulse factor
     
-    // Assuming the front/back materials are at indices 4 and 5
     // Increase multiplier here to make the central part glow much more
     if (this.innerMesh.material[4]) {
-      this.innerMesh.material[4].emissiveIntensity = pulse * 3.0;
-      this.innerMesh.material[5].emissiveIntensity = pulse * 3.0;
+      this.innerMesh.material[4].emissiveIntensity = pulse * 4.0; // Extremely bright center
+      this.innerMesh.material[5].emissiveIntensity = pulse * 4.0;
     }
     
     if (this.edgeMat) {
       // Drastically reduce edge glow so it does not overpower the center
       const baseColor = new THREE.Color(0x00f0ff);
-      baseColor.multiplyScalar(0.5 + pulseProgress * 0.5);
+      baseColor.multiplyScalar(0.2 + pulseProgress * 0.3); // Dimmer edges
       this.edgeMat.color.copy(baseColor);
-      this.edgeMat.opacity = 0.6; // Slightly transparent to soften the line
+      this.edgeMat.opacity = 0.2; // Highly transparent to soften the line
     }
   }
 }
