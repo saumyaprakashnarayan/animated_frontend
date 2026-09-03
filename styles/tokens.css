@@ -3,31 +3,36 @@
    ============================================ */
 
 :root {
-  /* Color Palette - matching reference.html exactly */
-  --ink: #0A0A0F;
-  --ink-dim: #1A1A24;
-  --ink-mid: #2C2C3E;
-  --surface: #F5F4EF;
+  /* Color Palette - Premium Editorial Forest Green */
+  --ink: #07120a;       /* Deep forest green background */
+  --ink-dim: #050d07;   /* Almost-black green (Navigation) */
+  --ink-mid: #0a1a0f;   /* Mid-tone dark surface */
+  --surface: #102917;
 
   /* Accent */
-  --accent: #C8FF00;
-  --accent-secondary: #A0CC00;
-  --accent-highlight: #E4FF66;
+  --accent: #C8FF00;             /* Electric Neon Lime Green */
+  --accent-secondary: #90B800;   /* Darker accent */
+  --accent-highlight: #E4FF66;   /* Lighter accent */
 
   /* Typography */
-  --text-primary: #F5F4EF;
+  --text-primary: #F5F4EF;       /* Warm white */
   --text-subheading: #E2E8F0;
-  --text-muted: #8A8A9A;
-  --text-dim: #555565;
-  --text-caption: #475569;
+  --text-muted: #8A9A90;         /* Muted sage */
+  --text-dim: #55655C;
+  --text-caption: #47554C;
 
   /* Borders */
-  --border: rgba(245, 244, 239, 0.1);
-  --border-strong: rgba(245, 244, 239, 0.2);
+  --border: rgba(200, 255, 0, 0.15);
+  --border-strong: rgba(200, 255, 0, 0.3);
+  --border-white: rgba(245, 244, 239, 0.1);
 
   /* Cards & Sections */
-  --card-bg: var(--ink);
-  --section-bg: var(--ink-dim);
+  --card-bg: var(--ink-dim);
+  --section-bg: var(--ink);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(5, 8, 6, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 /* ---- RESET ---- */

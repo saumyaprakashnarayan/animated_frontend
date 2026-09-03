@@ -7,8 +7,8 @@ export class FluidBackground {
     this.scene.add(this.group);
 
     // Create a plane that covers the entire camera view
-    // Assuming a standard camera setup, these dimensions will cover it at z=-100
-    this.geometry = new THREE.PlaneGeometry(1000, 1000);
+    // Make it massive to ensure it covers all aspect ratios and camera parallax movements
+    this.geometry = new THREE.PlaneGeometry(5000, 5000);
 
     // Shader Material for the fluid effect
     this.material = new THREE.ShaderMaterial({
@@ -27,6 +27,7 @@ export class FluidBackground {
       fragmentShader: `
         uniform float uTime;
         uniform float uOpacity;
+        uniform vec2 uResolution;
         varying vec2 vUv;
 
         // Ashima's 2D Simplex Noise
@@ -55,57 +56,114 @@ export class FluidBackground {
           return 130.0 * dot(m, g);
         }
 
-        // Fractal Brownian Motion
-        float fbm(vec2 x) {
-            float v = 0.0;
-            float a = 0.5;
-            vec2 shift = vec2(100.0);
-            mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
-            for (int i = 0; i < 5; ++i) {
-                v += a * snoise(x);
-                x = rot * x * 2.0 + shift;
-                a *= 0.5;
-            }
-            return v;
+        // Smooth maximum function for blending strands like liquid
+        float smax(float a, float b, float k) {
+            float h = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
+            return mix(b, a, h) + k * h * (1.0 - h);
+        }
+
+        // Helper to generate a smooth, rounded ridge
+        float getStrand(float d, float r) {
+            float sqDist = (d * d) / (r * r);
+            float h = clamp(1.0 - sqDist, 0.0, 1.0);
+            return h * h * (3.0 - 2.0 * h); // smoothstep curve
+        }
+
+        // Fakes a 3D heightmap using 2D math
+        float map(vec2 p, float time) {
+            float h = 0.0;
+            
+            // Strand 1 (Main flowing curve)
+            float wave1 = sin(p.x * 0.8 + time * 0.4) * 0.25 + sin(p.x * 0.3 - time * 0.2) * 0.15;
+            float r1 = 0.25 + sin(p.x * 1.5 + time) * 0.05;
+            h = smax(h, getStrand(p.y - wave1, r1) * 0.9, 0.15);
+            
+            // Strand 2 (Twisting counterpart)
+            float wave2 = cos(p.x * 1.1 - time * 0.3) * 0.2 - sin(p.x * 0.6 + time * 0.5) * 0.1 - 0.05;
+            float r2 = 0.18 + cos(p.x * 1.2 - time * 1.2) * 0.05;
+            h = smax(h, getStrand(p.y - wave2, r2) * 0.8, 0.15);
+            
+            // Strand 3 (Thick background base)
+            float wave3 = sin(p.x * 0.5 + time * 0.6) * 0.2 + 0.1;
+            float r3 = 0.35;
+            h = smax(h, getStrand(p.y - wave3, r3) * 0.7, 0.2);
+            
+            return h;
+        }
+
+        // Calculates a 3D normal from the 2D heightmap for glossy lighting
+        vec3 calcNormal(vec2 p, float time) {
+            float eps = 0.005;
+            float hx = (map(p + vec2(eps, 0.0), time) - map(p - vec2(eps, 0.0), time)) / (2.0 * eps);
+            float hy = (map(p + vec2(0.0, eps), time) - map(p - vec2(0.0, eps), time)) / (2.0 * eps);
+            
+            float heightScale = 0.5;
+            vec3 n = vec3(-hx * heightScale, -hy * heightScale, 1.0);
+            return normalize(n);
         }
 
         void main() {
-          // Stretch UVs to create horizontal ribbon flow
-          vec2 p = vec2(vUv.x * 0.4, vUv.y * 1.5);
+          vec2 uv = vUv;
+          vec2 p = uv * 2.0 - 1.0;
           
-          // Animate slowly with time
-          float t = uTime * 0.15;
+          p.x *= uResolution.x / uResolution.y;
           
-          // Smooth domain warping
-          vec2 q = vec2(0.);
-          q.x = fbm( p + vec2(t) );
-          q.y = fbm( p + vec2(1.0) );
+          float time = uTime * 0.8; // Moderate speed for elegant flow
           
-          vec2 r = vec2(0.);
-          r.x = fbm( p + 1.0*q + vec2(1.7,9.2)+ 0.1*t );
-          r.y = fbm( p + 1.0*q + vec2(8.3,2.8)+ 0.08*t );
+          // Deep premium dark forest green background (#07120a)
+          vec3 bg = vec3(0.027, 0.071, 0.039); 
+          vec3 col = bg;
           
-          float f = fbm(p + r);
+          // Domain warping on position to make it look liquid and organic
+          vec2 wp = p;
+          wp.x += snoise(vec2(p.x * 0.8, time * 0.2)) * 0.2;
+          wp.y += snoise(vec2(p.y * 0.8, time * 0.2)) * 0.1;
           
-          // Color Palette matching tech/green brand (Mostly dark!)
-          vec3 color1 = vec3(0.6, 1.0, 0.0); // Bright Neon Green (Highlights)
-          vec3 color2 = vec3(0.02, 0.02, 0.03); // Almost Black/Dark Slate (Background)
-          vec3 color3 = vec3(0.0, 0.2, 0.1); // Deep Emerald/Forest Green (Midtones)
+          float h = map(wp, time);
           
-          // Softly mix colors - favor the dark background heavily
-          // f usually ranges from 0.0 to 1.0
-          vec3 col = mix(color2, color3, clamp(f * 1.5, 0.0, 1.0)); 
+          if (h > 0.01) {
+              vec3 n = calcNormal(wp, time);
+              
+              // Key Light (Top Right)
+              vec3 lightDir = normalize(vec3(0.8, 0.8, 1.0)); 
+              vec3 viewDir = vec3(0.0, 0.0, 1.0); 
+              
+              float diff = max(dot(n, lightDir), 0.0);
+              
+              // Glossy Specular Highlight
+              vec3 halfVector = normalize(lightDir + viewDir);
+              float spec = pow(max(dot(n, halfVector), 0.0), 80.0); 
+              
+              // Rim Light / Ambient Light (Bottom Left)
+              vec3 lightDir2 = normalize(vec3(-0.8, -0.5, 0.5)); 
+              float diff2 = max(dot(n, lightDir2), 0.0);
+              
+              // Forest Green & Neon Lime Palette
+              vec3 colorDeep = vec3(0.027, 0.071, 0.039) * 0.5; // Dark forest core
+              vec3 colorMid = vec3(0.1, 0.25, 0.15) * 0.6;      // Mid-tone green
+              vec3 colorHigh = vec3(0.78, 1.0, 0.0) * 0.8;      // Electric neon lime
+              vec3 colorVar = vec3(0.2, 0.4, 0.2) * 0.5;        // Sage variation
+              
+              // Color mapping based on height
+              vec3 albedo = mix(colorDeep, colorMid, smoothstep(0.2, 0.7, h));
+              albedo = mix(albedo, colorHigh, smoothstep(0.85, 1.0, h)); // Only highest peaks get neon
+              
+              albedo = mix(albedo, colorVar, sin(wp.x * 2.0 + time) * 0.15 + 0.15);
+              
+              vec3 litColor = albedo * (diff * 0.9 + 0.1); 
+              litColor += mix(colorVar, colorHigh, 0.3) * spec * 0.6; 
+              litColor += colorMid * diff2 * 0.5;
+              
+              float alpha = smoothstep(0.0, 0.1, h);
+              col = mix(bg, litColor, alpha);
+          }
           
-          // Only add neon green where the noise is very high (the peaks/edges of the ribbon)
-          float highlight = smoothstep(0.6, 1.0, f);
-          col = mix(col, color1, highlight * 0.8);
+          // Softly darken edges so the UI text pops
+          col *= 1.0 - smoothstep(1.0, 3.0, length(p));
           
-          // Add some depth with r.x
-          col = mix(col, color2, clamp(length(r.x) * 0.5, 0.0, 1.0));
+          // Dim the entire silk fluid slightly to preserve hero readability
+          col *= 0.75;
           
-          // Final darkening pass so text remains highly visible
-          col *= 0.6;
-
           gl_FragColor = vec4(col, uOpacity);
         }
       `,
