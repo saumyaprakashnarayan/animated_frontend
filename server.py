@@ -1,290 +1,190 @@
-import http.server
-import socketserver
-import json
-import sqlite3
 import os
 import uuid
 import hashlib
 from datetime import datetime
-from urllib.parse import urlparse, parse_qs
-import http.cookies
+from typing import List
 
-DB_NAME = 'contacts.db'
+from fastapi import FastAPI, Request, Response, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
-# In-memory session store
-# session_token: username
-ACTIVE_SESSIONS = {}
+# ----------------- Database Setup -----------------
+# In production, set the DATABASE_URL environment variable to your PostgreSQL connection string.
+DB_URL = os.getenv("DATABASE_URL", "sqlite:///./contacts.db")
+connect_args = {"check_same_thread": False} if DB_URL.startswith("sqlite") else {}
+engine = create_engine(DB_URL, connect_args=connect_args)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-def hash_password(password):
+class Contact(Base):
+    __tablename__ = "contacts"
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String, default="")
+    last_name = Column(String, default="")
+    email = Column(String, default="")
+    company = Column(String, default="")
+    service = Column(String, default="")
+    message = Column(String, default="")
+    submitted_at = Column(String, default="")
+
+class AdminUser(Base):
+    __tablename__ = "admin_users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    password_hash = Column(String)
+    reset_token = Column(String, nullable=True)
+
+Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-def init_db():
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS contacts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            first_name TEXT,
-            last_name TEXT,
-            email TEXT,
-            company TEXT,
-            service TEXT,
-            message TEXT,
-            submitted_at TEXT
-        )
-    ''')
-    
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS admin_users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password_hash TEXT,
-            reset_token TEXT
-        )
-    ''')
-    
-    # Insert default admin if no users exist
-    c.execute('SELECT COUNT(*) FROM admin_users')
-    if c.fetchone()[0] == 0:
-        c.execute('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)', 
-                  ('admin', hash_password('admin123')))
-                  
-    conn.commit()
-    conn.close()
+# Initialize default admin if none exists
+with SessionLocal() as db:
+    if db.query(AdminUser).count() == 0:
+        default_admin = AdminUser(username="admin", password_hash=hash_password("admin123"))
+        db.add(default_admin)
+        db.commit()
 
-class CustomHandler(http.server.SimpleHTTPRequestHandler):
-    
-    def check_auth(self):
-        cookie_header = self.headers.get('Cookie')
-        if not cookie_header:
-            return False
-            
-        cookies = http.cookies.SimpleCookie(cookie_header)
-        if 'session_token' in cookies:
-            token = cookies['session_token'].value
-            return token in ACTIVE_SESSIONS
-        return False
-        
-    def send_json(self, status, data, cookies=None):
-        self.send_response(status)
-        self.send_header('Content-type', 'application/json')
-        if cookies:
-            for cookie in cookies:
-                self.send_header('Set-Cookie', cookie)
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode('utf-8'))
+# ----------------- FastAPI App Setup -----------------
+app = FastAPI(title="Trayaksh AI API")
 
-    def do_POST(self):
-        parsed_path = urlparse(self.path)
-        content_length = int(self.headers.get('Content-Length', 0))
-        post_data = self.rfile.read(content_length)
-        
-        if parsed_path.path == '/api/contact':
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('''
-                    INSERT INTO contacts (first_name, last_name, email, company, service, message, submitted_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    data.get('firstName', ''),
-                    data.get('lastName', ''),
-                    data.get('email', ''),
-                    data.get('company', ''),
-                    data.get('service', ''),
-                    data.get('message', ''),
-                    datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                ))
-                conn.commit()
-                conn.close()
-                self.send_json(200, {"status": "success"})
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
-                
-        elif parsed_path.path == '/api/login':
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                username = data.get('username')
-                password = data.get('password')
-                
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('SELECT password_hash FROM admin_users WHERE username = ?', (username,))
-                row = c.fetchone()
-                conn.close()
-                
-                if row and row[0] == hash_password(password):
-                    token = str(uuid.uuid4())
-                    ACTIVE_SESSIONS[token] = username
-                    cookie = http.cookies.SimpleCookie()
-                    cookie['session_token'] = token
-                    cookie['session_token']['path'] = '/'
-                    cookie['session_token']['httponly'] = True
-                    # In a real app we'd set secure=True if using HTTPS
-                    self.send_json(200, {"status": "success"}, [cookie.output(header='', sep='').strip()])
-                else:
-                    self.send_json(401, {"status": "error", "message": "Invalid credentials"})
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
+# Allow CORS for development and production frontend domains
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://animated-frontend-iota.vercel.app", "http://localhost:5173"], # In production, restrict this to your exact frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-        elif parsed_path.path == '/api/logout':
-            cookie_header = self.headers.get('Cookie')
-            if cookie_header:
-                cookies = http.cookies.SimpleCookie(cookie_header)
-                if 'session_token' in cookies:
-                    token = cookies['session_token'].value
-                    if token in ACTIVE_SESSIONS:
-                        del ACTIVE_SESSIONS[token]
-            
-            cookie = http.cookies.SimpleCookie()
-            cookie['session_token'] = ''
-            cookie['session_token']['expires'] = 'Thu, 01 Jan 1970 00:00:00 GMT'
-            cookie['session_token']['path'] = '/'
-            self.send_json(200, {"status": "success"}, [cookie.output(header='', sep='').strip()])
-            
-        elif parsed_path.path == '/api/forgot_password':
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                username = data.get('username')
-                
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('SELECT id FROM admin_users WHERE username = ?', (username,))
-                row = c.fetchone()
-                
-                if row:
-                    reset_token = str(uuid.uuid4())
-                    c.execute('UPDATE admin_users SET reset_token = ? WHERE username = ?', (reset_token, username))
-                    conn.commit()
-                    print(f"\n[{datetime.now()}] FORGOT PASSWORD REQUESTED for '{username}'")
-                    print(f"RESET LINK: http://localhost:8000/reset_password.html?token={reset_token}\n")
-                
-                conn.close()
-                # Always return success to prevent username enumeration
-                self.send_json(200, {"status": "success", "message": "If the username exists, a reset link has been generated in the server console."})
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
+# In-memory session store (session_token: username)
+ACTIVE_SESSIONS = {}
 
-        elif parsed_path.path == '/api/reset_password':
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                token = data.get('token')
-                new_password = data.get('password')
-                
-                if not token or not new_password:
-                    self.send_json(400, {"status": "error", "message": "Missing token or password"})
-                    return
-                    
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('SELECT username FROM admin_users WHERE reset_token = ?', (token,))
-                row = c.fetchone()
-                
-                if row:
-                    username = row[0]
-                    c.execute('UPDATE admin_users SET password_hash = ?, reset_token = NULL WHERE username = ?', 
-                             (hash_password(new_password), username))
-                    conn.commit()
-                    self.send_json(200, {"status": "success"})
-                else:
-                    self.send_json(400, {"status": "error", "message": "Invalid or expired token"})
-                conn.close()
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
-                
-        elif parsed_path.path == '/api/change_password':
-            if not self.check_auth():
-                self.send_json(401, {"status": "error", "message": "Unauthorized"})
-                return
-                
-            try:
-                data = json.loads(post_data.decode('utf-8'))
-                old_password = data.get('oldPassword')
-                new_password = data.get('newPassword')
-                
-                # Get username from session
-                cookies = http.cookies.SimpleCookie(self.headers.get('Cookie'))
-                token = cookies['session_token'].value
-                username = ACTIVE_SESSIONS[token]
-                
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('SELECT password_hash FROM admin_users WHERE username = ?', (username,))
-                row = c.fetchone()
-                
-                if row and row[0] == hash_password(old_password):
-                    c.execute('UPDATE admin_users SET password_hash = ? WHERE username = ?', 
-                             (hash_password(new_password), username))
-                    conn.commit()
-                    self.send_json(200, {"status": "success"})
-                else:
-                    self.send_json(400, {"status": "error", "message": "Incorrect old password"})
-                conn.close()
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
-        else:
-            self.send_response(404)
-            self.end_headers()
-            
-    def do_GET(self):
-        parsed_path = urlparse(self.path)
-        
-        # Protected API
-        if parsed_path.path == '/api/contacts':
-            if not self.check_auth():
-                self.send_json(401, {"status": "error", "message": "Unauthorized"})
-                return
-                
-            try:
-                conn = sqlite3.connect(DB_NAME)
-                c = conn.cursor()
-                c.execute('SELECT * FROM contacts ORDER BY submitted_at DESC')
-                rows = c.fetchall()
-                conn.close()
-                
-                contacts = []
-                for row in rows:
-                    contacts.append({
-                        "id": row[0],
-                        "firstName": row[1],
-                        "lastName": row[2],
-                        "email": row[3],
-                        "company": row[4],
-                        "service": row[5],
-                        "message": row[6],
-                        "submittedAt": row[7]
-                    })
-                    
-                self.send_json(200, contacts)
-            except Exception as e:
-                self.send_json(500, {"status": "error", "message": str(e)})
-            return
-            
-        # Protected Page
-        if parsed_path.path == '/admin.html':
-            if not self.check_auth():
-                self.send_response(302)
-                self.send_header('Location', '/login.html')
-                self.end_headers()
-                return
-                
-        # Serve static files as usual
-        super().do_GET()
+def get_current_user(request: Request) -> str:
+    token = request.cookies.get("session_token")
+    if not token or token not in ACTIVE_SESSIONS:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+    return ACTIVE_SESSIONS[token]
 
-if __name__ == '__main__':
+# ----------------- Pydantic Models -----------------
+class ContactCreate(BaseModel):
+    firstName: str = ""
+    lastName: str = ""
+    email: str = ""
+    company: str = ""
+    service: str = ""
+    message: str = ""
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+class ForgotPasswordRequest(BaseModel):
+    username: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    password: str
+
+class ChangePasswordRequest(BaseModel):
+    oldPassword: str
+    newPassword: str
+
+# ----------------- API Routes -----------------
+@app.post("/api/contact")
+def create_contact(contact: ContactCreate, db: Session = Depends(get_db)):
+    db_contact = Contact(
+        first_name=contact.firstName,
+        last_name=contact.lastName,
+        email=contact.email,
+        company=contact.company,
+        service=contact.service,
+        message=contact.message,
+        submitted_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+    db.add(db_contact)
+    db.commit()
+    return {"status": "success"}
+
+@app.get("/api/contacts")
+def get_contacts(db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    contacts = db.query(Contact).order_by(Contact.submitted_at.desc()).all()
+    result = []
+    for c in contacts:
+        result.append({
+            "id": c.id,
+            "firstName": c.first_name,
+            "lastName": c.last_name,
+            "email": c.email,
+            "company": c.company,
+            "service": c.service,
+            "message": c.message,
+            "submittedAt": c.submitted_at
+        })
+    return result
+
+@app.post("/api/login")
+def login(login_req: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    user = db.query(AdminUser).filter(AdminUser.username == login_req.username).first()
+    if user and user.password_hash == hash_password(login_req.password):
+        token = str(uuid.uuid4())
+        ACTIVE_SESSIONS[token] = user.username
+        response.set_cookie(key="session_token", value=token, httponly=True, samesite="lax", path="/")
+        return {"status": "success"}
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+@app.post("/api/logout")
+def logout(request: Request, response: Response):
+    token = request.cookies.get("session_token")
+    if token and token in ACTIVE_SESSIONS:
+        del ACTIVE_SESSIONS[token]
+    response.delete_cookie("session_token", path="/")
+    return {"status": "success"}
+
+@app.post("/api/forgot_password")
+def forgot_password(req: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    user = db.query(AdminUser).filter(AdminUser.username == req.username).first()
+    if user:
+        reset_token = str(uuid.uuid4())
+        user.reset_token = reset_token
+        db.commit()
+        print(f"\n[{datetime.now()}] FORGOT PASSWORD REQUESTED for '{req.username}'")
+        print(f"RESET LINK: https://animated-frontend-iota.vercel.app/reset_password.html?token={reset_token}\n")
+    return {"status": "success", "message": "If the username exists, a reset link has been generated."}
+
+@app.post("/api/reset_password")
+def reset_password(req: ResetPasswordRequest, db: Session = Depends(get_db)):
+    user = db.query(AdminUser).filter(AdminUser.reset_token == req.token).first()
+    if user:
+        user.password_hash = hash_password(req.password)
+        user.reset_token = None
+        db.commit()
+        return {"status": "success"}
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired token")
+
+@app.post("/api/change_password")
+def change_password(req: ChangePasswordRequest, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    user = db.query(AdminUser).filter(AdminUser.username == current_user).first()
+    if user and user.password_hash == hash_password(req.oldPassword):
+        user.password_hash = hash_password(req.newPassword)
+        db.commit()
+        return {"status": "success"}
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect old password")
+
+if __name__ == "__main__":
+    import uvicorn
     # Make sure we're serving from the directory this script is in
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    
-    init_db()
-    
     PORT = int(os.environ.get("PORT", 8000))
-    socketserver.TCPServer.allow_reuse_address = True
-    
-    with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
-        print(f"Backend Server running at http://localhost:{PORT}")
-        print("Serving static files and API endpoints...")
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nShutting down server.")
+    print(f"Starting FastAPI server on port {PORT}")
+    uvicorn.run("server:app", host="0.0.0.0", port=PORT)

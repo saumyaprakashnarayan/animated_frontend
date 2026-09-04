@@ -292,7 +292,7 @@
 
   <script>
     async function handleLogout() {
-      await fetch('/api/logout', { method: 'POST' });
+      await fetch('https://animated-frontend.onrender.com/api/logout', { method: 'POST' });
       window.location.href = '/login.html';
     }
     
@@ -306,7 +306,7 @@
       
       if(!oldPwd || !newPwd) return;
       
-      const res = await fetch('/api/change_password', {
+      const res = await fetch('https://animated-frontend.onrender.com/api/change_password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ oldPassword: oldPwd, newPassword: newPwd })
@@ -330,7 +330,7 @@
       const newEl = document.getElementById('newLeads');
       
       try {
-        const response = await fetch('/api/contacts');
+        const response = await fetch('https://animated-frontend.onrender.com/api/contacts');
         if (response.status === 401) {
           window.location.href = '/login.html';
           return;

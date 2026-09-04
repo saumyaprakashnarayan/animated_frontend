@@ -51,19 +51,51 @@ export function initFAQ() {
 export function initContactForm() {
   const form = document.querySelector('form');
   if (!form) return;
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button[type=submit]');
-    btn.textContent = 'Message sent ✓';
-    btn.style.background = 'rgba(56,189,248,.15)';
-    btn.style.borderColor = 'var(--accent)';
-    btn.style.color = 'var(--accent)';
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    
+    // Gather data
+    const formData = new FormData(form);
+    const data = {
+      firstName: formData.get('firstName') || '',
+      lastName: formData.get('lastName') || '',
+      email: formData.get('email') || '',
+      company: formData.get('company') || '',
+      service: formData.get('service') || '',
+      message: formData.get('message') || ''
+    };
+
+    try {
+      const response = await fetch('https://animated-frontend.onrender.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (response.ok) {
+        btn.textContent = 'Message sent ✓';
+        btn.style.background = 'rgba(56,189,248,.15)';
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        form.reset();
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (err) {
+      btn.textContent = 'Error! Try again.';
+      btn.style.background = '#ff5555';
+      btn.style.color = '#fff';
+    }
+
     setTimeout(() => {
       btn.textContent = 'Send message →';
       btn.style.background = 'var(--accent)';
       btn.style.borderColor = 'var(--accent)';
       btn.style.color = 'var(--ink)';
-    }, 3000);
+    }, 4000);
   });
 }
 

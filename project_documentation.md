@@ -18,7 +18,7 @@ The project is structured into four main layers: HTML (Structure), CSS (Styling)
 - **`index.html`**: The entry point of the application. 
   - Contains the semantic layout (`<nav>`, `<header>`, `<section>`s).
   - Uses a fixed `<canvas id="webgl-canvas">` behind the DOM to render the 3D scene.
-  - Loads the JS components as ES Modules.
+  - Bootstraps the application via Vite's ESM bundler (`<script type="module" src="./src/app.js">`).
 
 ### 2. Styling Layer (`/styles/`)
 The CSS is broken down into modular files for maintainability, adhering strictly to vanilla CSS without frameworks (except where specified).
@@ -62,9 +62,9 @@ The javascript architecture is modular, separating the Three.js entity logic fro
   - **What it does**: Handles complex DOM-specific interactions, primarily the **Services 3D CSS Carousel**. It calculates the trigonometry required to arrange 12 HTML cards into a perfect 3D cylinder. It listens for mouse drags and wheel scrolls to rotate the cylinder on the Y-axis.
   - **Seasonal Sync**: As the cylinder rotates, it calculates which "season" is facing the user (grouping the 12 cards into 4 seasons) and updates `window.sceneState.seasonIndex`. This allows `main.js` to change the global CSS `--accent` color and the background particle physics to match the active season.
 
-### 4. Backend & API Layer
-To support dynamic form submissions and lead tracking, the project includes a lightweight Python backend.
-- **`server.py`**: A custom HTTP server extending `http.server.SimpleHTTPRequestHandler`. It serves the static frontend files while explicitly intercepting API routes.
+### 4. Backend & API Layer (Decoupled)
+Because the frontend is built using Vite, it is designed to be hosted statically (e.g., on Vercel or Netlify). To support dynamic form submissions and lead tracking, the project includes a lightweight Python backend that runs independently.
+- **`server.py`**: A custom HTTP server extending `http.server.SimpleHTTPRequestHandler`. In production, this can be hosted on a PaaS (like Render) to provide the API endpoints.
   - **`/api/contact` (POST)**: Receives JSON data from the contact form, inserts it into the SQLite database, and returns a success status.
   - **`/api/contacts` (GET)**: Fetches all submitted leads from the database for the admin dashboard.
 - **`contacts.db`**: A local SQLite database automatically initialized by `server.py` to store lead data persistently.

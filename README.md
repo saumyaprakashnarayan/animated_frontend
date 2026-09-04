@@ -12,20 +12,30 @@ A professional, interactive web experience showcasing AI consulting and implemen
 
 ## How to Run Locally
 
-This project features a full-stack architecture with an ES6 frontend and a Python backend. It requires running the custom Python server to enable the Contact form API and Admin Dashboard.
+This project features a decoupled architecture with a modern Vite frontend and a Python backend API.
 
-### Starting the Server
-Ensure you have Python 3 installed. Open your terminal in the project folder and run:
+### 1. Starting the Frontend (Vite)
+Ensure you have [Node.js](https://nodejs.org/) installed. Open your terminal in the project folder and run:
+```bash
+npm install
+npm run dev
+```
+This will start the blazing-fast Vite development server (usually on `http://localhost:5173`) with Hot Module Replacement (HMR).
+
+### 2. Starting the Backend API
+If you need to test the Contact Form submissions or the Admin Dashboard locally, you must run the backend server in a separate terminal window:
 ```bash
 python3 server.py
 ```
-This script will:
-1. Initialize the SQLite database (`contacts.db`) if it doesn't exist.
-2. Start serving static files and API endpoints (`/api/contact`, `/api/contacts`) on port 8000.
+This script initializes the SQLite database (`contacts.db`) and serves the API endpoints on port 8000.
 
-Then open your browser and navigate to: 
-- **Main Website:** `http://localhost:8000`
-- **Admin Dashboard:** `http://localhost:8000/admin.html`
+## Deployment
+
+The frontend is fully optimized for static hosting via Vite.
+
+1. **Build the project**: Run `npm run build` in your terminal. This generates a `dist/` folder containing your minified, highly-optimized production code.
+2. **Deploy**: You can deploy the `dist/` folder to any static host (like Vercel, Netlify, or GitHub Pages). The static host will serve your 3D experience perfectly.
+*(Note: To handle real contact form submissions in production, you will need to host `server.py` on a platform that supports Python (like Render or Heroku) and point the frontend API calls to it, or swap the form endpoint to a service like Formspree.)*
 
 ## File Structure
 
