@@ -124,7 +124,7 @@ export class BackgroundParticles {
       size: 1.4,
       vertexColors: true,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.15,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       sizeAttenuation: false
@@ -149,7 +149,7 @@ export class BackgroundParticles {
     this.innerMat = new THREE.PointsMaterial({
       size: 1.4,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.15,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       sizeAttenuation: false
@@ -246,7 +246,7 @@ export class BackgroundParticles {
     // Handle Pattern 6: Crossfade and animate the Grid Lines
     if (index === 6) {
       // Fade in dots — slow, graceful return (dots should always be visible)
-      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0.35, 0.02);
+      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0.15, 0.02);
       
       // Fade in lines — slower crossfade for premium feel
       this.gridMat.opacity = THREE.MathUtils.lerp(this.gridMat.opacity, 1.0, 0.025);
@@ -258,7 +258,7 @@ export class BackgroundParticles {
       }
     } else {
       // Fade in dots — slow, graceful return
-      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0.35, 0.02);
+      this.material.opacity = THREE.MathUtils.lerp(this.material.opacity, 0.15, 0.02);
 
       // Fade out lines
       this.gridMat.opacity = THREE.MathUtils.lerp(this.gridMat.opacity, 0, 0.025);

@@ -4,6 +4,9 @@ import hashlib
 from datetime import datetime
 from typing import List
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, Request, Response, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -13,6 +16,8 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session
 # ----------------- Database Setup -----------------
 # In production, set the DATABASE_URL environment variable to your PostgreSQL connection string.
 DB_URL = os.getenv("DATABASE_URL", "sqlite:///./contacts.db")
+if DB_URL.startswith("postgres://"):
+    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
 connect_args = {"check_same_thread": False} if DB_URL.startswith("sqlite") else {}
 engine = create_engine(DB_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -59,9 +64,10 @@ with SessionLocal() as db:
 app = FastAPI(title="Trayaksh AI API")
 
 # Allow CORS for development and production frontend domains
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://animated-frontend-iota.vercel.app")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://animated-frontend-iota.vercel.app", "http://localhost:5173"], # In production, restrict this to your exact frontend domain
+    allow_origins=[FRONTEND_URL, "http://localhost:5173"], # In production, restrict this to your exact frontend domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -159,7 +165,7 @@ def forgot_password(req: ForgotPasswordRequest, db: Session = Depends(get_db)):
         user.reset_token = reset_token
         db.commit()
         print(f"\n[{datetime.now()}] FORGOT PASSWORD REQUESTED for '{req.username}'")
-        print(f"RESET LINK: https://animated-frontend-iota.vercel.app/reset_password.html?token={reset_token}\n")
+        print(f"RESET LINK: {FRONTEND_URL}/reset_password.html?token={reset_token}\n")
     return {"status": "success", "message": "If the username exists, a reset link has been generated."}
 
 @app.post("/api/reset_password")

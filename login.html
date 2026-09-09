@@ -234,7 +234,7 @@
       };
       
       try {
-        const res = await fetch('https://animated-frontend.onrender.com/api/login', {
+        const res = await fetch('%VITE_API_BASE_URL%/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -274,7 +274,7 @@
       };
       
       try {
-        const res = await fetch('https://animated-frontend.onrender.com/api/forgot_password', {
+        const res = await fetch('%VITE_API_BASE_URL%/api/forgot_password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

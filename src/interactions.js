@@ -69,7 +69,7 @@ export function initContactForm() {
     };
 
     try {
-      const response = await fetch('https://animated-frontend.onrender.com/api/contact', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
