@@ -17,7 +17,9 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session
 # In production, set the DATABASE_URL environment variable to your PostgreSQL connection string.
 DB_URL = os.getenv("DATABASE_URL", "sqlite:///./contacts.db")
 if DB_URL.startswith("postgres://"):
-    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+    DB_URL = DB_URL.replace("postgres://", "postgresql+pg8000://", 1)
+elif DB_URL.startswith("postgresql://") and not DB_URL.startswith("postgresql+pg8000://"):
+    DB_URL = DB_URL.replace("postgresql://", "postgresql+pg8000://", 1)
 connect_args = {"check_same_thread": False} if DB_URL.startswith("sqlite") else {}
 engine = create_engine(DB_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
