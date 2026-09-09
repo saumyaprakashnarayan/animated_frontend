@@ -147,7 +147,7 @@ def login(login_req: LoginRequest, response: Response, db: Session = Depends(get
     if user and user.password_hash == hash_password(login_req.password):
         token = str(uuid.uuid4())
         ACTIVE_SESSIONS[token] = user.username
-        response.set_cookie(key="session_token", value=token, httponly=True, samesite="lax", path="/")
+        response.set_cookie(key="session_token", value=token, httponly=True, samesite="none", secure=True, path="/")
         return {"status": "success"}
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
