@@ -86,9 +86,9 @@ def get_current_user(request: Request) -> str:
 
 # ----------------- Pydantic Models -----------------
 class ContactCreate(BaseModel):
-    firstName: str = ""
+    firstName: str
     lastName: str = ""
-    email: str = ""
+    email: str
     company: str = ""
     service: str = ""
     message: str = ""
