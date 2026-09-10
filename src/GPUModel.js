@@ -42,14 +42,11 @@ export class GPUModel {
     geometry.center();
 
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x051530,
-      metalness: 0.1,
-      roughness: 0.05,
+      color: 0x051020,
+      metalness: 0.6,
+      roughness: 0.2,
       transparent: true,
-      transmission: 0.95, // Glass effect
-      opacity: 1,
-      ior: 1.5,
-      thickness: 15,
+      opacity: 0.7, // Lower opacity so the inner core is clearly visible
       clearcoat: 1.0,
       clearcoatRoughness: 0.1,
       side: THREE.DoubleSide
@@ -93,56 +90,56 @@ export class GPUModel {
     this.innerMesh = new THREE.Mesh(innerBoxGeom, innerBoxMat);
     this.group.add(this.innerMesh);
 
-    // 5. Central Glowing Core (Matches the reference pic)
-    // Positioned at z=4.5 to protrude OUTSIDE the dark glass (glass front is at z=4)
-    const coreGeom = new THREE.BoxGeometry(32, 32, 2);
-    const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x00ffff,
-      transparent: true,
-      opacity: 0.9,
+    // 5. Realistic Silicon Die (The Core)
+    const coreGeom = new THREE.BoxGeometry(20, 20, 1.5);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x020202, // Dark silicon
+      emissive: 0x00f0ff,
+      emissiveIntensity: 2.0,
+      metalness: 0.9,
+      roughness: 0.1
     });
     this.coreMesh = new THREE.Mesh(coreGeom, coreMat);
-    this.coreMesh.position.z = 4.5; 
+    this.coreMesh.position.z = 1.5; // Sitting exactly on top of the inner circuit board
     this.group.add(this.coreMesh);
 
-    // 5b. Guaranteed Sprite Glow (in case post-processing bloom is disabled)
-    const glowTex = this.createGlowTexture();
-    const spriteMat = new THREE.SpriteMaterial({ 
-      map: glowTex, 
-      color: 0x00ffff, 
-      transparent: true, 
-      blending: THREE.AdditiveBlending,
-      opacity: 1.0,
-      depthWrite: false
-    });
-    this.glowSprite = new THREE.Sprite(spriteMat);
-    this.glowSprite.scale.set(150, 150, 1);
-    this.glowSprite.position.z = 5;
-    this.group.add(this.glowSprite);
-
-    // 6. PointLight for the intense core glow
-    this.coreLight = new THREE.PointLight(0x00ffff, 100, 200); 
-    this.coreLight.position.set(0, 0, 8);
+    // 6. PointLight for ambient volumetric glow inside the glass
+    this.coreLight = new THREE.PointLight(0x00ffff, 40, 100); 
+    this.coreLight.position.set(0, 0, 4);
     this.group.add(this.coreLight);
 
-    // 7. Vertical Light Beams (Shooting upwards)
-    const beamCount = 60;
+    // 7. Realistic Data Streams (Fading light beams using Vertex Colors)
+    const beamCount = 150;
     const beamGeom = new THREE.BufferGeometry();
     const beamPos = new Float32Array(beamCount * 2 * 3);
+    const beamColors = new Float32Array(beamCount * 2 * 3);
+    
+    const colorBase = new THREE.Color(0x00ffff);
+    const colorTip = new THREE.Color(0x000000); // Black becomes transparent in Additive Blending
+
     for(let i=0; i<beamCount; i++) {
-      const px = (Math.random() - 0.5) * 30;
-      const py = (Math.random() - 0.5) * 30;
-      // start point (outside glass)
-      beamPos[i*6] = px; beamPos[i*6+1] = py; beamPos[i*6+2] = 4.5;
-      // end point (shooting out)
-      beamPos[i*6+3] = px; beamPos[i*6+4] = py; beamPos[i*6+5] = 40 + Math.random() * 100;
+      // Confine beams to the silicon die area
+      const px = (Math.random() - 0.5) * 18;
+      const py = (Math.random() - 0.5) * 18;
+      
+      // Start point (on the die)
+      beamPos[i*6] = px; beamPos[i*6+1] = py; beamPos[i*6+2] = 2.5;
+      beamColors[i*6] = colorBase.r; beamColors[i*6+1] = colorBase.g; beamColors[i*6+2] = colorBase.b;
+      
+      // End point (shooting up, length varies)
+      beamPos[i*6+3] = px; beamPos[i*6+4] = py; beamPos[i*6+5] = 20 + Math.random() * 40;
+      beamColors[i*6+3] = colorTip.r; beamColors[i*6+4] = colorTip.g; beamColors[i*6+5] = colorTip.b;
     }
+    
     beamGeom.setAttribute('position', new THREE.BufferAttribute(beamPos, 3));
+    beamGeom.setAttribute('color', new THREE.BufferAttribute(beamColors, 3));
+
     this.beamMat = new THREE.LineBasicMaterial({
-      color: 0x00ffff,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
       transparent: true,
       opacity: 0.9,
-      blending: THREE.AdditiveBlending
+      depthWrite: false
     });
     this.beams = new THREE.LineSegments(beamGeom, this.beamMat);
     this.group.add(this.beams);
@@ -293,54 +290,29 @@ export class GPUModel {
     // Modulate edge and circuit brightness
     const pulse = 1.0 + pulseProgress * 2.0; // Stronger pulse factor
     
-    // Increase multiplier here to make the central part glow much more
+    // Increase multiplier here to make the central circuit board glow
     if (this.innerMesh.material[4]) {
-      this.innerMesh.material[4].emissiveIntensity = pulse * 10.0; // Cranked up massively
-      this.innerMesh.material[5].emissiveIntensity = pulse * 10.0;
+      this.innerMesh.material[4].emissiveIntensity = pulse * 3.0; 
+      this.innerMesh.material[5].emissiveIntensity = pulse * 3.0;
     }
     
     if (this.edgeMat) {
-      // Drastically reduce edge glow so it does not overpower the center
       const baseColor = new THREE.Color(0x00f0ff);
       baseColor.multiplyScalar(0.2 + pulseProgress * 0.3); // Dimmer edges
       this.edgeMat.color.copy(baseColor);
-      this.edgeMat.opacity = 0.2; // Highly transparent to soften the line
+      this.edgeMat.opacity = 0.2; 
     }
     
-    // Animate the new Core, Glow, and Beams
+    // Animate the realistic Core and Beams
     if (this.coreMesh) {
-      this.coreMesh.material.opacity = 0.6 + pulseProgress * 0.4;
-    }
-    if (this.glowSprite) {
-      this.glowSprite.material.opacity = 0.8 + pulseProgress * 0.5;
-      const scale = 120 + pulseProgress * 40;
-      this.glowSprite.scale.set(scale, scale, 1);
+      this.coreMesh.material.emissiveIntensity = 2.0 + pulseProgress * 6.0; // intense thumping core
     }
     if (this.coreLight) {
-      this.coreLight.intensity = 50 + pulseProgress * 150; // intense light pulses
+      this.coreLight.intensity = 20 + pulseProgress * 60; // ambient light pulses
     }
     if (this.beamMat) {
       this.beamMat.opacity = 0.5 + pulseProgress * 0.5; // Beams pulse in sync
-      this.beams.scale.z = 1.0 + Math.sin(time * 10.0) * 0.1; // slight shimmering vibration
+      this.beams.position.z = Math.sin(time * 5.0) * 0.5; // Beams literally flow upwards slightly
     }
-  }
-
-  createGlowTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
-    const ctx = canvas.getContext('2d');
-    
-    const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.2, 'rgba(0, 255, 255, 0.8)');
-    gradient.addColorStop(0.5, 'rgba(0, 200, 255, 0.4)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 128, 128);
-    
-    const texture = new THREE.CanvasTexture(canvas);
-    return texture;
   }
 }
