@@ -58,7 +58,7 @@ def hash_password(password: str) -> str:
 # Initialize default admin if none exists
 with SessionLocal() as db:
     if db.query(AdminUser).count() == 0:
-        default_admin = AdminUser(username="admin", password_hash=hash_password("admin123"))
+        default_admin = AdminUser(username="admin", password_hash=hash_password("admin@123"))
         db.add(default_admin)
         db.commit()
 
