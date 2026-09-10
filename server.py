@@ -1,7 +1,7 @@
 import os
 import uuid
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
 
 from dotenv import load_dotenv
@@ -118,7 +118,7 @@ def create_contact(contact: ContactCreate, db: Session = Depends(get_db)):
         company=contact.company,
         service=contact.service,
         message=contact.message,
-        submitted_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        submitted_at=datetime.now(timezone.utc).isoformat()
     )
     db.add(db_contact)
     db.commit()

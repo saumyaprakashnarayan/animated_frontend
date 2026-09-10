@@ -463,10 +463,20 @@
       
       tbody.innerHTML = '';
       data.forEach(contact => {
-        const date = new Date(contact.submittedAt);
-        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + 
-          '<br><span style="color: var(--text-dim); font-size: 0.75rem; font-family:\'Space Mono\',monospace;">' + 
-          date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + '</span>';
+        let dateStr = contact.submittedAt;
+        if (!dateStr.includes('T') && !dateStr.includes('Z')) {
+          // Legacy dates didn't have timezone, assume UTC
+          dateStr = dateStr.replace(' ', 'T') + 'Z';
+        }
+        const date = new Date(dateStr);
+        
+        const dateFormatted = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeUTC = date.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' }) + ' UTC';
+        const timeIST = date.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+        
+        const formattedDate = dateFormatted + 
+          '<br><span style="color: var(--text-dim); font-size: 0.70rem; font-family:\'Space Mono\',monospace; display: block; margin-top: 4px;">' + timeUTC + '</span>' +
+          '<span style="color: var(--accent); font-size: 0.70rem; font-family:\'Space Mono\',monospace; display: block; margin-top: 2px;">' + timeIST + '</span>';
         
         // Escape special chars for onclick attribute
         const safeMsg = (contact.message || '').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '\\n');
