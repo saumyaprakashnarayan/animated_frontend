@@ -332,8 +332,14 @@
   <div class="modal-overlay" id="pwdModal">
     <div class="modal-content">
       <h3>Change Password</h3>
-      <input type="password" id="oldPwd" placeholder="Old Password">
-      <input type="password" id="newPwd" placeholder="New Password">
+      <div style="position: relative; width: 100%; margin-bottom: 0.5rem;">
+        <input type="password" id="oldPwd" placeholder="Old Password" style="width: 100%; padding-right: 45px; box-sizing: border-box; margin-bottom: 0;">
+        <span onclick="togglePwd('oldPwd', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-dim); font-size: 0.75rem; font-family: 'Space Mono', monospace; text-transform: uppercase; user-select: none;">Show</span>
+      </div>
+      <div style="position: relative; width: 100%; margin-bottom: 0.5rem;">
+        <input type="password" id="newPwd" placeholder="New Password" style="width: 100%; padding-right: 45px; box-sizing: border-box; margin-bottom: 0;">
+        <span onclick="togglePwd('newPwd', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-dim); font-size: 0.75rem; font-family: 'Space Mono', monospace; text-transform: uppercase; user-select: none;">Show</span>
+      </div>
       <div style="display: flex; gap: 1rem; margin-top: 1rem;">
         <button class="btn" onclick="handleChangePassword()">Save Password</button>
         <button class="btn btn-outline" onclick="closeModal('pwdModal')">Cancel</button>
@@ -358,6 +364,17 @@
   <script>
     let allContacts = [];
     
+    function togglePwd(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = 'Hide';
+      } else {
+        input.type = 'password';
+        btn.innerText = 'Show';
+      }
+    }
+
     function showToast(message, type='success') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');

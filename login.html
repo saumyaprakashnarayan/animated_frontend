@@ -184,7 +184,10 @@
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="password" required>
+          <div style="position: relative; width: 100%;">
+            <input type="password" id="password" required style="padding-right: 45px;">
+            <span onclick="togglePwd('password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-dim); font-size: 0.75rem; font-family: 'Space Mono', monospace; text-transform: uppercase; user-select: none;">Show</span>
+          </div>
         </div>
         <button type="submit" class="btn" id="loginBtn">Login →</button>
       </form>
@@ -217,6 +220,17 @@
       document.getElementById('loginError').style.display = 'none';
       document.getElementById('forgotSuccess').style.display = 'none';
       document.getElementById('forgotError').style.display = 'none';
+    }
+
+    function togglePwd(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = 'Hide';
+      } else {
+        input.type = 'password';
+        btn.innerText = 'Show';
+      }
     }
 
     async function handleLogin(e) {
