@@ -14,8 +14,8 @@ export class BackgroundParticles {
     // Generate colors (70% White, 20% Blue, 10% Green)
     const colors = new Float32Array(this.particleCount * 3);
     const colorWhite = new THREE.Color(0xffffff);
-    const colorBlue = new THREE.Color(0x38BDF8);
-    const colorGreen = new THREE.Color(0xC8FF00);
+    const colorBlue = new THREE.Color(0x00f59b); // Emerald
+    const colorGreen = new THREE.Color(0xc8ff00); // Cyber Lime
 
     for (let i = 0; i < this.particleCount; i++) {
       const rand = Math.random();
@@ -165,8 +165,8 @@ export class BackgroundParticles {
     const gridColors = [];
     const numStreaks = 2500;
     this.gridStep = 2000; // The seamless wrap distance
-    const cBlue = new THREE.Color(0x38BDF8);
-    const cGreen = new THREE.Color(0xC8FF00);
+    const cBlue = new THREE.Color(0x00f59b);
+    const cGreen = new THREE.Color(0xc8ff00);
     const cWhite = new THREE.Color(0xffffff);
 
     for (let i = 0; i < numStreaks; i++) {

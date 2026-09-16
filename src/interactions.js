@@ -101,8 +101,21 @@ export function initCardTilt() {
   });
 }
 
-// ---- AI TEXT DECODING EFFECT ----
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>-_\\/[]{}—=+*^?#_';
+// ---- DYNAMIC SPOTLIGHT TRACKING ----
+export function initSpotlight() {
+  document.querySelectorAll('.service-card, .process-step, .pricing-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+}
+
+// ---- AI TEXT DECODING EFFECT (Restricted to monospace for layout stability) ----
+const CHARS = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>-_\\/[]{}—=+*^?#_';
 
 function decodeNode(node) {
   if (node.nodeType === 3) {
@@ -118,20 +131,39 @@ function decodeNode(node) {
         return CHARS[Math.floor(Math.random() * CHARS.length)];
       }).join('');
       if (iter >= target.length) { node.nodeValue = target; clearInterval(interval); }
-      iter += 0.5;
-    }, 30);
+      iter += 0.8;
+    }, 20);
   } else if (node.nodeType === 1) {
     Array.from(node.childNodes).forEach(decodeNode);
   }
 }
 
 export function initTextDecode() {
-  document.querySelectorAll('.section-title, .hero-headline').forEach(el => {
+  // Apply decode only to monospace elements to prevent layout shift glitches
+  document.querySelectorAll('.section-label, .hero-tag').forEach(el => {
     ScrollTrigger.create({
       trigger: el,
-      start: 'top 90%',
+      start: 'top 95%',
       onEnter: () => decodeNode(el)
     });
+  });
+
+  // Smooth blur fade for luxury serif headings
+  document.querySelectorAll('.section-title, .hero-headline').forEach(el => {
+    gsap.fromTo(el, 
+      { opacity: 0, y: 30, filter: 'blur(10px)' }, 
+      { 
+        opacity: 1, 
+        y: 0, 
+        filter: 'blur(0px)', 
+        duration: 1.2, 
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%'
+        }
+      }
+    );
   });
 }
 
@@ -351,6 +383,7 @@ export function initInteractions() {
   initContactForm();
   initCursor();
   initCardTilt();
+  initSpotlight();
   initTextDecode();
   initNeuralPulse();
   initServicesCylinder();

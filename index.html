@@ -29,27 +29,33 @@
 
     <!-- NAV -->
 <nav class="glass-nav">
-  <a href="#home" class="logo" style="display:flex; align-items:center; gap:8px;"><img src="./logo1.png" alt="" style="height: 32px;">TRAYAKSH<span style="color:var(--accent)">.</span>AI</a>
+  <a href="#home" class="logo">
+    <img src="./logo1.png" alt="" style="height: 32px; filter: drop-shadow(0 0 10px rgba(0, 245, 155, 0.5));">
+    TRAYAKSH<span>.</span>AI
+  </a>
+
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#technology">Technology</a></li>
-    <li><a href="#team">Team</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView()">Deploy GPUs</button></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-content">
-    <div class="hero-tag">AI CONSULTING • IMPLEMENTATION</div>
+    <div class="hero-tag">
+      NEXT-GEN ACCELERATED COMPUTING // NVIDIA H100
+    </div>
     <h1 class="hero-headline">Build AI That Actually <br><em class="neon-glow">Works.</em></h1>
     <div class="hero-bottom">
-      <p class="hero-sub">We design, build and deploy production-ready AI systems that automate workflows, reduce operational costs, and help businesses scale.</p>
+      <p class="hero-sub">We design, build and deploy production-ready AI infrastructure and liquid-cooled clusters that automate workflows, reduce operational costs, and help enterprises scale.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Start Your AI Project →</a>
-        <a href="#work" class="btn-secondary">See Our Work</a>
+        <a href="#contact" class="btn-primary">Start Your AI Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#work" class="btn-secondary">Explore Telemetry</a>
       </div>
     </div>
   </div>

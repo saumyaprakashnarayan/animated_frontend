@@ -23,8 +23,8 @@ const SECTION_PATTERNS = [
   { id: '#process',    pattern: 2, model: 'jet' },
   { id: '#industries', pattern: 3, model: 'eye' },
   { id: '#work',       pattern: 4, model: 'robot' },
-  { id: '#technology', pattern: 6, model: 'ann' }, // Data streaks / Tron grid
-  { id: '#team',       pattern: 5, model: 'computer' },
+  { id: '#technology', pattern: 0, model: 'ann' }, // Changed to simple dust
+  { id: '#team',       pattern: 0, model: 'computer' }, // Changed to simple dust
   { id: '#pricing',    pattern: 1, model: 'spacetime' },
   { id: '#contact',    pattern: 0, model: 'robot' }
 ];
