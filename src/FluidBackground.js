@@ -69,24 +69,32 @@ export class FluidBackground {
             return h * h * (3.0 - 2.0 * h); // smoothstep curve
         }
 
-        // Fakes a 3D heightmap using 2D math
+        // Fakes a 3D heightmap using 2D math - Silk Scarf Folds
         float map(vec2 p, float time) {
             float h = 0.0;
             
-            // Strand 1 (Main flowing curve)
-            float wave1 = sin(p.x * 0.8 + time * 0.4) * 0.25 + sin(p.x * 0.3 - time * 0.2) * 0.15;
-            float r1 = 0.25 + sin(p.x * 1.5 + time) * 0.05;
-            h = smax(h, getStrand(p.y - wave1, r1) * 0.9, 0.15);
-            
-            // Strand 2 (Twisting counterpart)
-            float wave2 = cos(p.x * 1.1 - time * 0.3) * 0.2 - sin(p.x * 0.6 + time * 0.5) * 0.1 - 0.05;
-            float r2 = 0.18 + cos(p.x * 1.2 - time * 1.2) * 0.05;
-            h = smax(h, getStrand(p.y - wave2, r2) * 0.8, 0.15);
-            
-            // Strand 3 (Thick background base)
-            float wave3 = sin(p.x * 0.5 + time * 0.6) * 0.2 + 0.1;
-            float r3 = 0.35;
-            h = smax(h, getStrand(p.y - wave3, r3) * 0.7, 0.2);
+            // Domain warping for organic wind-blown flow
+            vec2 warp = p;
+            warp.x += sin(p.y * 1.5 - time * 0.2) * 0.15;
+            warp.y += cos(p.x * 2.0 + time * 0.3) * 0.1;
+
+            // Multiple overlapping sharp folds to simulate a silk scarf
+            for (int i = 0; i < 6; i++) {
+                float fi = float(i);
+                float freq = 1.0 + fi * 0.4;
+                float speed = 0.3 + fi * 0.05;
+                float offset = fi * 0.2 - 0.5; // Spread strands vertically
+                
+                // Complex wave for each fold
+                float wave = sin(warp.x * freq + time * speed) * (0.2 + fi * 0.03) 
+                           + cos(warp.x * freq * 0.6 - time * speed * 0.8) * 0.15;
+                
+                // Thickness and height of the fold
+                float r = 0.15 - fi * 0.015; // gets sharper
+                float amp = 0.9 - fi * 0.1;
+                
+                h = smax(h, getStrand(warp.y - wave - offset, r) * amp, 0.1);
+            }
             
             return h;
         }
@@ -110,8 +118,8 @@ export class FluidBackground {
           
           float time = uTime * 0.8; // Moderate speed for elegant flow
           
-          // Deep premium dark forest green background (#07120a)
-          vec3 bg = vec3(0.027, 0.071, 0.039); 
+          // Obsidian dark emerald background for deep dark mode
+          vec3 bg = vec3(0.005, 0.01, 0.008); 
           vec3 col = bg;
           
           // Domain warping on position to make it look liquid and organic
@@ -130,28 +138,28 @@ export class FluidBackground {
               
               float diff = max(dot(n, lightDir), 0.0);
               
-              // Glossy Specular Highlight
+              // High Gloss Silk Specular Highlight
               vec3 halfVector = normalize(lightDir + viewDir);
-              float spec = pow(max(dot(n, halfVector), 0.0), 80.0); 
+              float spec = pow(max(dot(n, halfVector), 0.0), 120.0); // Tighter gloss
               
               // Rim Light / Ambient Light (Bottom Left)
               vec3 lightDir2 = normalize(vec3(-0.8, -0.5, 0.5)); 
               float diff2 = max(dot(n, lightDir2), 0.0);
               
-              // Forest Green & Neon Lime Palette
-              vec3 colorDeep = vec3(0.027, 0.071, 0.039) * 0.5; // Dark forest core
-              vec3 colorMid = vec3(0.1, 0.25, 0.15) * 0.6;      // Mid-tone green
-              vec3 colorHigh = vec3(0.78, 1.0, 0.0) * 0.8;      // Electric neon lime
-              vec3 colorVar = vec3(0.2, 0.4, 0.2) * 0.5;        // Sage variation
+              // Dark Obsidian Green & Neon Lime Palette
+              vec3 colorDeep = vec3(0.005, 0.01, 0.008);        // Obsidian dark core
+              vec3 colorMid = vec3(0.02, 0.12, 0.07);           // Rich emerald mid-tone for silk
+              vec3 colorHigh = vec3(0.0, 0.96, 0.6) * 0.9;      // Electric neon emerald (matches --accent)
+              vec3 colorVar = vec3(0.05, 0.2, 0.15);            // Teal/Sage variation
               
               // Color mapping based on height
-              vec3 albedo = mix(colorDeep, colorMid, smoothstep(0.2, 0.7, h));
-              albedo = mix(albedo, colorHigh, smoothstep(0.85, 1.0, h)); // Only highest peaks get neon
+              vec3 albedo = mix(colorDeep, colorMid, smoothstep(0.1, 0.6, h));
+              albedo = mix(albedo, colorHigh, smoothstep(0.8, 1.0, h)); // Only highest peaks get neon
               
-              albedo = mix(albedo, colorVar, sin(wp.x * 2.0 + time) * 0.15 + 0.15);
+              albedo = mix(albedo, colorVar, sin(wp.x * 3.0 + time) * 0.2 + 0.2);
               
               vec3 litColor = albedo * (diff * 0.9 + 0.1); 
-              litColor += mix(colorVar, colorHigh, 0.3) * spec * 0.6; 
+              litColor += colorHigh * spec * 1.5; // Blast the specular with neon for shiny silk look
               litColor += colorMid * diff2 * 0.5;
               
               float alpha = smoothstep(0.0, 0.1, h);

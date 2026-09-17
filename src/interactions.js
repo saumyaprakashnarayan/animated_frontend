@@ -358,7 +358,7 @@ export function initServicesCylinder() {
   // Animation loop for smooth rotation
   function update() {
     if (!isDragging) {
-      targetAngle -= 0.3; // Increased continuous auto-scroll speed (right-to-left)
+      targetAngle -= 0.025; // Slow, premium continuous auto-scroll
     }
     
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
@@ -369,6 +369,18 @@ export function initServicesCylinder() {
       if (normalizedAngle < 0) normalizedAngle += 360;
       const activeCardIndex = Math.round(normalizedAngle / angleStep) % numCards;
       window.sceneState.seasonIndex = Math.floor(activeCardIndex / 3);
+      
+      cards.forEach((card, i) => {
+        if (i === activeCardIndex) {
+          card.classList.add('active');
+          card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px) scale(1.05)`;
+          card.style.opacity = '1';
+        } else {
+          card.classList.remove('active');
+          card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px) scale(0.75)`;
+          card.style.opacity = '0.4';
+        }
+      });
     }
 
     requestAnimationFrame(update);

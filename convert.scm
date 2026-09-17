@@ -1,0 +1,7 @@
+(define (convert-xcf-to-png filename out-filename)
+    (let* ((image (car (gimp-file-load RUN-NONINTERACTIVE filename filename)))
+           (drawable (car (gimp-image-merge-visible-layers image CLIP-TO-IMAGE))))
+        (file-png-save-defaults RUN-NONINTERACTIVE image drawable out-filename out-filename)
+        (gimp-image-delete image)))
+(convert-xcf-to-png "hpcsol.xcf" "hpcsol.png")
+(gimp-quit 0)

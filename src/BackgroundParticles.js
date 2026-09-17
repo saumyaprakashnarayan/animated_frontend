@@ -4,7 +4,7 @@ export class BackgroundParticles {
   constructor(scene) {
     this.scene = scene;
 
-    this.particleCount = 15000;
+    this.particleCount = 3000;
     this.geometry = new THREE.BufferGeometry();
 
     // Arrays for different formations
@@ -13,9 +13,9 @@ export class BackgroundParticles {
 
     // Generate colors (70% White, 20% Blue, 10% Green)
     const colors = new Float32Array(this.particleCount * 3);
-    const colorWhite = new THREE.Color(0xffffff);
-    const colorBlue = new THREE.Color(0x00f59b); // Emerald
-    const colorGreen = new THREE.Color(0xc8ff00); // Cyber Lime
+    const colorWhite = new THREE.Color(0xffffff); // Subtle Sage Green instead of stark white
+    const colorBlue = new THREE.Color(0xffffff); // Emerald
+    const colorGreen = new THREE.Color(0xffffff); // Cyber Lime
 
     for (let i = 0; i < this.particleCount; i++) {
       const rand = Math.random();
@@ -121,10 +121,10 @@ export class BackgroundParticles {
     this.geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
 
     this.material = new THREE.PointsMaterial({
-      size: 1.4,
+      size: 0.8,
       vertexColors: true,
       transparent: true,
-      opacity: 0.15,
+      opacity: 0.08,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       sizeAttenuation: false
@@ -165,8 +165,8 @@ export class BackgroundParticles {
     const gridColors = [];
     const numStreaks = 2500;
     this.gridStep = 2000; // The seamless wrap distance
-    const cBlue = new THREE.Color(0x00f59b);
-    const cGreen = new THREE.Color(0xc8ff00);
+    const cBlue = new THREE.Color(0xffffff);
+    const cGreen = new THREE.Color(0xffffff);
     const cWhite = new THREE.Color(0xffffff);
 
     for (let i = 0; i < numStreaks; i++) {
@@ -212,9 +212,9 @@ export class BackgroundParticles {
   update(time, scrollSpeedMultiplier, activePatternIndex, seasonIndex = 0, seasonColor = null) {
     // Apply seasonal color tint
     if (seasonColor) {
-      this.material.color.copy(seasonColor);
-      this.innerMat.color.copy(seasonColor);
-      this.gridMat.color.copy(seasonColor);
+      this.material.color.set(0xffffff);
+      this.innerMat.color.set(0xffffff);
+      this.gridMat.color.set(0xffffff);
     }
 
     // Determine the target pattern (round it since GSAP might tween it as a float)

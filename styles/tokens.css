@@ -12,7 +12,7 @@
   /* Accent */
   --accent: #00f59b;             /* Electric Neon Emerald/Mint */
   --accent-secondary: #10b981;   /* Rich Emerald */
-  --accent-highlight: #c8ff00;   /* Cyber Lime (Highlights) */
+  --accent-highlight: var(--accent);   /* Cyber Lime (Highlights) replaced with Emerald */
 
   /* Typography */
   --text-primary: #f8fafc;       /* Crisp white */
