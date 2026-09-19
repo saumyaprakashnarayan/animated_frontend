@@ -10,8 +10,8 @@
   --surface: #071511;
 
   /* Accent */
-  --accent: #00f59b;             /* Electric Neon Emerald/Mint */
-  --accent-secondary: #00b37e;   /* Richer, deeper Emerald */
+  --accent: #10b981;             /* Richer, softer Emerald */
+  --accent-secondary: #059669;   /* Deeper Emerald */
   --accent-highlight: #ffcf54;   /* Champagne/Gold for premium highlights */
 
   /* Typography */
@@ -22,10 +22,10 @@
   --text-caption: #475569;
 
   /* Borders & Glow */
-  --border: rgba(0, 245, 155, 0.12);
-  --border-strong: rgba(0, 245, 155, 0.25);
+  --border: rgba(16, 185, 129, 0.15);
+  --border-strong: rgba(16, 185, 129, 0.3);
   --border-white: rgba(255, 255, 255, 0.08);
-  --glow-emerald: 0 0 25px rgba(0, 245, 155, 0.45);
+  --glow-emerald: 0 0 25px rgba(16, 185, 129, 0.45);
   --glow-gold: 0 0 20px rgba(255, 207, 84, 0.4);
 
   /* Cards & Sections */
@@ -45,7 +45,7 @@
 
 /* ---- RESET ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { }
 
 body {
   font-family: 'DM Sans', sans-serif;

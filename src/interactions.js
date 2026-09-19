@@ -88,7 +88,7 @@ export function initCursor() {
 
 // ---- 3D CARD TILT ----
 export function initCardTilt() {
-  document.querySelectorAll('.case-card, .pricing-card').forEach(card => {
+  document.querySelectorAll('.case-card, .case-card-sm, .pricing-card, .team-card, .industry-item').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -10;
@@ -103,7 +103,7 @@ export function initCardTilt() {
 
 // ---- DYNAMIC SPOTLIGHT TRACKING ----
 export function initSpotlight() {
-  document.querySelectorAll('.service-card, .process-step, .pricing-card').forEach(card => {
+  document.querySelectorAll('.service-card, .process-step, .pricing-card, .case-card, .case-card-sm, .team-card, .industry-item').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -279,9 +279,29 @@ export function initProcessCylinder() {
   window.addEventListener('pointercancel', onPointerUp);
 
   function update() {
-    if (!isDragging) targetAngle -= 0.3;
-    currentAngle += (targetAngle - currentAngle) * 0.05;
+    if (!isDragging) {
+      targetAngle -= 0.008; // Slower, premium continuous auto-scroll
+    }
+    
+    currentAngle += (targetAngle - currentAngle) * 0.05; // easing
     grid.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+    
+    let normalizedAngle = (-currentAngle % 360);
+    if (normalizedAngle < 0) normalizedAngle += 360;
+    const activeCardIndex = Math.round(normalizedAngle / angleStep) % numCards;
+    
+    cards.forEach((card, i) => {
+      if (i === activeCardIndex) {
+        card.classList.add('active');
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px) scale(1.05)`;
+        card.style.opacity = '1';
+      } else {
+        card.classList.remove('active');
+        card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px) scale(0.75)`;
+        card.style.opacity = '0.6';
+      }
+    });
+
     requestAnimationFrame(update);
   }
   update();
@@ -358,7 +378,7 @@ export function initServicesCylinder() {
   // Animation loop for smooth rotation
   function update() {
     if (!isDragging) {
-      targetAngle -= 0.025; // Slow, premium continuous auto-scroll
+      targetAngle -= 0.008; // Slower, premium continuous auto-scroll
     }
     
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
@@ -378,7 +398,7 @@ export function initServicesCylinder() {
         } else {
           card.classList.remove('active');
           card.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px) scale(0.75)`;
-          card.style.opacity = '0.4';
+          card.style.opacity = '0.6';
         }
       });
     }

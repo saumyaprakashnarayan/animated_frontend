@@ -1,11 +1,26 @@
 import * as THREE from 'three';
 
+function createGlowingTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+  gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(canvas);
+}
+
 export class BackgroundParticles {
   constructor(scene) {
     this.scene = scene;
-
-    this.particleCount = 3000;
+    this.particleCount = 8000;
     this.geometry = new THREE.BufferGeometry();
+    this.particleTexture = createGlowingTexture();
 
     // Arrays for different formations
     this.patterns = [];
@@ -121,13 +136,14 @@ export class BackgroundParticles {
     this.geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
 
     this.material = new THREE.PointsMaterial({
-      size: 0.8,
+      size: 2.2,
+      map: this.particleTexture,
       vertexColors: true,
       transparent: true,
-      opacity: 0.08,
+      opacity: 0.18,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      sizeAttenuation: false
+      sizeAttenuation: true
     });
 
     this.points = new THREE.Points(this.geometry, this.material);
@@ -147,12 +163,13 @@ export class BackgroundParticles {
     }
     this.innerGeom.setAttribute('position', new THREE.BufferAttribute(innerPos, 3));
     this.innerMat = new THREE.PointsMaterial({
-      size: 1.4,
+      size: 4.0,
+      map: this.particleTexture,
       transparent: true,
-      opacity: 0.15,
+      opacity: 0.25,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      sizeAttenuation: false
+      sizeAttenuation: true
     });
     this.innerPoints = new THREE.Points(this.innerGeom, this.innerMat);
     this.scene.add(this.innerPoints);
@@ -231,9 +248,9 @@ export class BackgroundParticles {
       if (absDiff > 0.1) {
         // Adaptive speed: faster when far away, almost stops when close (ease-out)
         // t is normalized distance (0=close, 1=far)
-        const t = Math.min(absDiff / 300, 1.0);
-        // Ease-out cubic: slowed down per user request for a more graceful float
-        const eased = 0.015 + t * t * t * 0.06;
+        const t = Math.min(absDiff / 400, 1.0);
+        // Silky smooth easing for premium floating effect
+        const eased = 0.005 + t * t * t * 0.04;
         positions[i] += diff * eased;
         needsUpdate = true;
       }
@@ -265,28 +282,29 @@ export class BackgroundParticles {
     }
 
     // Seasonal ambient physics
-    let driftY = time * 0.004;
-    let driftX = time * 0.001;
-    let auraY = time * 0.03;
-    let auraZ = Math.sin(time * 0.08) * 0.05;
+    // Seasonal ambient physics - slowed down significantly for a more luxurious drift
+    let driftY = time * 0.001;
+    let driftX = time * 0.0005;
+    let auraY = time * 0.01;
+    let auraZ = Math.sin(time * 0.05) * 0.03;
 
     if (seasonIndex === 0) {
-      // Spring: Upward diagonal drift (pollen/blossoms)
-      driftY = time * 0.02;
-      driftX = time * 0.01;
+      // Spring
+      driftY = time * 0.005;
+      driftX = time * 0.002;
     } else if (seasonIndex === 1) {
-      // Summer: Shimmering heat
-      driftY = time * 0.05;
-      driftX = Math.sin(time * 0.5) * 0.02;
+      // Summer
+      driftY = time * 0.01;
+      driftX = Math.sin(time * 0.2) * 0.005;
     } else if (seasonIndex === 2) {
-      // Autumn: Swirling horizontal wind
-      driftY = time * 0.08;
-      driftX = time * 0.03;
-      auraZ = Math.cos(time * 0.2) * 0.1;
+      // Autumn
+      driftY = time * 0.015;
+      driftX = time * 0.005;
+      auraZ = Math.cos(time * 0.1) * 0.05;
     } else if (seasonIndex === 3) {
-      // Winter: Downward drift (snow)
-      driftY = -time * 0.015;
-      driftX = Math.sin(time * 0.1) * 0.005;
+      // Winter
+      driftY = -time * 0.005;
+      driftX = Math.sin(time * 0.05) * 0.002;
     }
 
     this.points.rotation.y = driftY;

@@ -73,7 +73,7 @@ function tick() {
   lighting.update(time);
 
   // Update seasonal color
-  const defaultAccent = new THREE.Color(0x00f59b); // Premium Neon Emerald for DOM
+  const defaultAccent = new THREE.Color(0x10b981); // Premium Emerald for DOM
   const defaultParticleTint = new THREE.Color(0xffffff); // Original white tint for particles
   let targetDomColor, targetParticleTint;
   let applySeasonalPhysics = false;
