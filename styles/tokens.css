@@ -3,41 +3,41 @@
    ============================================ */
 
 :root {
-  /* Color Palette - Premium Cyber Obsidian & Emerald */
-  --ink: #010403;       /* Deep space obsidian background with green tint */
-  --ink-dim: #030806;   /* Slightly elevated dark surface */
-  --ink-mid: #050d0a;   /* Mid-tone dark emerald surface */
-  --surface: #071511;
+  /* Color Palette - Midnight Emerald & Gold Premium Theme */
+  --ink: #0b0e0b;       /* Midnight emerald background */
+  --ink-dim: #121612;   /* Slightly elevated dark surface */
+  --ink-mid: #19201a;   /* Mid-tone dark surface */
+  --surface: #202a22;   /* Card/Component surface */
 
-  /* Accent */
-  --accent: #10b981;             /* Richer, softer Emerald */
-  --accent-secondary: #059669;   /* Deeper Emerald */
-  --accent-highlight: #ffcf54;   /* Champagne/Gold for premium highlights */
+  /* Accent Colors */
+  --accent: #10b981;             /* Vibrant Emerald for CTAs and Glows */
+  --accent-secondary: #047857;   /* Deep Emerald for borders/hover states */
+  --accent-highlight: #d4af37;   /* Premium Metallic Gold for highlights */
 
-  /* Typography */
-  --text-primary: #f8fafc;       /* Crisp white */
-  --text-subheading: #e2e8f0;
-  --text-muted: #94a3b8;         /* Cool silver-sage */
-  --text-dim: #64748b;
-  --text-caption: #475569;
+  /* Typography - Brightened for premium readability */
+  --text-primary: #f8fafc;       /* Crisp white for maximum contrast on dark backgrounds */
+  --text-subheading: #e2e8f0;    /* Bright silver for subheadings */
+  --text-muted: #cbd5e1;         /* Light slate-silver for body text (highly readable) */
+  --text-dim: #94a3b8;           /* Medium slate for secondary info */
+  --text-caption: #64748b;       /* Darker slate for very minor details */
 
   /* Borders & Glow */
-  --border: rgba(16, 185, 129, 0.15);
-  --border-strong: rgba(16, 185, 129, 0.3);
-  --border-white: rgba(255, 255, 255, 0.08);
-  --glow-emerald: 0 0 25px rgba(16, 185, 129, 0.45);
-  --glow-gold: 0 0 20px rgba(255, 207, 84, 0.4);
+  --border: rgba(16, 185, 129, 0.2);
+  --border-strong: rgba(16, 185, 129, 0.4);
+  --border-white: rgba(224, 224, 224, 0.1);
+  --glow-emerald: 0 0 20px rgba(16, 185, 129, 0.4);
+  --glow-gold: 0 0 20px rgba(212, 175, 55, 0.35);
 
   /* Cards & Sections */
-  --card-bg: linear-gradient(145deg, rgba(7, 22, 16, 0.8) 0%, rgba(3, 9, 7, 0.95) 100%);
+  --card-bg: linear-gradient(145deg, rgba(32, 42, 34, 0.8) 0%, rgba(18, 22, 18, 0.95) 100%);
   --section-bg: var(--ink);
   
   /* Luxury Glassmorphism */
-  --glass-bg: rgba(5, 13, 10, 0.65);
-  --glass-surface: rgba(7, 18, 14, 0.65);
-  --glass-border: rgba(0, 245, 155, 0.18);
-  --glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5);
-  --shadow-luxury: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
+  --glass-bg: rgba(18, 22, 18, 0.65);
+  --glass-surface: rgba(25, 32, 26, 0.65);
+  --glass-border: rgba(16, 185, 129, 0.2);
+  --glass-specular: inset 0 1px 1px 0 rgba(224, 224, 224, 0.1), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.6);
+  --shadow-luxury: 0 30px 60px -15px rgba(0, 0, 0, 0.9);
   
   /* Easing */
   --ease-spring: cubic-bezier(0.25, 1, 0.5, 1);

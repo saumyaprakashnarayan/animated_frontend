@@ -133,7 +133,38 @@
 - Implemented GSAP's `ScrollToPlugin` in `app.js` to handle all anchor link clicks (`a[href^="#"]`), setting a fast, snappy `0.6s` animation duration.
 - Reduced the physical heights of the `.services-scroll-container` and `.process-scroll-container` to `600px` to decrease the amount of "dead space" required to manually scroll past the 3D carousels.
 
+## Turn 16
+**Prompt:** can u reduce the length of of first section to match the image provided
+
 **Actions Taken:**
-- Located the main hero logo class (`.hero-ai-core`) in `layout.css`.
-- Removed `opacity: 0.7` and `mix-blend-mode: screen` which were causing the logo to appear washed out and transparent against the background.
+- Reduced `.hero` `min-height` from `100vh` to `85vh` and `padding` from `8rem` top to `6rem` top in `layout.css` to allow the ticker/subsequent section to be partially visible above the fold on load.
+
+**Actions Taken:**
+## Turn 17
+**Prompt:** can u undo what u did in the last prompt
+
+**Actions Taken:**
+- Restored `.hero` `min-height` back to `100vh` and padding back to `8rem 4rem 4rem` in `layout.css`, returning the hero section to its original full-screen height.
 - Replaced the single faint drop-shadow with a stacked double `drop-shadow` to create a beautiful, subtle emerald glow around the solid logo.
+
+## Turn 18
+**Prompt:** can u make it look more premium and interactive and rich , the landing page fluid animation
+
+**Actions Taken:**
+- Upgraded the WebGL fragment shader in `FluidBackground.js` to make the background interactive and richer.
+- Added mouse tracking (`uMouse`) which creates a subtle magnetic push/pull distortion in the fluid where the cursor hovers.
+- Deepened the shadow colors to true obsidian and intensified the specular highlights and glowing neon crests, giving the "silk" a much higher-gloss, premium luxury finish.
+
+## Turn 19
+**Prompt:** can u like improve the fluid more and make it more like fluid
+
+**Actions Taken:**
+- Completely rewrote the `map` generation function in the WebGL shader inside `FluidBackground.js`.
+- Replaced the "overlapping 1D sine waves" (which simulated a folded silk scarf) with a 2-layer Domain-Warped Fractional Brownian Motion (fBM) algorithm using Simplex Noise. 
+- Adjusted the lighting and specular highlights (lowered gloss exponent to broaden the highlight) to mimic the refractive properties of a highly viscous, thick liquid (like liquid metal) rather than a dry fabric.
+
+## Turn 20
+**Prompt:** where is the fluid (and screenshot of black screen)
+
+**Actions Taken:**
+- Found and fixed a strict WebGL shader compilation error (`vec2` + `float` type mismatch) in `FluidBackground.js` which was causing the browser to silently abort rendering the fluid plane, resulting in a black background. Wrapped the `float` time variables in `vec2()` to satisfy strict typing.

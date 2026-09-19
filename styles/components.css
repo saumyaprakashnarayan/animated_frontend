@@ -224,7 +224,7 @@
 
 /* ---- CASE STUDIES ---- */
 .cases-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-.case-card, .case-card-sm { padding: 3rem 3rem 4.5rem 3rem; background: linear-gradient(145deg, rgba(3, 8, 6, 0.9) 0%, rgba(1, 4, 3, 0.95) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 1px solid rgba(16, 185, 129, 0.2); position: relative; overflow: hidden; transition: all .4s ease; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.05); }
+.case-card, .case-card-sm { padding: 3rem 3rem 4.5rem 3rem; background: linear-gradient(145deg, rgba(3, 8, 6, 0.9) 0%, rgba(1, 4, 3, 0.95) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 1px solid rgba(16, 185, 129, 0.2); position: relative; overflow: hidden; transition: all .4s ease; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.05); opacity: 1; }
 .case-card:hover, .case-card-sm:hover { border-color: rgba(255, 207, 84, 0.35); box-shadow: var(--shadow-luxury), var(--glow-gold), inset 0 1px 0 0 rgba(255, 207, 84, 0.3); z-index: 2; }
 .case-label { font-family: 'Space Mono', monospace; font-size: .65rem; font-weight: 700; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem; display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 100px; background: rgba(16, 185, 129, 0.05); }
 .case-card h3 { font-family: 'Instrument Serif', serif; font-size: 2.5rem; font-weight: 400; line-height: 1.1; margin-bottom: 1.25rem; color: var(--text-primary); }
@@ -298,8 +298,9 @@
 
 /* ---- TESTIMONIALS ---- */
 .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
-.testimonial-card { padding: 2.5rem; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); transition: all .3s; }
-.testimonial-card:hover { border-color: rgba(16, 185, 129, 0.2); z-index: 2; position: relative; }
+.testimonial-card { padding: 2.5rem; background: linear-gradient(145deg, rgba(6, 14, 11, 0.9) 0%, rgba(2, 6, 5, 0.98) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 2px solid rgba(16, 185, 129, 0.2); transition: all .35s ease; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.04); position: relative; overflow: hidden; }
+.testimonial-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.4) 50%, transparent 100%); }
+.testimonial-card:hover { border-color: rgba(16, 185, 129, 0.3); border-top-color: rgba(16, 185, 129, 0.6); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.9), 0 0 30px rgba(16, 185, 129, 0.08), inset 0 1px 0 0 rgba(255,255,255,0.06); z-index: 2; position: relative; transform: translateY(-2px); }
 .quote-mark { font-family: 'Instrument Serif', serif; font-size: 4rem; line-height: .8; color: var(--accent); margin-bottom: 1rem; opacity: .5; }
 .testimonial-card blockquote { font-family: 'Instrument Serif', serif; font-size: 1.05rem; font-style: italic; line-height: 1.6; color: var(--text-primary); margin-bottom: 1.5rem; }
 .testimonial-author { display: flex; align-items: center; gap: .75rem; }
@@ -314,10 +315,21 @@
 .contact-form { 
   display: flex; flex-direction: column; gap: 1.5rem; 
   padding: 3.5rem; 
-  background: linear-gradient(145deg, rgba(3, 8, 6, 0.9) 0%, rgba(1, 4, 3, 0.95) 100%); 
-  border: 1px solid rgba(16, 185, 129, 0.15); 
+  background: linear-gradient(145deg, rgba(3, 8, 6, 0.92) 0%, rgba(1, 4, 3, 0.97) 100%); 
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-top: 2px solid rgba(16, 185, 129, 0.4);
   border-radius: 16px; 
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.9), inset 0 1px 0 0 rgba(255,255,255,0.05); 
+  box-shadow: 0 25px 50px -10px rgba(0,0,0,0.95), inset 0 1px 0 0 rgba(255,255,255,0.06), 0 0 60px rgba(16, 185, 129, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+.contact-form::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.6) 50%, transparent 100%);
+  pointer-events: none;
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 .form-group { display: flex; flex-direction: column; gap: .75rem; }
@@ -352,8 +364,8 @@
 .contact-info-item a:hover { text-decoration: underline; }
 
 /* ---- SCROLL REVEAL ---- */
-.reveal { opacity: 0.8; filter: grayscale(80%) brightness(0.2); transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal { opacity: 1; transform: none; }
+.reveal.visible { opacity: 1; transform: none; }
 
 /* ---- TEXT REGION READABILITY ON HOVER ---- */
 /* ---- TEXT REGION READABILITY ---- */
@@ -392,19 +404,31 @@
 
 /* ---- PARTNERS ---- */
 .partner-logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 4rem;
-  font-style: italic;
-  color: var(--text-dim);
-  opacity: 0.5;
+  font-family: 'Space Mono', monospace;
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
   transition: all 0.4s ease;
   cursor: none;
-  letter-spacing: .02em;
+  padding: .65rem 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.06);
 }
 .partner-logo:hover {
   color: var(--accent);
   opacity: 1;
-  text-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+  border-color: var(--border-strong);
+  background: rgba(16, 185, 129, 0.06);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.12), inset 0 1px 0 0 rgba(16, 185, 129, 0.2);
+  transform: translateY(-2px);
 }
 
 /* ---- 3D CAROUSEL MOBILE SIZING ---- */

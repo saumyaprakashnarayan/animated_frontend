@@ -116,10 +116,10 @@ export class FluidBackground {
           
           p.x *= uResolution.x / uResolution.y;
           
-          float time = uTime * 0.8; // Moderate speed for elegant flow
+          float time = uTime * 0.2; // Very slow and elegant flow
           
-          // Obsidian dark emerald background for deep dark mode
-          vec3 bg = vec3(0.005, 0.01, 0.008); 
+          // Charcoal/Obsidian background (keeps particles visible but stays dark mode)
+          vec3 bg = vec3(0.03, 0.035, 0.032); 
           vec3 col = bg;
           
           // Domain warping on position to make it look liquid and organic
@@ -146,21 +146,26 @@ export class FluidBackground {
               vec3 lightDir2 = normalize(vec3(-0.8, -0.5, 0.5)); 
               float diff2 = max(dot(n, lightDir2), 0.0);
               
-              // Dark Obsidian Green & Neon Lime Palette
-              vec3 colorDeep = vec3(0.005, 0.01, 0.008);        // Obsidian dark core
-              vec3 colorMid = vec3(0.02, 0.12, 0.07);           // Rich emerald mid-tone for silk
-              vec3 colorHigh = vec3(0.0, 0.96, 0.6) * 0.9;      // Electric neon emerald (matches --accent)
-              vec3 colorVar = vec3(0.05, 0.2, 0.15);            // Teal/Sage variation
+              // Premium Deep Emerald Palette (Pure Green Theme)
+              vec3 colorDeep = vec3(0.005, 0.03, 0.015);        // Deepest obsidian green core
+              vec3 colorMid = vec3(0.02, 0.15, 0.08);           // Rich emerald mid-tone
+              vec3 colorHigh = vec3(0.0, 0.6, 0.25);            // Vibrant emerald crest
+              vec3 colorVar = vec3(0.05, 0.35, 0.2);            // Deep mint for variation
               
               // Color mapping based on height
               vec3 albedo = mix(colorDeep, colorMid, smoothstep(0.1, 0.6, h));
-              albedo = mix(albedo, colorHigh, smoothstep(0.8, 1.0, h)); // Only highest peaks get neon
+              albedo = mix(albedo, colorHigh, smoothstep(0.8, 1.0, h)); 
               
-              albedo = mix(albedo, colorVar, sin(wp.x * 3.0 + time) * 0.2 + 0.2);
+              // Very subtle emerald subsurface scattering
+              float sss = sin(wp.x * 3.0 + time) * 0.5 + 0.5;
+              albedo = mix(albedo, colorVar, sss * 0.15 * h);
               
-              vec3 litColor = albedo * (diff * 0.9 + 0.1); 
-              litColor += colorHigh * spec * 1.5; // Blast the specular with neon for shiny silk look
-              litColor += colorMid * diff2 * 0.5;
+              vec3 litColor = albedo * (diff * 0.85 + 0.15); 
+              // Minty specular highlight for a rich green feel
+              vec3 greenSpec = vec3(0.5, 1.0, 0.7);
+              litColor += greenSpec * spec * 1.0; 
+              // Deep emerald rim light
+              litColor += colorVar * diff2 * 0.3;
               
               float alpha = smoothstep(0.0, 0.1, h);
               col = mix(bg, litColor, alpha);

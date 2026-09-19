@@ -26,11 +26,11 @@ export class BackgroundParticles {
     this.patterns = [];
     this.range = 1200;
 
-    // Generate colors (70% Emerald, 20% Deep Green, 10% Gold/Champagne)
+    // Generate colors (70% Vibrant Emerald, 20% Deep Emerald, 10% Mint/Teal)
     const colors = new Float32Array(this.particleCount * 3);
     const colorWhite = new THREE.Color(0x00f59b); // Bright Emerald
-    const colorBlue = new THREE.Color(0x00b37e); // Deep Emerald
-    const colorGreen = new THREE.Color(0xffcf54); // Gold / Champagne
+    const colorBlue = new THREE.Color(0x00b37e);  // Deep Emerald
+    const colorGreen = new THREE.Color(0x00d296); // Mint / Teal
 
     for (let i = 0; i < this.particleCount; i++) {
       const rand = Math.random();
@@ -249,8 +249,8 @@ export class BackgroundParticles {
         // Adaptive speed: faster when far away, almost stops when close (ease-out)
         // t is normalized distance (0=close, 1=far)
         const t = Math.min(absDiff / 400, 1.0);
-        // Silky smooth easing for premium floating effect
-        const eased = 0.005 + t * t * t * 0.04;
+        // Extremely slow, silky smooth easing for a premium floating effect
+        const eased = 0.001 + t * t * t * 0.01;
         positions[i] += diff * eased;
         needsUpdate = true;
       }
