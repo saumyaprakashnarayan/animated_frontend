@@ -4,15 +4,15 @@
 
 :root {
   /* Color Palette - Premium Cyber Obsidian & Emerald */
-  --ink: #020606;       /* Deep space obsidian background */
-  --ink-dim: #040a08;   /* Slightly elevated dark surface */
-  --ink-mid: #091712;   /* Mid-tone dark emerald surface */
-  --surface: #0a1b15;
+  --ink: #010403;       /* Deep space obsidian background with green tint */
+  --ink-dim: #030806;   /* Slightly elevated dark surface */
+  --ink-mid: #050d0a;   /* Mid-tone dark emerald surface */
+  --surface: #071511;
 
   /* Accent */
   --accent: #00f59b;             /* Electric Neon Emerald/Mint */
-  --accent-secondary: #10b981;   /* Rich Emerald */
-  --accent-highlight: var(--accent);   /* Cyber Lime (Highlights) replaced with Emerald */
+  --accent-secondary: #00b37e;   /* Richer, deeper Emerald */
+  --accent-highlight: #ffcf54;   /* Champagne/Gold for premium highlights */
 
   /* Typography */
   --text-primary: #f8fafc;       /* Crisp white */
@@ -22,24 +22,25 @@
   --text-caption: #475569;
 
   /* Borders & Glow */
-  --border: rgba(0, 245, 155, 0.15);
-  --border-strong: rgba(0, 245, 155, 0.3);
-  --border-white: rgba(255, 255, 255, 0.1);
-  --glow-emerald: 0 0 20px rgba(0, 245, 155, 0.4);
+  --border: rgba(0, 245, 155, 0.12);
+  --border-strong: rgba(0, 245, 155, 0.25);
+  --border-white: rgba(255, 255, 255, 0.08);
+  --glow-emerald: 0 0 25px rgba(0, 245, 155, 0.45);
+  --glow-gold: 0 0 20px rgba(255, 207, 84, 0.4);
 
   /* Cards & Sections */
-  --card-bg: linear-gradient(135deg, rgba(12, 28, 20, 0.7) 0%, rgba(6, 14, 10, 0.85) 100%);
+  --card-bg: linear-gradient(145deg, rgba(7, 22, 16, 0.8) 0%, rgba(3, 9, 7, 0.95) 100%);
   --section-bg: var(--ink);
   
   /* Luxury Glassmorphism */
-  --glass-bg: rgba(6, 15, 12, 0.75);
-  --glass-surface: rgba(8, 20, 15, 0.72);
-  --glass-border: rgba(0, 245, 155, 0.2);
-  --glass-specular: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-  --shadow-luxury: 0 24px 48px -12px rgba(0, 0, 0, 0.85);
+  --glass-bg: rgba(5, 13, 10, 0.65);
+  --glass-surface: rgba(7, 18, 14, 0.65);
+  --glass-border: rgba(0, 245, 155, 0.18);
+  --glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5);
+  --shadow-luxury: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
   
   /* Easing */
-  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* ---- RESET ---- */
