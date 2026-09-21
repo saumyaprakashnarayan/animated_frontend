@@ -2,22 +2,22 @@ import * as THREE from 'three';
 import { App } from './App.js';
 import { Lighting } from './Lighting.js';
 import { PostProcessing } from './PostProcessing.js';
-import { BackgroundParticles } from './BackgroundParticles.js';
+// import { BackgroundParticles } from './BackgroundParticles.js';
 import { FluidBackground } from './FluidBackground.js';
 
 const canvas = document.getElementById('bg-canvas');
 const app = new App(canvas);
 const lighting = new Lighting(app.scene);
 const postProcessing = new PostProcessing(app.renderer, app.scene, app.camera);
-const particles = new BackgroundParticles(app.scene);
+// const particles = new BackgroundParticles(app.scene);
 const fluidBackground = new FluidBackground(app.scene);
 
 
 
 // Move the patterns and models a little to the right of the screen
-particles.points.position.x = 100;
-particles.innerPoints.position.x = 100;
-particles.gridLines.position.x = 100;
+// particles.points.position.x = 100;
+// particles.innerPoints.position.x = 100;
+// particles.gridLines.position.x = 100;
 
 
 
@@ -102,7 +102,7 @@ function tick() {
   fluidBackground.update(time);
 
   const activeSeasonIndex = applySeasonalPhysics ? window.sceneState.seasonIndex : null;
-  particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern, activeSeasonIndex, window.sceneState.particleTintColor);
+  // particles.update(time, window.sceneState.scrollSpeedMultiplier, window.sceneState.particlePattern, activeSeasonIndex, window.sceneState.particleTintColor);
 
 
 
