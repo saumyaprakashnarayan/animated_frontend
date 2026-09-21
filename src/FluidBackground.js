@@ -199,15 +199,12 @@ export class FluidBackground {
   update(time) {
     this.material.uniforms.uTime.value = time;
     
-    // Calculate scroll fade out. 
-    // Assuming page scroll starts at 0. Fade out completely by 800px.
+    // Calculate scroll fade out, but keep a premium ambient baseline.
     const scrollY = window.scrollY || window.pageYOffset;
-    let fade = 1.0 - (scrollY / 800.0);
-    fade = Math.max(0.0, Math.min(1.0, fade)); // Clamp between 0 and 1
+    let fade = 0.75 - (scrollY / 1200.0);
+    fade = Math.max(0.25, Math.min(0.75, fade)); // Clamp between 0.25 and 0.75
     
     this.material.uniforms.uOpacity.value = fade;
-    
-    // Optionally hide the group entirely if invisible to save rendering cost
-    this.group.visible = fade > 0.0;
+    this.group.visible = true;
   }
 }

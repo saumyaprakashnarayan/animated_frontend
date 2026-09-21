@@ -55,10 +55,10 @@
   height: 550px;
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0; margin: auto;
-  padding: 3rem 2.5rem;
+  padding: 4rem 3rem;
   background: var(--card-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(48px);
+  -webkit-backdrop-filter: blur(48px);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
@@ -156,10 +156,10 @@
   height: 550px;
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0; margin: auto;
-  padding: 3rem 2.5rem;
+  padding: 3.5rem 3rem;
   background: var(--card-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(48px);
+  -webkit-backdrop-filter: blur(48px);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow-luxury), var(--glass-specular);
@@ -186,8 +186,8 @@
 .process-step .step-meta { font-family: 'Space Mono', monospace; font-size: .65rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); margin-top: 2rem; padding: .4rem 1rem; border: 1px solid var(--border-strong); display: inline-block; border-radius: 100px; background: rgba(16, 185, 129, 0.05); }
 
 /* ---- INDUSTRIES ---- */
-.industries-list { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); overflow: hidden; background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 16px; box-shadow: var(--shadow-luxury), inset 0 1px 0 0 rgba(255, 255, 255, 0.1); margin-top: 2rem; }
-.industry-item { padding: 3rem 1.5rem; border-right: 1px solid var(--border); text-align: center; transition: all .4s ease; cursor: none; position: relative; z-index: 1; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+.industries-list { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--border); overflow: hidden; background: var(--card-bg); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); border-radius: 16px; box-shadow: var(--shadow-luxury), var(--glass-specular); margin-top: 2rem; }
+.industry-item { padding: 4rem 2rem; border-right: 1px solid var(--border); text-align: center; transition: all .4s ease; cursor: none; position: relative; z-index: 1; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
 .industry-item::after {
   content: "";
   position: absolute;
@@ -224,8 +224,8 @@
 
 /* ---- CASE STUDIES ---- */
 .cases-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-.case-card, .case-card-sm { padding: 3rem 3rem 4.5rem 3rem; background: linear-gradient(145deg, rgba(3, 8, 6, 0.9) 0%, rgba(1, 4, 3, 0.95) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 1px solid rgba(16, 185, 129, 0.2); position: relative; overflow: hidden; transition: all .4s ease; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.05); opacity: 1; }
-.case-card:hover, .case-card-sm:hover { border-color: rgba(255, 207, 84, 0.35); box-shadow: var(--shadow-luxury), var(--glow-gold), inset 0 1px 0 0 rgba(255, 207, 84, 0.3); z-index: 2; }
+.case-card, .case-card-sm { padding: 4rem 4rem 5rem 4rem; background: var(--card-bg); backdrop-filter: blur(48px); -webkit-backdrop-filter: blur(48px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 1px solid rgba(16, 185, 129, 0.2); position: relative; overflow: hidden; transition: all .4s ease; box-shadow: var(--shadow-luxury), var(--glass-specular); opacity: 1; }
+.case-card:hover, .case-card-sm:hover { border-color: rgba(255, 207, 84, 0.35); box-shadow: var(--shadow-luxury), var(--glow-gold), var(--glass-specular); z-index: 2; }
 .case-label { font-family: 'Space Mono', monospace; font-size: .65rem; font-weight: 700; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem; display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 100px; background: rgba(16, 185, 129, 0.05); }
 .case-card h3 { font-family: 'Instrument Serif', serif; font-size: 2.5rem; font-weight: 400; line-height: 1.1; margin-bottom: 1.25rem; color: var(--text-primary); }
 .case-card-sm h3 { font-family: 'Instrument Serif', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.1; margin-bottom: 1rem; color: var(--text-primary); }
@@ -251,8 +251,8 @@
 
 /* ---- TEAM ---- */
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
-.team-card { padding: 2.5rem 2rem; background: linear-gradient(180deg, rgba(4, 10, 8, 0.9) 0%, rgba(1, 4, 3, 0.98) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.1); transition: all .3s; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-.team-card:hover { border-color: rgba(255, 207, 84, 0.35); box-shadow: var(--shadow-luxury), var(--glow-gold); z-index: 2; position: relative; }
+.team-card { padding: 3.5rem 2.5rem; background: var(--card-bg); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); border: 1px solid rgba(16, 185, 129, 0.1); transition: all .3s; box-shadow: var(--shadow-luxury), var(--glass-specular); }
+.team-card:hover { border-color: rgba(255, 207, 84, 0.35); box-shadow: var(--shadow-luxury), var(--glow-gold), var(--glass-specular); z-index: 2; position: relative; }
 .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--ink-mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: .85rem; font-weight: 700; color: var(--accent); margin-bottom: 1.25rem; }
 .team-card h4 { font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: .25rem; }
 .team-card .role { font-size: .72rem; color: var(--accent); font-family: 'Space Mono', monospace; letter-spacing: .06em; margin-bottom: .75rem; }
@@ -298,9 +298,9 @@
 
 /* ---- TESTIMONIALS ---- */
 .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border); overflow: hidden; }
-.testimonial-card { padding: 2.5rem; background: linear-gradient(145deg, rgba(6, 14, 11, 0.9) 0%, rgba(2, 6, 5, 0.98) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 2px solid rgba(16, 185, 129, 0.2); transition: all .35s ease; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.04); position: relative; overflow: hidden; }
+.testimonial-card { padding: 3.5rem; background: var(--card-bg); backdrop-filter: blur(48px); -webkit-backdrop-filter: blur(48px); border: 1px solid rgba(16, 185, 129, 0.1); border-top: 2px solid rgba(16, 185, 129, 0.2); transition: all .35s ease; box-shadow: var(--shadow-luxury), var(--glass-specular); position: relative; overflow: hidden; }
 .testimonial-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.4) 50%, transparent 100%); }
-.testimonial-card:hover { border-color: rgba(16, 185, 129, 0.3); border-top-color: rgba(16, 185, 129, 0.6); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.9), 0 0 30px rgba(16, 185, 129, 0.08), inset 0 1px 0 0 rgba(255,255,255,0.06); z-index: 2; position: relative; transform: translateY(-2px); }
+.testimonial-card:hover { border-color: rgba(16, 185, 129, 0.3); border-top-color: rgba(16, 185, 129, 0.6); box-shadow: var(--shadow-luxury), var(--glow-emerald), var(--glass-specular); z-index: 2; position: relative; transform: translateY(-2px); }
 .quote-mark { font-family: 'Instrument Serif', serif; font-size: 4rem; line-height: .8; color: var(--accent); margin-bottom: 1rem; opacity: .5; }
 .testimonial-card blockquote { font-family: 'Instrument Serif', serif; font-size: 1.05rem; font-style: italic; line-height: 1.6; color: var(--text-primary); margin-bottom: 1.5rem; }
 .testimonial-author { display: flex; align-items: center; gap: .75rem; }

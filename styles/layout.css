@@ -22,11 +22,12 @@
 .hero-content { z-index: 2; padding-right: 4rem; margin-top: 2rem; }
 .hero-tag { font-family: 'Space Mono', monospace; font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 2rem; display: inline-flex; align-items: center; gap: .75rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 100px; box-shadow: inset 0 1px 1px 0 rgba(255,255,255,0.1); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .hero-tag::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); animation: pulseDot 2s infinite; }
-.hero-headline { font-family: 'Instrument Serif', serif; font-size: clamp(4.5rem, 8.5vw, 8.5rem); font-weight: 400; line-height: 0.95; letter-spacing: -.06em; position: relative; z-index: 1; max-width: 12ch; margin-bottom: 2rem; color: var(--text-primary); text-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); }
+.hero-headline { font-family: 'Instrument Serif', serif; font-size: clamp(4.5rem, 8.5vw, 8.5rem); font-weight: 400; line-height: 0.95; letter-spacing: -.06em; position: relative; z-index: 1; max-width: 12ch; margin-bottom: 2rem; color: var(--text-primary); text-shadow: 0 15px 40px rgba(0, 0, 0, 0.95), 0 0 80px rgba(0, 0, 0, 0.8); }
 .hero-headline em { font-style: italic; background: linear-gradient(180deg, #ffffff 20%, var(--accent) 120%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-desc { font-size: 1.15rem; line-height: 1.6; color: var(--text-subheading); margin-bottom: 3rem; max-width: 48ch; position: relative; z-index: 1; font-weight: 300; text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0,0,0,0.8); }
 .hero-headline .neon-glow { filter: drop-shadow(0 0 40px rgba(16, 185, 129, 0.25)); }
 .hero-bottom { display: flex; flex-direction: column; gap: 2.5rem; position: relative; z-index: 1; }
-.hero-sub { max-width: 500px; font-size: 1.15rem; line-height: 1.7; color: var(--text-muted); font-weight: 400; }
+.hero-sub { max-width: 500px; font-size: 1.15rem; line-height: 1.7; color: var(--text-muted); font-weight: 400; text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0,0,0,0.8); }
 .hero-actions { display: flex; gap: 1.25rem; align-items: center; }
 .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; z-index: 1; pointer-events: none; }
 .hero-ai-core { max-width: 100%; max-height: 65vh; object-fit: contain; filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4)); animation: orbFloat 8s ease-in-out infinite; opacity: 1; mix-blend-mode: screen; }
@@ -50,7 +51,7 @@
 .section { padding: 4rem 4rem; position: relative; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .section-label { font-family: 'Space Mono', monospace; font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.5rem; display: flex; align-items: center; gap: .75rem; }
 .section-label::after { content: ''; display: block; width: 32px; height: 1px; background: var(--border-strong); }
-.section-title { font-family: 'Instrument Serif', serif; font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 400; line-height: 1.05; letter-spacing: -.03em; max-width: 16ch; margin-bottom: 4.5rem; color: var(--text-primary); text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5); }
+.section-title { font-family: 'Instrument Serif', serif; font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 400; line-height: 1.05; letter-spacing: -.03em; max-width: 16ch; margin-bottom: 4.5rem; color: var(--text-primary); text-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.8); }
 .section-title em { font-style: italic; background: linear-gradient(180deg, #ffffff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8)); }
 
 /* Subdue the #services title to frame the carousel */
