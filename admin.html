@@ -10,10 +10,6 @@
   
   <style>
     /* Admin specific styles leveraging tokens.css */
-    :root {
-      --panel-glass: rgba(8, 20, 15, 0.72);
-      --glass-border: rgba(0, 245, 155, 0.2);
-    }
     
     body {
       padding: 0;
@@ -100,7 +96,7 @@
     
     /* Buttons */
     .btn {
-      background: var(--panel-glass);
+      background: var(--card-bg);
       color: var(--text-primary);
       border: 1px solid var(--glass-border);
       padding: 0.6rem 1.2rem;
@@ -135,7 +131,7 @@
     }
     
     .stat-card {
-      background: var(--panel-glass);
+      background: var(--card-bg);
       border: 1px solid var(--glass-border);
       padding: 2rem;
       border-radius: 8px;
@@ -163,7 +159,7 @@
     
     /* Table Container */
     .table-container {
-      background: var(--panel-glass);
+      background: var(--card-bg);
       border: 1px solid var(--glass-border);
       border-radius: 8px;
       overflow-x: auto;
@@ -606,5 +602,6 @@
     observer.observe(document.body, { childList: true, subtree: true });
     
   </script>
+  <script type="module" src="./src/bg.js"></script>
 </body>
 </html>

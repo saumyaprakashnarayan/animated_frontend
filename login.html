@@ -9,26 +9,9 @@
   <link rel="stylesheet" href="./styles/tokens.css">
   
   <style>
-    :root {
-      /* Premium Cyber Obsidian & Emerald */
-      --ink: #020606;
-      --ink-dim: #040a08;
-      --ink-mid: #091712;
-      --accent: #00f59b;
-      --accent-highlight: #c8ff00;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --glass-surface: rgba(8, 20, 15, 0.72);
-      --glass-border: rgba(0, 245, 155, 0.2);
-      --glass-specular: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-      --shadow-luxury: 0 24px 48px -12px rgba(0, 0, 0, 0.85);
-      --glow-emerald: 0 0 20px rgba(0, 245, 155, 0.4);
-    }
-    
+    /* Inherits global theme from tokens.css */
     body {
       background-color: var(--ink);
-      background-image: radial-gradient(circle at 50% 0%, var(--ink-mid) 0%, transparent 70%);
       color: var(--text-main);
       font-family: 'DM Sans', sans-serif;
       margin: 0;
@@ -73,10 +56,10 @@
       width: 100%;
       max-width: 420px;
       padding: 3rem;
-      background: var(--glass-surface);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
+      background: var(--card-bg);
+      backdrop-filter: blur(48px);
+      -webkit-backdrop-filter: blur(48px);
+      border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow-luxury), var(--glass-specular);
       position: relative;
@@ -194,6 +177,7 @@
 </head>
 <body>
 
+  <div id="bg-canvas"></div>
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
@@ -389,5 +373,6 @@
     const observer = new MutationObserver(attachCursorEvents);
     observer.observe(document.body, { childList: true, subtree: true });
   </script>
+  <script type="module" src="./src/bg.js"></script>
 </body>
 </html>

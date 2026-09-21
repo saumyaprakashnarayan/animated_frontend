@@ -10,9 +10,9 @@
   --surface: #17201a;   /* Card/Component surface */
 
   /* Accent Colors */
-  --accent: #10b981;             /* Vibrant Emerald for CTAs and Glows */
-  --accent-secondary: #059669;   /* Deep Emerald for borders/hover states */
-  --accent-highlight: #d4af37;   /* Premium Metallic Gold for highlights */
+  --accent: #10b981;             /* Deep, rich emerald */
+  --accent-secondary: #059669;   /* Forest green */
+  --accent-highlight: #00f59b;   /* Bright mint for highlights */
 
   /* Typography - Brightened for premium readability */
   --text-primary: #ffffff;
@@ -26,18 +26,18 @@
   --border-strong: rgba(16, 185, 129, 0.3);
   --border-white: rgba(255, 255, 255, 0.08);
   --glow-emerald: 0 0 40px -10px rgba(16, 185, 129, 0.4), 0 0 15px -5px rgba(16, 185, 129, 0.2);
-  --glow-gold: 0 0 40px -10px rgba(212, 175, 55, 0.35), 0 0 15px -5px rgba(212, 175, 55, 0.2);
+  --glow-gold: 0 0 40px -10px rgba(0, 245, 155, 0.35), 0 0 15px -5px rgba(0, 245, 155, 0.2);
 
-  /* Cards & Sections - Darker for readability while preserving glass edge */
-  --card-bg: linear-gradient(145deg, rgba(14, 22, 18, 0.85) 0%, rgba(4, 8, 6, 0.95) 100%);
+  /* Cards & Sections - Richer frosted glass */
+  --card-bg: linear-gradient(145deg, rgba(25, 40, 35, 0.65) 0%, rgba(6, 12, 10, 0.85) 100%);
   --section-bg: var(--ink);
   
   /* Luxury Glassmorphism */
-  --glass-bg: rgba(6, 12, 9, 0.8);
-  --glass-surface: rgba(10, 18, 14, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-specular: inset 0 2px 2px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-luxury: 0 40px 80px -20px rgba(0, 0, 0, 0.95), 0 0 40px rgba(16, 185, 129, 0.1);
+  --glass-bg: rgba(10, 20, 15, 0.7);
+  --glass-surface: rgba(15, 25, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-specular: inset 0 2px 3px 0 rgba(255, 255, 255, 0.35), inset 0 -1px 3px 0 rgba(0, 0, 0, 0.8), 0 1px 0 0 rgba(255,255,255,0.1);
+  --shadow-luxury: 0 40px 80px -20px rgba(0, 0, 0, 0.95), 0 0 40px rgba(16, 185, 129, 0.15);
   
   /* Easing */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);

@@ -146,25 +146,25 @@ export class FluidBackground {
               vec3 lightDir2 = normalize(vec3(-0.8, -0.5, 0.5)); 
               float diff2 = max(dot(n, lightDir2), 0.0);
               
-              // Premium Deep Emerald Palette (Pure Green Theme)
-              vec3 colorDeep = vec3(0.005, 0.03, 0.015);        // Deepest obsidian green core
-              vec3 colorMid = vec3(0.02, 0.15, 0.08);           // Rich emerald mid-tone
-              vec3 colorHigh = vec3(0.0, 0.6, 0.25);            // Vibrant emerald crest
-              vec3 colorVar = vec3(0.05, 0.35, 0.2);            // Deep mint for variation
+              // Premium Monochromatic Green Aurora Palette
+              vec3 colorDeep = vec3(0.005, 0.03, 0.015);        // Deepest obsidian green
+              vec3 colorMid = vec3(0.01, 0.18, 0.10);           // Rich forest green mid-tone
+              vec3 colorHigh = vec3(0.0, 0.7, 0.35);            // Vibrant emerald crest
+              vec3 colorVar = vec3(0.1, 0.9, 0.5);              // Bright mint/lime for variation
               
               // Color mapping based on height
               vec3 albedo = mix(colorDeep, colorMid, smoothstep(0.1, 0.6, h));
               albedo = mix(albedo, colorHigh, smoothstep(0.8, 1.0, h)); 
               
-              // Very subtle emerald subsurface scattering
-              float sss = sin(wp.x * 3.0 + time) * 0.5 + 0.5;
-              albedo = mix(albedo, colorVar, sss * 0.15 * h);
+              // Emerald subsurface scattering for richness
+              float sss = sin(wp.x * 3.0 + time * 1.5) * 0.5 + 0.5;
+              albedo = mix(albedo, colorVar, sss * 0.3 * h);
               
               vec3 litColor = albedo * (diff * 0.85 + 0.15); 
-              // Minty specular highlight for a rich green feel
-              vec3 greenSpec = vec3(0.5, 1.0, 0.7);
-              litColor += greenSpec * spec * 1.0; 
-              // Deep emerald rim light
+              // Minty specular highlight for a premium liquid glass feel
+              vec3 crystalSpec = vec3(0.6, 1.0, 0.8);
+              litColor += crystalSpec * spec * 1.2; 
+              // Vibrant emerald rim light
               litColor += colorVar * diff2 * 0.3;
               
               float alpha = smoothstep(0.0, 0.1, h);
