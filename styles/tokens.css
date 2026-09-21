@@ -15,11 +15,11 @@
   --accent-highlight: #d4af37;   /* Premium Metallic Gold for highlights */
 
   /* Typography - Brightened for premium readability */
-  --text-primary: #ffffff;       /* Pure white for maximum contrast */
-  --text-subheading: #e2e8f0;    /* Bright silver for subheadings */
-  --text-muted: #94a3b8;         /* Softer slate for body text */
-  --text-dim: #64748b;           /* Medium slate for secondary info */
-  --text-caption: #475569;       /* Darker slate for very minor details */
+  --text-primary: #ffffff;
+  --text-subheading: #f8fafc;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
+  --text-caption: #64748b;
 
   /* Borders & Glow - Softened for diffuse light effect */
   --border: rgba(16, 185, 129, 0.15);
@@ -92,3 +92,10 @@ body::after {
   opacity: .5;
 }
 .cursor-ring.clicking { border-color: var(--accent-secondary); width: 24px; height: 24px; opacity: 1; }
+
+/* ---- ACCESSIBILITY ---- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

@@ -280,7 +280,7 @@ export function initProcessCylinder() {
 
   function update() {
     if (!isDragging) {
-      targetAngle -= 0.008; // Slower, premium continuous auto-scroll
+      targetAngle -= 0.05; // Even faster continuous auto-scroll
     }
     
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
@@ -375,10 +375,9 @@ export function initServicesCylinder() {
   window.addEventListener('pointerup', onPointerUp);
   window.addEventListener('pointercancel', onPointerUp);
 
-  // Animation loop for smooth rotation
   function update() {
     if (!isDragging) {
-      targetAngle -= 0.008; // Slower, premium continuous auto-scroll
+      targetAngle -= 0.05; // Even faster continuous auto-scroll
     }
     
     currentAngle += (targetAngle - currentAngle) * 0.05; // easing
