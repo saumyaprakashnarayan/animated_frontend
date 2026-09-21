@@ -13,9 +13,9 @@
   <!-- Stylesheets (modular) -->
 
 
-  <script type="module" crossorigin src="/assets/main-DonNIxpJ.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-DUhM2JIb.css">
-  <link rel="stylesheet" crossorigin href="/assets/tokens-CBYOtdmC.css">
+  <script type="module" crossorigin src="/assets/main-BeJJEZ9B.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-C-7xGI8G.css">
+  <link rel="stylesheet" crossorigin href="/assets/tokens-6CaRHAXB.css">
 </head>
 
 <body>
@@ -28,27 +28,33 @@
 
     <!-- NAV -->
 <nav class="glass-nav">
-  <a href="#home" class="logo" style="display:flex; align-items:center; gap:8px;"><img src="/assets/logo1-DjOqeGJE.png" alt="" style="height: 32px;">TRAYAKSH<span style="color:var(--accent)">.</span>AI</a>
+  <a href="#home" class="logo">
+    <img src="/assets/logo1-DjOqeGJE.png" alt="" style="height: 32px; filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.5)); mix-blend-mode: screen;">
+    TRAYAKSH<span>.</span>AI
+  </a>
+
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#technology">Technology</a></li>
-    <li><a href="#team">Team</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView()">Deploy GPUs</button></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-content">
-    <div class="hero-tag">AI CONSULTING • AUTOMATION • IMPLEMENTATION</div>
+    <div class="hero-tag">
+      NEXT-GEN ACCELERATED COMPUTING // NVIDIA H100
+    </div>
     <h1 class="hero-headline">Build AI That Actually <br><em class="neon-glow">Works.</em></h1>
     <div class="hero-bottom">
-      <p class="hero-sub">We design, build and deploy production-ready AI systems that automate workflows, reduce operational costs, and help businesses scale.</p>
+      <p class="hero-sub">We design, build and deploy production-ready AI infrastructure and liquid-cooled clusters that automate workflows, reduce operational costs, and help enterprises scale.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Start Your AI Project →</a>
-        <a href="#work" class="btn-secondary">See Our Work</a>
+        <a href="#contact" class="btn-primary">Start Your AI Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#work" class="btn-secondary">Explore Telemetry</a>
       </div>
     </div>
   </div>
@@ -85,115 +91,127 @@
   <div class="services-scroll-container">
     <div class="services-grid reveal">
     <!-- 01 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">01</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="#C8FF00" stroke-width="1.5"/><circle cx="26" cy="26" r="2" fill="#C8FF00"/><line x1="26" y1="8" x2="26" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="26" y1="34" x2="26" y2="44" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="8" y1="26" x2="18" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="34" y1="26" x2="44" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="var(--accent)" stroke-width="1.5"/><circle cx="26" cy="26" r="2" fill="var(--accent)"/><line x1="26" y1="8" x2="26" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="26" y1="34" x2="26" y2="44" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="8" y1="26" x2="18" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="34" y1="26" x2="44" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/></svg></div>
       <h3>HPC Solutions</h3>
       <p>Build out HPC solutions both on-premises, in co-lo’s and in cloud/hybrid architectures. We are vendor agnostic – choosing the best components.</p>
       <div class="service-detail"><ul><li>Vendor agnostic best-of-breed components</li><li>Free yourself from vendor lock-in</li><li>Tailored for CPU, GPU, networking and storage</li></ul></div>
       <div class="service-tags"><span class="tag">On-Premises</span><span class="tag">Co-Lo</span><span class="tag">Cloud</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 02 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">02</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
       <h3>Quantum Computing</h3>
       <p>The future of accelerated computing. Make a step-change in processing power for simulations, encryption and parallel computation applications.</p>
       <div class="service-detail"><ul><li>Quantum Computing simulation tools</li><li>Head start on coding and testing algorithms</li><li>Understand quantum superposition & entanglement</li></ul></div>
       <div class="service-tags"><span class="tag">Qubits</span><span class="tag">Simulators</span><span class="tag">Hybrid</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
 
 
     <!-- 03 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">03</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="22" r="7" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><circle cx="26" cy="22" r="3" fill="#C8FF00"/><path d="M13 40 Q13 30 26 30 Q39 30 39 40" stroke="#C8FF00" stroke-width="1.5" fill="none"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="22" r="7" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><circle cx="26" cy="22" r="3" fill="var(--accent)"/><path d="M13 40 Q13 30 26 30 Q39 30 39 40" stroke="var(--accent)" stroke-width="1.5" fill="none"/></svg></div>
       <h3>Data Storage & Management</h3>
       <p>Simplify the complexity of data storage. Achieve a better balance of capacity, performance and cost tailored to fit your exact needs.</p>
       <div class="service-detail"><ul><li>Timely access and data protection</li><li>Resilience with no single points of failure</li><li>From SSD, NVMe to cloud and object storage</li></ul></div>
       <div class="service-tags"><span class="tag">Storage</span><span class="tag">Backup</span><span class="tag">Scale</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 04 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">04</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><path d="M26 10 L32 16 L40 14 L38 22 L44 26 L38 30 L40 38 L32 36 L26 42 L20 36 L12 38 L14 30 L8 26 L14 22 L12 14 L20 16 Z" stroke="rgba(245,244,239,.25)" stroke-width="1.5" fill="none"/><path d="M26 18 L29 22 L34 21 L33 26 L37 29 L33 31 L34 36 L29 35 L26 39 L23 35 L18 36 L19 31 L15 29 L19 26 L18 21 L23 22 Z" fill="rgba(200,255,0,.1)" stroke="#C8FF00" stroke-width="1"/><circle cx="26" cy="26" r="3" fill="#C8FF00"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><path d="M26 10 L32 16 L40 14 L38 22 L44 26 L38 30 L40 38 L32 36 L26 42 L20 36 L12 38 L14 30 L8 26 L14 22 L12 14 L20 16 Z" stroke="rgba(245,244,239,.25)" stroke-width="1.5" fill="none"/><path d="M26 18 L29 22 L34 21 L33 26 L37 29 L33 31 L34 36 L29 35 L26 39 L23 35 L18 36 L19 31 L15 29 L19 26 L18 21 L23 22 Z" fill="rgba(200,255,0,.1)" stroke="var(--accent)" stroke-width="1"/><circle cx="26" cy="26" r="3" fill="var(--accent)"/></svg></div>
       <h3>Trayaksh.ai Cloud</h3>
       <p>A best-of-breed solution framework bringing the benefits of cloud computing to HPC with an extra layer of flexibility and support.</p>
       <div class="service-detail"><ul><li>On-demand, as-a-service environments</li><li>Public, private or hybrid options</li><li>Fully managed or self-managed setups</li></ul></div>
       <div class="service-tags"><span class="tag">Cloud HPC</span><span class="tag">Hybrid</span><span class="tag">Managed</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 05 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">05</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="#C8FF00" stroke-width="1.5"/><circle cx="26" cy="26" r="2" fill="#C8FF00"/><line x1="26" y1="8" x2="26" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="26" y1="34" x2="26" y2="44" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="8" y1="26" x2="18" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="34" y1="26" x2="44" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="var(--accent)" stroke-width="1.5"/><circle cx="26" cy="26" r="2" fill="var(--accent)"/><line x1="26" y1="8" x2="26" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="26" y1="34" x2="26" y2="44" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="8" y1="26" x2="18" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="34" y1="26" x2="44" y2="26" stroke="rgba(245,244,239,.3)" stroke-width="1"/></svg></div>
       <h3>eXtreme HFT Servers</h3>
       <p>Create rock solid trading infrastructure. Overclocked servers rigorously tested to deliver the promised speed day in day out for years.</p>
       <div class="service-detail"><ul><li>Custom designed chassis and liquid cooling</li><li>Reliable custom BIOS overclocking</li><li>Intel Core CPUs with connectivity options</li></ul></div>
       <div class="service-tags"><span class="tag">Trading</span><span class="tag">HFT</span><span class="tag">Overclocked</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 06 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">06</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
       <h3>Bespoke Servers</h3>
       <p>A personal approach to each build, balancing power and heat demands to deliver a system that is reliable, durable, and tailored to you.</p>
       <div class="service-detail"><ul><li>Best-of-breed parts and extensive bench testing</li><li>Pre-installed OS, CUDA and AI/ML libraries</li><li>Direct contact with the engineering team</li></ul></div>
       <div class="service-tags"><span class="tag">Custom Builds</span><span class="tag">Workstations</span><span class="tag">Reliable</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 07 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">07</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><polyline points="8,36 18,24 26,30 36,16 44,22" stroke="#C8FF00" stroke-width="1.5" fill="none"/><circle cx="8" cy="36" r="2" fill="#C8FF00"/><circle cx="18" cy="24" r="2" fill="rgba(245,244,239,.4)"/><circle cx="26" cy="30" r="2" fill="rgba(245,244,239,.4)"/><circle cx="36" cy="16" r="2" fill="rgba(245,244,239,.4)"/><circle cx="44" cy="22" r="2" fill="#C8FF00"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><polyline points="8,36 18,24 26,30 36,16 44,22" stroke="var(--accent)" stroke-width="1.5" fill="none"/><circle cx="8" cy="36" r="2" fill="var(--accent)"/><circle cx="18" cy="24" r="2" fill="rgba(245,244,239,.4)"/><circle cx="26" cy="30" r="2" fill="rgba(245,244,239,.4)"/><circle cx="36" cy="16" r="2" fill="rgba(245,244,239,.4)"/><circle cx="44" cy="22" r="2" fill="var(--accent)"/></svg></div>
       <h3>Data and AI Solutions</h3>
       <p>Custom designed to cater towards specific project requirements to establish optimisation and achieve maximum scalability and efficiency.</p>
       <div class="service-detail"><ul><li>Store and process large datasets simultaneously</li><li>Deploy validated reference architectures</li><li>Solutions including Hadoop, Kinetica, MapR</li></ul></div>
       <div class="service-tags"><span class="tag">Big Data</span><span class="tag">Analytics</span><span class="tag">Scalability</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 08 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">08</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="8" y="10" width="36" height="28" rx="2" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><rect x="14" y="16" width="10" height="10" rx="1" stroke="#C8FF00" stroke-width="1.5"/><line x1="28" y1="18" x2="38" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="28" y1="22" x2="36" y2="22" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="14" y1="30" x2="38" y2="30" stroke="rgba(245,244,239,.15)" stroke-width="1"/><line x1="14" y1="34" x2="32" y2="34" stroke="rgba(245,244,239,.1)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="8" y="10" width="36" height="28" rx="2" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><rect x="14" y="16" width="10" height="10" rx="1" stroke="var(--accent)" stroke-width="1.5"/><line x1="28" y1="18" x2="38" y2="18" stroke="rgba(245,244,239,.3)" stroke-width="1"/><line x1="28" y1="22" x2="36" y2="22" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="14" y1="30" x2="38" y2="30" stroke="rgba(245,244,239,.15)" stroke-width="1"/><line x1="14" y1="34" x2="32" y2="34" stroke="rgba(245,244,239,.1)" stroke-width="1"/></svg></div>
       <h3>Networking</h3>
       <p>Ethernet and InfiniBand solutions for software defined networking and Open Network protocols, ensuring lowest latency and highest through-put.</p>
       <div class="service-detail"><ul><li>Latest NVIDIA Networking 200Gb/s switches</li><li>High speed InfiniBand switches and NICs</li><li>Upgrade legacy networks for connected devices</li></ul></div>
       <div class="service-tags"><span class="tag">Ethernet</span><span class="tag">InfiniBand</span><span class="tag">Low Latency</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
 
     <!-- 09 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">09</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
       <h3>AI for Data Scientists</h3>
       <p>Dedicated GPU accelerated hardware for compute-intensive Deep Learning and Machine Learning models to help you apply models in the wild.</p>
       <div class="service-detail"><ul><li>Workstations like NVIDIA DGX Station A100 or DevCube</li><li>GPU Servers from Trayaksh.ai</li><li>Small IPU clusters from Graphcore</li></ul></div>
       <div class="service-tags"><span class="tag">GPU Accelerated</span><span class="tag">Workstations</span><span class="tag">Compute</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 10 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">10</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><polyline points="8,36 18,24 26,30 36,16 44,22" stroke="#C8FF00" stroke-width="1.5" fill="none"/><circle cx="8" cy="36" r="2" fill="#C8FF00"/><circle cx="18" cy="24" r="2" fill="rgba(245,244,239,.4)"/><circle cx="26" cy="30" r="2" fill="rgba(245,244,239,.4)"/><circle cx="36" cy="16" r="2" fill="rgba(245,244,239,.4)"/><circle cx="44" cy="22" r="2" fill="#C8FF00"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><polyline points="8,36 18,24 26,30 36,16 44,22" stroke="var(--accent)" stroke-width="1.5" fill="none"/><circle cx="8" cy="36" r="2" fill="var(--accent)"/><circle cx="18" cy="24" r="2" fill="rgba(245,244,239,.4)"/><circle cx="26" cy="30" r="2" fill="rgba(245,244,239,.4)"/><circle cx="36" cy="16" r="2" fill="rgba(245,244,239,.4)"/><circle cx="44" cy="22" r="2" fill="var(--accent)"/></svg></div>
       <h3>Scaling AI Infrastructure</h3>
       <p>Take your organization from cloud POC to workstations and small teams, to full clustered architectures with planned growth in resources.</p>
       <div class="service-detail"><ul><li>DGX systems, NVIDIA PODs and SuperPODs</li><li>Bow Pods from Graphcore</li><li>Optimized data storage, networking and compute</li></ul></div>
       <div class="service-tags"><span class="tag">Clusters</span><span class="tag">SuperPODs</span><span class="tag">Growth</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 11 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">11</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="#C8FF00" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><rect x="10" y="14" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><rect x="28" y="14" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="10" y="28" width="14" height="10" rx="2" stroke="rgba(245,244,239,.35)" stroke-width="1.5"/><rect x="28" y="28" width="14" height="10" rx="2" stroke="var(--accent)" stroke-width="1.5"/><line x1="24" y1="19" x2="28" y2="19" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="24" y1="33" x2="28" y2="33" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="17" y1="24" x2="17" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/><line x1="35" y1="24" x2="35" y2="28" stroke="rgba(245,244,239,.2)" stroke-width="1"/></svg></div>
       <h3>xPU (CPU, DPU, GPU, IPU)</h3>
       <p>Trayaksh.ai supplies a range of the latest processor unit types designed specifically for the applications and data types involved.</p>
       <div class="service-detail"><ul><li>CPUs built with AMD, Intel, and ARM</li><li>DPUs from NVIDIA, Intel, and AMD</li><li>GPUs for graphics rendering and AI/ML</li><li>IPUs specifically designed for AI/ML</li></ul></div>
       <div class="service-tags"><span class="tag">Processors</span><span class="tag">Compute</span><span class="tag">AI/ML</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <!-- 12 -->
-    <div class="service-card">
+    <div class="service-card" style="--bg-img: url('/assets/hpcsol-CiwLepgt.png')">
       <div class="service-num">12</div>
-      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="22" r="7" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><circle cx="26" cy="22" r="3" fill="#C8FF00"/><path d="M13 40 Q13 30 26 30 Q39 30 39 40" stroke="#C8FF00" stroke-width="1.5" fill="none"/></svg></div>
+      <div class="service-icon"><svg viewBox="0 0 52 52" fill="none"><rect x="1" y="1" width="50" height="50" rx="4" stroke="rgba(245,244,239,.15)" stroke-width="1"/><circle cx="26" cy="22" r="7" stroke="rgba(245,244,239,.25)" stroke-width="1.5"/><circle cx="26" cy="22" r="3" fill="var(--accent)"/><path d="M13 40 Q13 30 26 30 Q39 30 39 40" stroke="var(--accent)" stroke-width="1.5" fill="none"/></svg></div>
       <h3>Storage Solutions</h3>
       <p>Storage is at the core of an effective IT infrastructure. From small 10TB to 40+ PB, each solution is tailored to your requirements.</p>
       <div class="service-detail"><ul><li>Timely access and secure data protection</li><li>Resilience with no single points of failure</li><li>Scale and grow without fork-lift upgrades</li><li>File, Block, and Object storage solutions</li></ul></div>
       <div class="service-tags"><span class="tag">File/Block/Object</span><span class="tag">Resilience</span><span class="tag">Scale</span></div>
+      <a href="#contact" class="card-cta">Explore <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     </div>
   </div>
@@ -206,7 +224,7 @@
 
   <div class="process-scroll-container">
     <div class="process-grid reveal">
-      <div class="process-step">
+      <div class="process-step" style="--bg-img: url('/process_backgrounds/discovery.jpg')">
         <div class="process-step-num">1</div>
         <div class="process-dot"></div>
         <h4>Discovery &<br>Scoping</h4>
@@ -222,7 +240,7 @@
         </div>
         <span class="step-meta">Week 1–2</span>
       </div>
-      <div class="process-step">
+      <div class="process-step" style="--bg-img: url('/process_backgrounds/poc.jpg')">
         <div class="process-step-num">2</div>
         <div class="process-dot"></div>
         <h4>Proof of<br>Concept</h4>
@@ -238,7 +256,7 @@
         </div>
         <span class="step-meta">Week 3–5</span>
       </div>
-      <div class="process-step">
+      <div class="process-step" style="--bg-img: url('/process_backgrounds/build.jpg')">
         <div class="process-step-num">3</div>
         <div class="process-dot"></div>
         <h4>Build &<br>Iterate</h4>
@@ -254,7 +272,7 @@
         </div>
         <span class="step-meta">Week 6–18+</span>
       </div>
-      <div class="process-step">
+      <div class="process-step" style="--bg-img: url('/process_backgrounds/deploy.jpg')">
         <div class="process-step-num">4</div>
         <div class="process-dot"></div>
         <h4>Deploy &<br>Support</h4>
@@ -279,27 +297,27 @@
   <div class="section-label">Industries</div>
   <h2 class="section-title reveal">Expertise across<br><em>every vertical</em></h2>
   <div class="industries-list reveal">
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/finance.jpg')">
       <span class="industry-icon">🏦</span><span>Finance</span>
       <div class="industry-hover-detail"><p>Fraud detection, credit scoring, algorithmic trading, regulatory reporting automation, and wealth management personalization.</p></div>
     </div>
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/healthcare.jpg')">
       <span class="industry-icon">🏥</span><span>Healthcare</span>
       <div class="industry-hover-detail"><p>Clinical decision support, patient risk stratification, radiology AI, drug discovery, and revenue cycle optimization.</p></div>
     </div>
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/retail.jpg')">
       <span class="industry-icon">🛒</span><span>Retail</span>
       <div class="industry-hover-detail"><p>Demand forecasting, dynamic pricing, recommendation engines, inventory optimization, and customer lifetime value modeling.</p></div>
     </div>
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/manufacturing.jpg')">
       <span class="industry-icon">🏭</span><span>Manufacturing</span>
       <div class="industry-hover-detail"><p>Predictive maintenance, quality inspection vision AI, supply chain optimization, and production scheduling.</p></div>
     </div>
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/energy.jpg')">
       <span class="industry-icon">⚡</span><span>Energy</span>
       <div class="industry-hover-detail"><p>Grid load forecasting, renewable energy optimization, equipment failure prediction, and carbon emission monitoring.</p></div>
     </div>
-    <div class="industry-item">
+    <div class="industry-item" style="--bg-img: url('/industry_backgrounds/logistics.jpg')">
       <span class="industry-icon">🚚</span><span>Logistics</span>
       <div class="industry-hover-detail"><p>Route optimization, demand sensing, warehouse automation, last-mile delivery prediction, and carrier rate forecasting.</p></div>
     </div>
@@ -707,12 +725,12 @@
       <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group"><label>First name</label><input type="text" id="contactFirstName" placeholder="Aryan" required></div>
-          <div class="form-group"><label>Last name</label><input type="text" id="contactLastName" placeholder="Sharma" required></div>
+          <div class="form-group"><label>Last name</label><input type="text" id="contactLastName" placeholder="Sharma"></div>
         </div>
         <div class="form-group"><label>Work email</label><input type="email" id="contactEmail" placeholder="aryan@company.com" required></div>
-        <div class="form-group"><label>Company</label><input type="text" id="contactCompany" placeholder="Acme Corp" required></div>
+        <div class="form-group"><label>Company</label><input type="text" id="contactCompany" placeholder="Acme Corp"></div>
         <div class="form-group"><label>What are you looking to build?</label>
-          <select id="contactService" required>
+          <select id="contactService">
             <option value="" disabled selected>Select a service area</option>
             <option>AI Strategy & Roadmapping</option>
             <option>Custom Model Development</option>
@@ -723,10 +741,12 @@
             <option>Not sure yet — let's talk</option>
           </select>
         </div>
-        <div class="form-group"><label>Tell us more</label><textarea id="contactMessage" placeholder="Briefly describe your project, current data situation, and timeline if you have one..." required></textarea></div>
+        <div class="form-group"><label>Tell us more</label><textarea id="contactMessage" placeholder="Briefly describe your project, current data situation, and timeline if you have one..."></textarea></div>
         
-        <div id="formSuccessMessage" style="display: none; padding: 1rem; background: rgba(200, 255, 0, 0.1); border: 1px solid var(--accent); color: var(--accent); margin-bottom: 1rem; border-radius: 4px; font-size: 0.85rem;">
-          Message sent successfully! We will get back to you within 24 hours.
+        <div id="formSuccessMessage" style="display: none; padding: 3rem; background: rgba(200, 255, 0, 0.05); border: 1px solid var(--accent); color: var(--text-primary); border-radius: 8px; text-align: center;">
+          <div style="color: var(--accent); font-size: 3rem; margin-bottom: 1rem;">✓</div>
+          <h3 style="font-family: 'Instrument Serif', serif; font-size: 2.5rem; margin: 0 0 1rem 0; font-weight: 400; font-style: italic;">Message Received</h3>
+          <p style="color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;">Thank you for reaching out. Your inquiry has been securely transmitted to our team. We will get back to you within 24 hours.</p>
         </div>
         
         <button type="submit" id="submitBtn" class="btn-primary" style="width:100%;justify-content:center;font-size:.8rem;">Send message →</button>
@@ -750,7 +770,7 @@
           };
 
           try {
-            const response = await fetch('https://animated-frontend.onrender.com/api/contact', {
+            const response = await fetch('http://localhost:8000/api/contact', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(data)
@@ -758,10 +778,12 @@
 
             if (response.ok) {
               document.getElementById('contactForm').reset();
+              // Hide the form fields and submit button
+              const formInputs = document.querySelectorAll('#contactForm .form-row, #contactForm .form-group, #submitBtn');
+              formInputs.forEach(el => el.style.display = 'none');
+              
+              // Show the prominent success message
               document.getElementById('formSuccessMessage').style.display = 'block';
-              setTimeout(() => {
-                document.getElementById('formSuccessMessage').style.display = 'none';
-              }, 5000);
             } else {
               alert('Something went wrong. Please try again.');
             }
@@ -793,7 +815,7 @@
   <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(200,255,0,.03) 0%, transparent 70%); pointer-events: none;"></div>
   <div class="section-label" style="justify-content: center; margin-bottom: 3rem;">Going to be official partners with</div>
   <div class="ticker" style="border: none; background: transparent; padding: 0;">
-    <div class="ticker-inner" style="animation-duration: 35s; gap: 7rem;">
+    <div class="ticker-inner" style="animation-duration: 35s; gap: 2rem; align-items: center;">
       <div class="partner-logo">Nvidia</div>
       <div class="partner-logo">AMD</div>
       <div class="partner-logo">Weka</div>
@@ -830,7 +852,7 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#home" class="logo" style="display:flex; align-items:center; gap:8px;"><img src="/assets/logo1-DjOqeGJE.png" alt="" style="height: 44px;">TRAYAKSH<span style="color:var(--accent)">.</span>AI</a>
+      <a href="#home" class="logo" style="display:flex; align-items:center; gap:8px;"><img src="/assets/logo1-DjOqeGJE.png" alt="" style="height: 44px; mix-blend-mode: screen;">TRAYAKSH<span style="color:var(--accent)">.</span>AI</a>
       <p>We help businesses design, build, and deploy AI systems that create lasting competitive advantage. Production-grade AI, not PowerPoint AI.</p>
     </div>
     <div class="footer-col">

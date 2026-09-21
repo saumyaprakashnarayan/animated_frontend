@@ -4,43 +4,43 @@
 
 :root {
   /* Color Palette - Midnight Emerald & Gold Premium Theme */
-  --ink: #0b0e0b;       /* Midnight emerald background */
-  --ink-dim: #121612;   /* Slightly elevated dark surface */
-  --ink-mid: #19201a;   /* Mid-tone dark surface */
-  --surface: #202a22;   /* Card/Component surface */
+  --ink: #040806;       /* Deepest obsidian green background */
+  --ink-dim: #0a100d;   /* Slightly elevated dark surface */
+  --ink-mid: #101813;   /* Mid-tone dark surface */
+  --surface: #17201a;   /* Card/Component surface */
 
   /* Accent Colors */
   --accent: #10b981;             /* Vibrant Emerald for CTAs and Glows */
-  --accent-secondary: #047857;   /* Deep Emerald for borders/hover states */
+  --accent-secondary: #059669;   /* Deep Emerald for borders/hover states */
   --accent-highlight: #d4af37;   /* Premium Metallic Gold for highlights */
 
   /* Typography - Brightened for premium readability */
-  --text-primary: #f8fafc;       /* Crisp white for maximum contrast on dark backgrounds */
+  --text-primary: #ffffff;       /* Pure white for maximum contrast */
   --text-subheading: #e2e8f0;    /* Bright silver for subheadings */
-  --text-muted: #cbd5e1;         /* Light slate-silver for body text (highly readable) */
-  --text-dim: #94a3b8;           /* Medium slate for secondary info */
-  --text-caption: #64748b;       /* Darker slate for very minor details */
+  --text-muted: #94a3b8;         /* Softer slate for body text */
+  --text-dim: #64748b;           /* Medium slate for secondary info */
+  --text-caption: #475569;       /* Darker slate for very minor details */
 
-  /* Borders & Glow */
-  --border: rgba(16, 185, 129, 0.2);
-  --border-strong: rgba(16, 185, 129, 0.4);
-  --border-white: rgba(224, 224, 224, 0.1);
-  --glow-emerald: 0 0 20px rgba(16, 185, 129, 0.4);
-  --glow-gold: 0 0 20px rgba(212, 175, 55, 0.35);
+  /* Borders & Glow - Softened for diffuse light effect */
+  --border: rgba(16, 185, 129, 0.15);
+  --border-strong: rgba(16, 185, 129, 0.3);
+  --border-white: rgba(255, 255, 255, 0.08);
+  --glow-emerald: 0 0 40px -10px rgba(16, 185, 129, 0.4), 0 0 15px -5px rgba(16, 185, 129, 0.2);
+  --glow-gold: 0 0 40px -10px rgba(212, 175, 55, 0.35), 0 0 15px -5px rgba(212, 175, 55, 0.2);
 
   /* Cards & Sections */
-  --card-bg: linear-gradient(145deg, rgba(32, 42, 34, 0.8) 0%, rgba(18, 22, 18, 0.95) 100%);
+  --card-bg: linear-gradient(145deg, rgba(23, 32, 26, 0.6) 0%, rgba(10, 16, 13, 0.8) 100%);
   --section-bg: var(--ink);
   
   /* Luxury Glassmorphism */
-  --glass-bg: rgba(18, 22, 18, 0.65);
-  --glass-surface: rgba(25, 32, 26, 0.65);
-  --glass-border: rgba(16, 185, 129, 0.2);
-  --glass-specular: inset 0 1px 1px 0 rgba(224, 224, 224, 0.1), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.6);
-  --shadow-luxury: 0 30px 60px -15px rgba(0, 0, 0, 0.9);
+  --glass-bg: rgba(10, 16, 13, 0.6);
+  --glass-surface: rgba(16, 24, 19, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4);
+  --shadow-luxury: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
   
   /* Easing */
-  --ease-spring: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---- RESET ---- */
