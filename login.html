@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trayaksh.ai — Admin Login</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/tokens.css">
   
   <style>
     /* Inherits global theme from tokens.css */
     body {
       background-color: var(--ink);
-      color: var(--text-main);
-      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
       margin: 0;
       padding: 0;
       min-height: 100vh;
@@ -31,7 +31,7 @@
       position: fixed;
       width: 10px;
       height: 10px;
-      background: var(--text-main);
+      background: var(--text-primary);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
@@ -71,8 +71,11 @@
       font-weight: 400;
       font-size: 2.8rem;
       margin: 0 0 2rem 0;
-      color: var(--text-main);
+      background: var(--text-gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-align: center;
+      text-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
     }
     
     .form-group {
@@ -95,7 +98,7 @@
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 1rem 1.2rem;
-      color: var(--text-main);
+      color: var(--text-primary);
       font-family: 'Space Mono', monospace;
       font-size: 0.85rem;
       border-radius: 8px;
