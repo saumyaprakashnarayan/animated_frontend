@@ -4,6 +4,8 @@ This file tracks all modifications made to the codebase during our pair programm
 
 ## Recent Changes (Current Session)
 
+*   **Navbar & Brand Typography Matching Logo**: Extracted the exact, clean typography from the original logo asset into `TrayakshAI_text.png` and updated the header navigation bar, footer, and admin panel brand lockups. The text now perfectly matches the logo's original font, kerning, and colors (dark green for "Trayaksh" and vibrant green for "AI").
+*   **Original Logo & Typography Restoration**: Restored the authentic original brand asset `TrayakshAI_full_logo.png` in the hero section (`index.html`). Reverted the artificial white color conversion to ensure the original dark green typography for "Trayaksh", bright green for "AI", and authentic original Three Orbs coloration are preserved exactly as in the source asset.
 *   **`index.html`**: Restored individual background images for the 3D services cards (`hpcsol.png`, etc.) using CSS variables (`--bg-img`).
 *   **`styles/components.css`**: Enhanced the readability of the 3D services cards. Added a dark linear-gradient overlay (`::after`) to the cards to improve contrast, and applied text-shadows to the headings (`h3`), paragraphs (`p`), and list items (`li`).
 *   **`src/interactions.js`**: Slowed down the automatic rotation speed of the 3D carousel from `0.08` to `0.03` for a smoother, more premium viewing experience.

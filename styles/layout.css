@@ -3,7 +3,8 @@
    ============================================ */
 
 .glass-nav { position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%); width: 92%; max-width: 1200px; display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; z-index: 200; background: var(--glass-surface); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); border: 1px solid var(--glass-border); border-radius: 100px; box-shadow: var(--shadow-luxury), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15); transition: all 0.4s var(--ease-spring); }
-.logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-primary); text-decoration: none; position: relative; z-index: 1; display: flex; align-items: center; gap: 0.5rem; }
+.logo { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-primary); text-decoration: none; position: relative; z-index: 1; display: flex; align-items: center; gap: 0.65rem; }
+.logo .logo-text-img { height: 18px; width: auto; object-fit: contain; display: inline-block; vertical-align: middle; }
 .logo .logo-accent { color: var(--accent); }
 .nav-links { display: flex; gap: 2rem; list-style: none; position: relative; z-index: 1; margin-left: auto; align-items: center; }
 .nav-links > li > a { font-size: .85rem; font-weight: 500; letter-spacing: .05em; color: var(--text-muted); text-decoration: none; transition: color .3s, text-shadow .3s; position: relative; padding-bottom: 4px; }
