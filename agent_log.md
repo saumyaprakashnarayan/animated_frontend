@@ -223,5 +223,79 @@
 - Rebuilt production bundle (`npm run build`).
 - Verified in browser that the clean emerald theme from commit `ba408dfe` is restored and displaying `TrayakshAI`.
 
+## Turn 27
+**Prompt:** remove the space (with screenshot showing space between Trayaksh and AI in the navbar)
 
+**Actions Taken:**
+- Diagnosed the space: `.logo` flex container had `gap: 0.5rem`, which inserted a flex gap between the text node `Trayaksh` and `<span>AI</span>`.
+- Updated `styles/layout.css` to target `.logo .logo-accent { color: var(--accent); }`.
+- Wrapped the brand text in `index.html` inside a single inline span `<span>Trayaksh<span class="logo-accent">AI</span></span>` so flexbox gap is only applied between the logo image and the text, eliminating the space between `Trayaksh` and `AI`.
+- Applied the same clean structure to the footer logo.
+- Rebuilt production bundle (`npm run build`).
+- Verified in browser with screenshot and confirmed `TrayakshAI` renders seamlessly with 0 errors.
 
+## Turn 28
+**Prompt:** i have added a new logo in the directory use that (with screenshot showing `TrayakshAI_ThreeOrbs_logo_transparent.png`)
+
+**Actions Taken:**
+- Located and analyzed newly uploaded file `TrayakshAI_ThreeOrbs_logo_transparent.png` (1600x1000 RGBA).
+- Extracted the high-resolution Three Orbs brand mark into `TrayakshAI_icon.png` (570x287) and copied to both root and `public/` directories.
+- Updated `index.html`:
+  - Favicon updated to `<link rel="icon" href="./TrayakshAI_icon.png" type="image/png">`.
+  - Navigation header logo updated to use `TrayakshAI_icon.png` with emerald drop-shadow glow and removed `mix-blend-mode: screen`.
+  - Footer logo updated to use `TrayakshAI_icon.png` with emerald glow.
+- Updated `admin.html`, `login.html`, and `reset_password.html` with the new favicon and admin header branding icon.
+- Rebuilt production bundle (`npm run build`).
+- Verified in browser with subagent that both header and footer logos render crisply with 0 console errors.
+
+## Turn 29
+**Prompt:** change it here too (with screenshot of the hero center visual fold)
+
+**Actions Taken:**
+- Identified the remaining instance of the old `logo1.png` in the hero fold (`index.html` line 64: `<img src="./logo1.png" alt="AI Core" class="hero-ai-core">`).
+- Replaced `logo1.png` in the hero section with `TrayakshAI_icon.png` (`alt="TrayakshAI Core"`).
+- Updated `styles/layout.css` on `.hero-ai-core`:
+  - Removed obsolete `mix-blend-mode: screen;` (which was for the black-background placeholder).
+  - Enhanced ambient double drop-shadow emerald glow (`drop-shadow(0 0 25px rgba(16, 185, 129, 0.5)) drop-shadow(0 0 60px rgba(16, 185, 129, 0.25))`).
+  - Preserved the smooth `orbFloat` animation for dynamic floating motion.
+- Rebuilt production bundle (`npm run build`).
+- Verified in browser via browser subagent with screenshot (`hero_section_fold_1791915459480.png`), confirming the glowing Three Orbs AI Core renders vibrantly and in high definition.
+
+## Turn 30
+**Prompt:** little difference (with comparison screenshots showing the full logo with unclipped orbs and "TrayakshAI" text vs the previous clipped hero visual)
+
+**Actions Taken:**
+- Identified two differences pointed out by the user:
+  1. The previous cropped icon clipped the bottom pixels of the orbs, causing a flat horizontal cutoff.
+  2. The hero visual lacked the "TrayakshAI" typography present in the full logo asset.
+- Extracted the complete, unclipped full brand logo into `TrayakshAI_full_logo.png` (1063x533) including the full round curves of the Three Orbs and the `TrayakshAI` typography.
+- Also regenerated `TrayakshAI_icon.png` (570x291) to guarantee perfectly smooth, fully rounded non-truncated curves for all icon usages (navbar, footer, favicon).
+- Updated `index.html` line 64 to render `<img src="./TrayakshAI_full_logo.png" alt="TrayakshAI" class="hero-ai-core">`.
+- Updated `.hero-ai-core` in `styles/layout.css` with `brightness(1.25)` and double emerald drop-shadow glow to ensure optimal contrast and readability on the dark background.
+- Rebuilt production bundle (`npm run build`).
+- Verified live in browser with browser subagent, confirming the full logo renders with completely rounded orbs and legible text.
+
+## Turn 31
+**Prompt:** dont make it float make it static (with screenshot of the hero logo)
+
+**Actions Taken:**
+- Located the floating animation in `styles/layout.css` on `.hero-ai-core` (`animation: orbFloat 8s ease-in-out infinite;`).
+- Removed `animation: orbFloat 8s ease-in-out infinite;` from `.hero-ai-core`, making the hero logo completely static and stably positioned.
+- Rebuilt production bundle (`npm run build`).
+- Verified live in browser via browser subagent with screenshot (`hero_static_logo_1791916103605.png`), confirming the logo is statically anchored with zero floating motion.
+
+## Turn 32
+**Prompt:** improve visibility and make it look like a premium wep page (with screenshot highlighting low contrast on "Trayaksh" text)
+
+**Actions Taken:**
+- Diagnosed the visibility issue: the dark green typography from the original print asset blended into the dark background, causing "Trayaksh" to appear murky and low-contrast.
+- Generated `TrayakshAI_logo_premium.png`:
+  - Converted the "Trayaksh" text to crisp, gleaming Platinum White (`#F8FAFC`) with full anti-aliasing preserved.
+  - Rendered "AI" in vibrant Neon Emerald (`#10B981`).
+  - Elevated the Three Orbs into 3 distinct luminous tiers: Deep Jade (`#059669`), Electric Emerald (`#10B981`), and Cyber Mint (`#6EE7B7`).
+- Updated `index.html` line 64 to render `<img src="./TrayakshAI_logo_premium.png" alt="TrayakshAI" class="hero-ai-core">`.
+- Updated `styles/layout.css`:
+  - Added a soft 520px radial emerald backlighting pool behind `.hero-visual` (`radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(6, 95, 70, 0.08) 50%, transparent 70%)`) to lift the mark off the dark background.
+  - Refined drop-shadow aura for pure, crisp luxury contrast.
+- Rebuilt production bundle (`npm run build`).
+- Verified live in browser with browser subagent (`hero_section_premium_logo_1791916679422.png`), confirming crystal-clear visibility and a sleek enterprise AI aesthetic.
