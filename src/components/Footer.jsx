@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-brand">
-          <div className="footer-logo">TRAYAKSH.AI</div>
+          <div className="footer-logo">TrayakshAI</div>
           <p className="footer-desc">Enterprise AI Infrastructure & HPC Solutions built for scale.</p>
           <div className="footer-socials">
             <a href="#" aria-label="Github"><Github size={20} /></a>
@@ -36,7 +36,7 @@ const Footer = () => {
       </div>
       
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Trayaksh.ai. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} TrayakshAI. All rights reserved.</p>
         <div className="legal-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>

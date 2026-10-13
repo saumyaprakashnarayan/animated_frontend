@@ -8,7 +8,7 @@ const Preloader = ({ loading }) => {
       <div className="preloader-content">
         <div className="logo-container">
           <Cpu size={48} className="logo-icon" />
-          <h1 className="logo-text">TRAYAKSH.AI</h1>
+          <h1 className="logo-text">TrayakshAI</h1>
         </div>
         <div className="progress-bar-container">
           <div className="progress-bar"></div>

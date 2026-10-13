@@ -18,7 +18,7 @@ const Navigation = () => {
     <nav className={`navigation ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <span>TRAYAKSH</span>.AI
+          <span>Trayaksh</span>AI
         </div>
         
         <div className="nav-links desktop-only">

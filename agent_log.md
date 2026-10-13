@@ -168,3 +168,60 @@
 
 **Actions Taken:**
 - Found and fixed a strict WebGL shader compilation error (`vec2` + `float` type mismatch) in `FluidBackground.js` which was causing the browser to silently abort rendering the fluid plane, resulting in a black background. Wrapped the `float` time variables in `vec2()` to satisfy strict typing.
+
+## Turn 21
+**Prompt:** without changing the text cnotent can u make them feel more rich and premium by changing their style and fonts keeping the theme green u can use different colour combination for the text
+
+**Actions Taken:**
+- Upgraded the primary sans-serif font across all HTML files from `DM Sans` to `Outfit` for a more modern, premium geometric structure.
+- Upgraded headers to use rich, subtle gradient backgrounds (`var(--text-gradient-primary)`) rather than flat colors to provide a dynamic, luminous effect.
+- Applied soft typographic glows and elevated the base text colors in `tokens.css` from stark white to warmer, sophisticated off-white tones.
+
+## Turn 22
+**Prompt:** improve the main webpage too & use some colour scheme that looks good with green , as the whole background is dark green type , use some mathing and eye cathing colurs for the text and heading making it look premium and rich
+
+**Actions Taken:**
+- Overhauled the global color palette in `tokens.css` to a classic luxury "Champagne & Gold" theme, changing base text to warm Ivory and Headings to beautiful Pearl-to-Gold gradients.
+- Updated `--accent`, `--accent-secondary`, and `--accent-highlight` to rich metallic gold (`#D4AF37`) to make buttons, tags, and interactive elements pop beautifully against the emerald green background.
+- Transformed card labels, service numbers, and component typography in `components.css` to use these new rich gradients.
+- Globally replaced hardcoded emerald RGB values (`16, 185, 129`) for shadows and glowing borders to the new gold RGB values (`212, 175, 55`) across `layout.css`, `components.css`, and all HTML files.
+
+## Turn 23
+**Prompt:** take screenshots of the webpage and check for room of improvements
+
+**Actions Taken:**
+- Ran the internal `capture.js` script via Puppeteer to generate up-to-date screenshots of the local server UI.
+- Analyzed the layout and identified a clash between the new gold text and the lingering green button/border styles.
+- Fixed the issue immediately by completing the final color replacements for the `box-shadow` and `--accent` values as documented in Turn 22.
+
+## Turn 24
+**Prompt:** change everywhere from trayaksh.ai to TrayakshAI
+
+**Actions Taken:**
+- Searched all codebase files for occurrences of `trayaksh.ai`, `Trayaksh.ai`, and `TRAYAKSH.AI`.
+- Replaced brand text across `index.html` (page title, navigation logo, services, FAQs, client testimonials, office info, CTA buttons, and copyright).
+- Updated subpages `admin.html`, `login.html`, and `reset_password.html` (page titles and admin panel header logo).
+- Updated backend API title in `server.py` (`TrayakshAI API`).
+- Updated component files (`Navigation.jsx`, `Footer.jsx`, `Preloader.jsx`, `content.js`) and documentation (`project_documentation.md`).
+- Ran `npm run build` to verify production bundle builds cleanly with zero errors.
+
+## Turn 25
+**Prompt:** run the website
+
+**Actions Taken:**
+- Installed required backend dependencies (`python-dotenv`, `pg8000`) into `./venv`.
+- Started the FastAPI backend server (`server.py`) on port `8000`.
+- Started the Vite development server (`npm run dev`) on port `5173`.
+- Verified in browser that the site is live, rendering the new `TrayakshAI` branding with 0 console errors.
+
+## Turn 26
+**Prompt:** can u like get the git version with commit improved text colour and change the name there from trayaksh.ai to trayakshai
+
+**Actions Taken:**
+- Checked out and restored the working tree to the exact git commit `ba408dfe` (`improved text colour`).
+- Replaced all branding and name occurrences from `trayaksh.ai` / `Trayaksh.ai` / `TRAYAKSH.AI` to `TrayakshAI` across `index.html`, `admin.html`, `login.html`, `reset_password.html`, `server.py`, `Navigation.jsx`, `Footer.jsx`, `Preloader.jsx`, and `content.js`.
+- Rebuilt production bundle (`npm run build`).
+- Verified in browser that the clean emerald theme from commit `ba408dfe` is restored and displaying `TrayakshAI`.
+
+
+

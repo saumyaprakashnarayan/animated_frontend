@@ -19,7 +19,7 @@ export const SERVICES = [
   },
   {
     id: "cloud",
-    title: "Trayaksh.ai Cloud",
+    title: "TrayakshAI Cloud",
     description: "A best-of-breed solution framework bringing the benefits of cloud computing to HPC with an extra layer of flexibility and support.",
     metrics: ["Cloud HPC", "Hybrid", "Managed"]
   },
@@ -62,7 +62,7 @@ export const SERVICES = [
   {
     id: "xpu",
     title: "xPU (CPU, DPU, GPU, IPU)",
-    description: "Trayaksh.ai supplies a range of the latest processor unit types designed specifically for the applications and data types involved.",
+    description: "TrayakshAI supplies a range of the latest processor unit types designed specifically for the applications and data types involved.",
     metrics: ["Processors", "Compute", "AI/ML"]
   },
   {

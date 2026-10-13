@@ -1,10 +1,10 @@
-# Trayaksh.ai Project Documentation
+# TrayakshAI Project Documentation
 
-This document outlines the architecture, file structure, and technical rationale behind the interactive, 3D-driven front-end of the Trayaksh.ai website.
+This document outlines the architecture, file structure, and technical rationale behind the interactive, 3D-driven front-end of the TrayakshAI website.
 
 ## Project Overview
 
-Trayaksh.ai is an immersive, high-end promotional website designed to showcase AI infrastructure and HPC (High-Performance Computing) solutions. The project heavily utilizes **Three.js** for 3D rendering and WebGL effects, **GSAP (GreenSock)** for scroll-driven animations, and advanced **CSS 3D Transforms** for interactive UI components.
+TrayakshAI is an immersive, high-end promotional website designed to showcase AI infrastructure and HPC (High-Performance Computing) solutions. The project heavily utilizes **Three.js** for 3D rendering and WebGL effects, **GSAP (GreenSock)** for scroll-driven animations, and advanced **CSS 3D Transforms** for interactive UI components.
 
 The core philosophy is to create a "cinematic" experience where the background environment and lighting react dynamically to the user's scroll position and mouse interactions, seamlessly blending the HTML DOM with the WebGL canvas.
 

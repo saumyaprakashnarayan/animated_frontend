@@ -63,7 +63,7 @@ with SessionLocal() as db:
         db.commit()
 
 # ----------------- FastAPI App Setup -----------------
-app = FastAPI(title="Trayaksh AI API")
+app = FastAPI(title="TrayakshAI API")
 
 # Allow CORS for development and production frontend domains
 FRONTEND_URL = os.getenv("FRONTEND_URL", "https://animated-frontend-iota.vercel.app")
